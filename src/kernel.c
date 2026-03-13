@@ -14,7 +14,7 @@ void kernel_main()
     keyboard_init();
 
     print_string("================================================\n", COLOR_LIGHT_CYAN);
-    print_string("            Welcome to MyOS!\n", COLOR_WHITE);
+    print_string("            Welcome to OS!\n", COLOR_WHITE);
     print_string("================================================\n\n", COLOR_LIGHT_CYAN);
 
     print_string("Keyboard initialized!\n", COLOR_LIGHT_GREEN);
