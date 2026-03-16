@@ -100,7 +100,9 @@ void strsplit(const char *src, char *dest, char delimiter)
     }
     dest[i] = '\0';
 }
-
+/**
+ * strreplace: Copies a string from src to dest, replacing all occurrences of old_char with new_char, and ensuring the result is null-terminated
+ */
 void strreplace(const char *src, char *dest, char old_char, char new_char)
 {
     int i = 0;

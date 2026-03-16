@@ -82,4 +82,5 @@ void process_command(const char *input)
         }
     }
     print_string("Unknown command: ", COLOR_LIGHT_RED);
+    print_string(input, COLOR_RED);
 }

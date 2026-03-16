@@ -105,7 +105,6 @@ Lower values = faster repeat. Higher values = slower repeat.
 # Priority 1
 
 Add error handling eg empty input\
-Add comments to all funcs Done vga.c\
 Add A real time clock based on https://osdev.wiki/wiki/CMOS#Getting_Current_Date_and_Time_from_RTC
 Add command history with up\down arrows\
 
