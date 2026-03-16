@@ -1,24 +1,24 @@
 /* =============================================================================
  * vga.c - VGA Text Mode Driver
  * =============================================================================
- * 
+ *
  * This file implements the VGA text mode driver for direct screen output.
  * VGA text mode provides an 80x25 character grid with 16 colors.
- * 
+ *
  * Memory Layout:
  *   - VGA memory starts at physical address 0xB8000
  *   - Each character cell is 2 bytes: [Attribute (color)][ASCII character]
  *   - Total buffer size: 80 * 25 * 2 = 4000 bytes
- * 
+ *
  * Color Format:
  *   - High nibble (4 bits): Background color (0-15)
  *   - Low nibble (4 bits): Foreground color (0-15)
  *   - Combined: (background << 4) | foreground
- * 
+ *
  * Hardware Cursor:
  *   - Controlled via I/O ports 0x3D4 (index) and 0x3D5 (data)
  *   - Cursor position is a 16-bit offset into the VGA buffer
- * 
+ *
  * =============================================================================
  */
 
@@ -124,7 +124,7 @@ void vga_enable_cursor(void)
     vga_move_cursor();
 }
 /**
- * vga_scroll: Scrolls the screen up by one line, clearing the last line.
+ * print_char: Prints a single character at the current cursor position, handling special characters like newline, backspace, and tab.
  */
 void print_char(char c, int color)
 {

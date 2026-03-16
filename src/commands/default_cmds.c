@@ -4,6 +4,26 @@
 #include "string.h"
 #include "io.h"
 
+static void cmd_help(int argc, char **argv);
+static void cmd_clear(int argc, char **argv);
+static void cmd_echo(int argc, char **argv);
+static void cmd_color(int argc, char **argv);
+static void cmd_version(int argc, char **argv);
+static void cmd_reboot(int argc, char **argv);
+static void cmd_delay(int argc, char **argv);
+static void cmd_rate(int argc, char **argv);
+
+command_entry default_cmds[] = {
+    {"help", cmd_help},
+    {"clear", cmd_clear},
+    {"echo", cmd_echo},
+    {"color", cmd_color},
+    {"version", cmd_version},
+    {"reboot", cmd_reboot},
+    {"delay", cmd_delay},
+    {"rate", cmd_rate},
+    {"", 0}};
+
 static void cmd_help(int argc, char **argv)
 {
     print_string("Available commands:\n", COLOR_WHITE);
@@ -60,14 +80,3 @@ static void cmd_rate(int argc, char **argv)
 {
     print_string("Rate command not implemented yet\n", COLOR_LIGHT_RED);
 }
-
-commands default_cmds = {
-    .help = cmd_help,
-    .clear = cmd_clear,
-    .echo = cmd_echo,
-    .color = cmd_color,
-    .version = cmd_version,
-    .reboot = cmd_reboot,
-    .delay = cmd_delay,
-    .rate = cmd_rate,
-};

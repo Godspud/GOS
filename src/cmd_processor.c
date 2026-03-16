@@ -59,71 +59,18 @@ void process_command(const char *input)
 {
     char argv[16][64];
     int argc = 0;
-
-    // Parse input into arguments
+    int counter = 0;
     argc = parse_args(input, argv, 16);
-
     if (argc == 0)
     {
         return;
     }
-
-    // Check for built-in commands
-    if (strcmp(argv[0], "help") == 0)
+    for (counter = 0; default_cmds[counter].cmd[0] != '\0'; counter++)
     {
-        default_cmds.help(argc, (char **)argv);
+        if (strncmp(default_cmds[counter].cmd, argv[0], strlen(default_cmds[counter].cmd)) == 0)
+        {
+            default_cmds[counter].handler(argc, (char **)argv);
+            return;
+        }
     }
-    else if (strcmp(argv[0], "clear") == 0)
-    {
-        default_cmds.clear(argc, (char **)argv);
-    }
-    else if (strcmp(argv[0], "echo") == 0)
-    {
-        default_cmds.echo(argc, (char **)argv);
-    }
-    else if (strcmp(argv[0], "color") == 0)
-    {
-        default_cmds.color(argc, (char **)argv);
-    }
-    else if (strcmp(argv[0], "version") == 0)
-    {
-        default_cmds.version(argc, (char **)argv);
-    }
-    else if (strcmp(argv[0], "reboot") == 0)
-    {
-        default_cmds.reboot(argc, (char **)argv);
-    }
-    else if (strcmp(argv[0], "delay") == 0)
-    {
-        default_cmds.delay(argc, (char **)argv);
-    }
-    else if (strcmp(argv[0], "rate") == 0)
-    {
-        default_cmds.rate(argc, (char **)argv);
-    }
-    else
-    {
-        print_string("Unknown command. Type 'help' for a list of commands.\n", COLOR_LIGHT_RED);
-    }
-}
-
-int cmd_is_command(const char *input)
-{
-    if (strncmp(input, "help", 4) == 0)
-        return 1;
-    if (strncmp(input, "clear", 5) == 0)
-        return 1;
-    if (strncmp(input, "echo", 4) == 0)
-        return 1;
-    if (strncmp(input, "color", 5) == 0)
-        return 1;
-    if (strncmp(input, "version", 7) == 0)
-        return 1;
-    if (strncmp(input, "reboot", 6) == 0)
-        return 1;
-    if (strncmp(input, "delay", 5) == 0)
-        return 1;
-    if (strncmp(input, "rate", 4) == 0)
-        return 1;
-    return 0;
 }
