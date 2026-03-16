@@ -16,7 +16,8 @@ void kernel_main()
     vga_clear(COLOR_BLACK);
     vga_enable_cursor();
     keyboard_init();
-
+    print_string(parse_args("help e -56", argv, 16), COLOR_BLUE);
+    print_char('\n', COLOR_BLACK);
     print_string("================================================\n", COLOR_LIGHT_CYAN);
     print_string("            Welcome to OS!\n", COLOR_WHITE);
     print_string("================================================\n\n", COLOR_LIGHT_CYAN);

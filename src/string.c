@@ -90,12 +90,23 @@ static void str_copy(char *dest, const char *src, int max)
 /**
  * str_split: Splits a string into two parts based on a delimiter, copying the part before the delimiter into dest and ensuring it is null-terminated.
  */
-static void str_split(const char *src, char *dest, char delimiter)
+void strsplit(const char *src, char *dest, char delimiter)
 {
     int i = 0;
     while (src[i] != '\0' && src[i] != delimiter)
     {
         dest[i] = src[i];
+        i++;
+    }
+    dest[i] = '\0';
+}
+
+void strreplace(const char *src, char *dest, char old_char, char new_char)
+{
+    int i = 0;
+    while (src[i] != '\0')
+    {
+        dest[i] = (src[i] == old_char) ? new_char : src[i];
         i++;
     }
     dest[i] = '\0';

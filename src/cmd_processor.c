@@ -58,6 +58,7 @@ void cmd_processor_init(void)
 void process_command(const char *input)
 {
     char argv[16][64];
+    char *argv_ptrs[16];
     int argc = 0;
     int counter = 0;
     argc = parse_args(input, argv, 16);
@@ -65,11 +66,15 @@ void process_command(const char *input)
     {
         return;
     }
+    for (counter = 0; counter < argc; counter++)
+    {
+        argv_ptrs[counter] = argv[counter];
+    }
     for (counter = 0; default_cmds[counter].cmd[0] != '\0'; counter++)
     {
         if (strncmp(default_cmds[counter].cmd, argv[0], strlen(default_cmds[counter].cmd)) == 0)
         {
-            default_cmds[counter].handler(argc, (char **)argv);
+            default_cmds[counter].handler(argc, argv_ptrs);
             return;
         }
     }

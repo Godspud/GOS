@@ -44,10 +44,10 @@ static void cmd_clear(int argc, char **argv)
 
 static void cmd_echo(int argc, char **argv)
 {
-    for (int i = 1; i < argc; i++)
+    for (int counter = 1; counter < argc; counter++)
     {
-        print_string(argv[i], COLOR_WHITE);
-        if (i < argc - 1)
+        print_string(argv[counter], COLOR_WHITE);
+        if (counter < argc - 1)
             print_string(" ", COLOR_WHITE);
     }
     print_string("\n", COLOR_WHITE);
@@ -78,5 +78,5 @@ static void cmd_delay(int argc, char **argv)
 
 static void cmd_rate(int argc, char **argv)
 {
-    print_string("Rate command not implemented yet\n", COLOR_LIGHT_RED);
+    keyboard_set_repeat_rate(argc);
 }
