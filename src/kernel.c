@@ -31,7 +31,7 @@ void kernel_main()
         if (input_char == '\n')
         {
             print_string(input_buffer, COLOR_BLUE);
-            input_buffer[input_pos - 1] = '\0';
+            input_buffer[input_pos] = '\0';
             process_command(input_buffer);
             input_pos = 0;
         }
