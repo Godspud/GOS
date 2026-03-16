@@ -44,6 +44,8 @@ static void cmd_clear(int argc, char **argv)
 
 static void cmd_echo(int argc, char **argv)
 {
+    strreplace(argv[1], argv[1], '\\\"', '\place');
+    strreplace(argv[1], argv[1], '\"', '\0');
     for (int counter = 1; counter < argc; counter++)
     {
         print_string(argv[counter], COLOR_WHITE);
