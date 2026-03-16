@@ -60,7 +60,7 @@ static void cmd_color(int argc, char **argv)
 
 static void cmd_version(int argc, char **argv)
 {
-    print_string("MyOS v0.1.0\n", COLOR_LIGHT_CYAN);
+    print_string("OS v0.1.0\n", COLOR_LIGHT_CYAN);
 }
 
 static void cmd_reboot(int argc, char **argv)
@@ -73,7 +73,7 @@ static void cmd_reboot(int argc, char **argv)
 
 static void cmd_delay(int argc, char **argv)
 {
-    print_string("Delay command not implemented yet\n", COLOR_LIGHT_RED);
+    keyboard_set_repeat_delay(argc);
 }
 
 static void cmd_rate(int argc, char **argv)
