@@ -28,7 +28,7 @@ void kernel_main()
     while (1)
     {
         input_char = keyboard_read(&shift_pressed);
-        if (input_buffer[input_pos - 1] == '\n')
+        if (input_char == '\n')
         {
             print_string(input_buffer, COLOR_BLUE);
             input_buffer[input_pos - 1] = '\0';
