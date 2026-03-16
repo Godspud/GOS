@@ -16,6 +16,7 @@ static void cmd_rate(int argc, char **argv);
 command_entry default_cmds[] = {
     {"help", cmd_help},
     {"clear", cmd_clear},
+    {"echo", cmd_echo},
     {"version", cmd_version},
     {"reboot", cmd_reboot},
     {"delay", cmd_delay},
