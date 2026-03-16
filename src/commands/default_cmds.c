@@ -4,6 +4,16 @@
 #include "string.h"
 #include "io.h"
 
+/*
+- cmd_help: Displays a list of available commands and their descriptions.
+- cmd_clear: Clears the screen.
+- cmd_echo: Prints the provided arguments back to the screen, handling escaped quotes.
+- cmd_version: Displays the current version of the OS.
+- cmd_reboot: Reboots the system by sending a command to the keyboard controller.
+- cmd_delay: Sets the keyboard repeat delay based on the provided argument.
+- cmd_rate: Sets the keyboard repeat rate based on the provided argument.
+*/
+
 static void cmd_help(int argc, char **argv);
 static void cmd_clear(int argc, char **argv);
 static void cmd_echo(int argc, char **argv);
@@ -13,6 +23,8 @@ static void cmd_reboot(int argc, char **argv);
 static void cmd_delay(int argc, char **argv);
 static void cmd_rate(int argc, char **argv);
 
+// Command table mapping command strings to their handler functions
+// The last entry has an empty command string to indicate the end of the table
 command_entry default_cmds[] = {
     {"help", cmd_help},
     {"clear", cmd_clear},
@@ -42,10 +54,12 @@ static void cmd_clear(int argc, char **argv)
 
 static void cmd_echo(int argc, char **argv)
 {
+    // Start from argv[1] to skip the command itself
     for (int counter = 1; counter < argc; counter++)
     {
         const char *part = argv[counter];
         int counter_2 = 0;
+        // do till the char is \0 end of sstr
         while (part[counter_2] != '\0')
         {
             if (part[counter_2] == '\\' && part[counter_2 + 1] == '"')
@@ -72,6 +86,7 @@ static void cmd_echo(int argc, char **argv)
                 counter_2++;
             }
         }
+        // Print a space between arguments, but not after the last one
         if (counter < argc - 1)
             print_string(" ", COLOR_WHITE);
     }
@@ -85,6 +100,7 @@ static void cmd_version(int argc, char **argv)
 static void cmd_reboot(int argc, char **argv)
 {
     print_string("Rebooting...\n", COLOR_LIGHT_RED);
+    // Send the reboot command to the keyboard controller
     outb(0x64, 0xFE);
     while (1)
         ;

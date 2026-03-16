@@ -4,13 +4,13 @@
 #include "vga.h"
 
 /**
- * str_copy: Copies a string from src to dest, ensuring that it does not exceed max characters and is null-terminated.
  * parse_args: Parses a command line input into individual arguments, splitting on spaces and newlines, and stores them in the provided argv array. Returns the number of arguments parsed.
  * cmd_processor_init: Initializes the command processor (currently does nothing but can be used for future setup).
  * process_command: Takes a command line input, parses it into arguments, and executes the corresponding command handler if it matches a known command. If the command is unknown, it prints an error message.
- * cmd_is_command: Checks if the given input string starts with a known command keyword, returning 1 if it does and 0 otherwise.
  */
-// Custom string tokenization (simple space splitter)
+/**
+ * parse_args: Parses a command line input into individual arguments, splitting on spaces and newlines, and stores them in the provided argv array. Returns the number of arguments parsed. The argv array is a 2D array where each row can hold one argument string, and max_args specifies the maximum number of arguments to parse. The function handles multiple consecutive delimiters and ensures that each argument is null-terminated.
+ */
 int parse_args(const char *input, char argv[][64], int max_args)
 {
     int argc = 0;
@@ -54,7 +54,9 @@ void cmd_processor_init(void)
 {
     // Nothing to initialize yet
 }
-
+/**
+ * process_command: Takes a command line input, parses it into arguments, and executes the corresponding command handler if it matches a known command. If the command is unknown, it prints an error message. The function first uses parse_args to split the input into argc and argv. It then iterates through the default_cmds array to find a matching command string. If a match is found, it calls the associated handler function with argc and argv. If no match is found after checking all commands, it prints "Unknown command: " followed by the input.
+ */
 void process_command(const char *input)
 {
     char argv[16][64];
@@ -70,6 +72,7 @@ void process_command(const char *input)
     {
         argv_ptrs[counter] = argv[counter];
     }
+    // Iterate through the command table to find a matching command
     for (counter = 0; default_cmds[counter].cmd[0] != '\0'; counter++)
     {
         if (strncmp(default_cmds[counter].cmd, argv[0], strlen(default_cmds[counter].cmd)) == 0)
@@ -78,4 +81,5 @@ void process_command(const char *input)
             return;
         }
     }
+    print_string("Unknown command: ", COLOR_LIGHT_RED);
 }
