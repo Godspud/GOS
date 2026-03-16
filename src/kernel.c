@@ -12,10 +12,8 @@ void kernel_main()
     char input_char;
     char argv[16][64];
     int argc = parse_args("help", argv, 16);
-    print_string(argv[0], COLOR_LIGHT_GREEN);
-    print_char('\n', COLOR_WHITE);
-    process_command("reboot");
-    // vga_clear(COLOR_BLACK);
+
+    vga_clear(COLOR_BLACK);
     vga_enable_cursor();
     keyboard_init();
 
