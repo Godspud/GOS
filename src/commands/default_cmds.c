@@ -16,8 +16,6 @@ static void cmd_rate(int argc, char **argv);
 command_entry default_cmds[] = {
     {"help", cmd_help},
     {"clear", cmd_clear},
-    {"echo", cmd_echo},
-    {"color", cmd_color},
     {"version", cmd_version},
     {"reboot", cmd_reboot},
     {"delay", cmd_delay},
@@ -30,7 +28,6 @@ static void cmd_help(int argc, char **argv)
     print_string("  help     - Show this help\n", COLOR_LIGHT_GREY);
     print_string("  clear    - Clear screen\n", COLOR_LIGHT_GREY);
     print_string("  echo     - Print text\n", COLOR_LIGHT_GREY);
-    print_string("  color    - Set text color (0-15)\n", COLOR_LIGHT_GREY);
     print_string("  version  - Show version\n", COLOR_LIGHT_GREY);
     print_string("  reboot   - Restart system\n", COLOR_LIGHT_GREY);
     print_string("  delay    - Set key repeat delay\n", COLOR_LIGHT_GREY);
@@ -79,14 +76,9 @@ static void cmd_echo(int argc, char **argv)
     }
 }
 
-static void cmd_color(int argc, char **argv)
-{
-    print_string("Color command not implemented yet\n", COLOR_LIGHT_RED);
-}
-
 static void cmd_version(int argc, char **argv)
 {
-    print_string("OS v0.1.0\n", COLOR_LIGHT_CYAN);
+    print_string("OS v0.2.0\n", COLOR_LIGHT_CYAN);
 }
 
 static void cmd_reboot(int argc, char **argv)
