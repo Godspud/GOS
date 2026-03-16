@@ -30,7 +30,7 @@ void kernel_main()
         input_char = keyboard_read(&shift_pressed);
         if (input_char == '\n')
         {
-            print_string(input_buffer, COLOR_BLUE);
+            print_char('\n', COLOR_WHITE);
             input_buffer[input_pos] = '\0';
             process_command(input_buffer);
             input_pos = 0;
