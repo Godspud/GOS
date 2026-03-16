@@ -44,15 +44,39 @@ static void cmd_clear(int argc, char **argv)
 
 static void cmd_echo(int argc, char **argv)
 {
-    strreplace(argv[1], argv[1], '\\\"', '\place');
-    strreplace(argv[1], argv[1], '\"', '\0');
     for (int counter = 1; counter < argc; counter++)
     {
-        print_string(argv[counter], COLOR_WHITE);
+        const char *part = argv[counter];
+        int counter_2 = 0;
+        while (part[counter_2] != '\0')
+        {
+            if (part[counter_2] == '\\' && part[counter_2 + 1] == '"')
+            {
+                print_char('"', COLOR_WHITE);
+                counter_2 += 2;
+            }
+            else if (part[counter_2] == '\\' && part[counter_2 + 1] == '\'')
+            {
+                print_char('\'', COLOR_WHITE);
+                counter_2 += 2;
+            }
+            else if (part[counter_2] == '"')
+            {
+                counter_2++;
+            }
+            else if (part[counter_2] == '\'')
+            {
+                counter_2++;
+            }
+            else
+            {
+                print_char(part[counter_2], COLOR_WHITE);
+                counter_2++;
+            }
+        }
         if (counter < argc - 1)
             print_string(" ", COLOR_WHITE);
     }
-    print_string("\n", COLOR_WHITE);
 }
 
 static void cmd_color(int argc, char **argv)
