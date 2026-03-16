@@ -67,10 +67,8 @@ void process_command(const char *input)
     }
     for (counter = 0; default_cmds[counter].cmd[0] != '\0'; counter++)
     {
-        print_char(strncmp(default_cmds[counter].cmd, argv[0], strlen(default_cmds[counter].cmd)), COLOR_RED);
         if (strncmp(default_cmds[counter].cmd, argv[0], strlen(default_cmds[counter].cmd)) == 0)
         {
-            print_char('>', COLOR_LIGHT_GREY);
             default_cmds[counter].handler(argc, (char **)argv);
             return;
         }
