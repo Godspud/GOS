@@ -54,6 +54,7 @@ void kernel_main()
                 }
             }
         }
+        print_string(input_buffer, COLOR_WHITE);
         if (input_buffer[input_pos - 1] == '\n')
         {
             print_string(input_buffer, COLOR_BLUE);
@@ -61,5 +62,5 @@ void kernel_main()
             process_command(input_buffer);
             input_pos = 0;
         }
-    }
+        }
 }
