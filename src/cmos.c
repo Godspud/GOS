@@ -1,5 +1,6 @@
 #include "cmos.h"
 #include "io.h"
+#include "vga.h"
 #define CURRENT_YEAR 2023
 
 cmos_time cmos_current_time;
@@ -69,6 +70,11 @@ void cmos_get_time(cmos_time *time)
         year += (CURRENT_YEAR / 100) * 100;
         if (year < CURRENT_YEAR)
             year += 100;
+    }
+
+    if (second != minute && minute != hour)
+    {
+        print_string("Warning: CMOS time may be inconsistent (seconds, minutes, and hours differ). Consider checking the CMOS battery.\n", COLOR_LIGHT_RED);
     }
 
     time->seconds = second;
