@@ -1914,3 +1914,65 @@ make[1]: Leaving directory '/home/god_spud/Spud_os/os'
 make[1]: Entering directory '/home/god_spud/Spud_os/os'
 make[1]: Nothing to be done for 'all'.
 make[1]: Leaving directory '/home/god_spud/Spud_os/os'
+=== Build: Tue Mar 17 06:58:24 PM +08 2026 ===
+make[1]: Entering directory '/home/god_spud/Spud_os/os'
+mkdir -p build/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/cmos.c -o build/cmos.o
+src/cmos.c: In function ‘cmos_get_time’:
+src/cmos.c:47:18: warning: passing argument 1 of ‘print_string’ makes pointer from integer without a cast [-Wint-conversion]
+   47 |     print_string(second, COLOR_LIGHT_CYAN);
+      |                  ^~~~~~
+      |                  |
+      |                  unsigned char
+In file included from src/cmos.c:3:
+src/vga.h:36:31: note: expected ‘const char *’ but argument is of type ‘unsigned char’
+   36 | void print_string(const char *str, int color);
+      |                   ~~~~~~~~~~~~^~~
+src/cmos.c:49:18: warning: passing argument 1 of ‘print_string’ makes pointer from integer without a cast [-Wint-conversion]
+   49 |     print_string(minute, COLOR_LIGHT_CYAN);
+      |                  ^~~~~~
+      |                  |
+      |                  unsigned char
+src/vga.h:36:31: note: expected ‘const char *’ but argument is of type ‘unsigned char’
+   36 | void print_string(const char *str, int color);
+      |                   ~~~~~~~~~~~~^~~
+src/cmos.c:51:18: warning: passing argument 1 of ‘print_string’ makes pointer from integer without a cast [-Wint-conversion]
+   51 |     print_string(hour, COLOR_LIGHT_CYAN);
+      |                  ^~~~
+      |                  |
+      |                  unsigned char
+src/vga.h:36:31: note: expected ‘const char *’ but argument is of type ‘unsigned char’
+   36 | void print_string(const char *str, int color);
+      |                   ~~~~~~~~~~~~^~~
+src/cmos.c:53:18: warning: passing argument 1 of ‘print_string’ makes pointer from integer without a cast [-Wint-conversion]
+   53 |     print_string(registerB, COLOR_LIGHT_CYAN);
+      |                  ^~~~~~~~~
+      |                  |
+      |                  unsigned char
+src/vga.h:36:31: note: expected ‘const char *’ but argument is of type ‘unsigned char’
+   36 | void print_string(const char *str, int color);
+      |                   ~~~~~~~~~~~~^~~
+ld -m elf_i386 -T linker.ld -o build/kernel.bin build/boot.o build/commands/default_cmds.o build/kernel.o build/keyboard.o build/cmd_processor.o build/string.o build/vga.o build/cmos.o
+ld: warning: build/boot.o: missing .note.GNU-stack section implies executable stack
+ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+ld: warning: build/kernel.bin has a LOAD segment with RWX permissions
+mkdir -p iso/boot/grub
+cp build/kernel.bin iso/boot/kernel.bin
+cp grub.cfg iso/boot/grub/grub.cfg
+grub-mkrescue -o build/os.iso iso
+xorriso 1.5.4 : RockRidge filesystem manipulator, libburnia project.
+
+Drive current: -outdev 'stdio:build/os.iso'
+Media current: stdio file, overwriteable
+Media status : is blank
+Media summary: 0 sessions, 0 data blocks, 0 data, 3654m free
+Added to ISO image: directory '/'='/tmp/grub.9Rwl3D'
+xorriso : UPDATE :     294 files added in 1 seconds
+Added to ISO image: directory '/'='/home/god_spud/Spud_os/os/iso'
+xorriso : UPDATE :     298 files added in 1 seconds
+xorriso : NOTE : Copying to System Area: 512 bytes from file '/usr/lib/grub/i386-pc/boot_hybrid.img'
+ISO image produced: 2485 sectors
+Written to medium : 2485 sectors at LBA 0
+Writing to 'stdio:build/os.iso' completed successfully.
+
+make[1]: Leaving directory '/home/god_spud/Spud_os/os'

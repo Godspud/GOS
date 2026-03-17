@@ -36,9 +36,9 @@ void cmos_get_time(cmos_time *time)
     // Wait until the CMOS is not updating to ensure we get a consistent time reading
     while (cmos_read(0x0A) & 0x80)
         ;
-    second = cmos_read(0x00);
-    minute = cmos_read(0x02);
-    hour = cmos_read(0x04);
+    second = cmos_read(0x00) + '0';
+    minute = cmos_read(0x02) + '0';
+    hour = cmos_read(0x04) + '0';
     day = cmos_read(0x07);
     month = cmos_read(0x08);
     year = cmos_read(0x09);
