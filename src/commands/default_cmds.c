@@ -3,6 +3,7 @@
 #include "keyboard.h"
 #include "string.h"
 #include "io.h"
+#include "cmos.h"
 
 /*
 - cmd_help: Displays a list of available commands and their descriptions.
@@ -22,6 +23,7 @@ static void cmd_version(int argc, char **argv);
 static void cmd_reboot(int argc, char **argv);
 static void cmd_delay(int argc, char **argv);
 static void cmd_rate(int argc, char **argv);
+static void cmd_time(int argc, char **argv);
 
 // Command table mapping command strings to their handler functions
 // The last entry has an empty command string to indicate the end of the table
@@ -33,6 +35,7 @@ command_entry default_cmds[] = {
     {"reboot", cmd_reboot},
     {"delay", cmd_delay},
     {"rate", cmd_rate},
+    {"time", cmd_time},
     {"", 0}};
 
 static void cmd_help(int argc, char **argv)
@@ -104,6 +107,21 @@ static void cmd_reboot(int argc, char **argv)
     outb(0x64, 0xFE);
     while (1)
         ;
+}
+
+static void cmd_time(int argc, char **argv)
+{
+    cmos_get_time(&cmos_current_time);
+    print_string("Current time: ", COLOR_LIGHT_CYAN);
+    print_char((cmos_current_time.hours / 10) + '0', COLOR_LIGHT_CYAN);
+    print_char((cmos_current_time.hours % 10) + '0', COLOR_LIGHT_CYAN);
+    print_char(':', COLOR_LIGHT_CYAN);
+    print_char((cmos_current_time.minutes / 10) + '0', COLOR_LIGHT_CYAN);
+    print_char((cmos_current_time.minutes % 10) + '0', COLOR_LIGHT_CYAN);
+    print_char(':', COLOR_LIGHT_CYAN);
+    print_char((cmos_current_time.seconds / 10) + '0', COLOR_LIGHT_CYAN);
+    print_char((cmos_current_time.seconds % 10) + '0', COLOR_LIGHT_CYAN);
+    print_char('\n', COLOR_LIGHT_CYAN);
 }
 
 static void cmd_delay(int argc, char **argv)
