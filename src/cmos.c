@@ -11,7 +11,7 @@ void cmos_init(void)
 }
 unsigned char cmos_read(unsigned char reg)
 {
-    outb(reg, 0x70);
+    outb(0x70, reg);
     return inb(0x71);
 }
 static unsigned char bcd_to_bin(unsigned char bcd)
