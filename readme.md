@@ -104,16 +104,12 @@ Lower values = faster repeat. Higher values = slower repeat.
 
 # Priority 1
 
-Add comments to all funcs Done vga.c\
+Add error handling eg empty input\
+Add A real time clock based on https://osdev.wiki/wiki/CMOS#Getting_Current_Date_and_Time_from_RTC
 Add command history with up\down arrows\
-Add color command to change text color\
-Add echo command to print text\
-Add reboot command to restart system\
-Fix clear command for proper screen reset\
 
 # Priority 2
 
-Add version command\
 Add boot banner with version info\
 Add LED control for CapsLock and NumLock\
 Add arrow key support\

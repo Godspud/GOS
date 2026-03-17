@@ -952,18 +952,108 @@ make[1]: Leaving directory '/home/god_spud/Spud_os/os'
 make[1]: Entering directory '/home/god_spud/Spud_os/os'
 make[1]: Nothing to be done for 'all'.
 make[1]: Leaving directory '/home/god_spud/Spud_os/os'
-=== Build: Mon Mar 16 07:21:11 PM +08 2026 ===
+=== Build: Mon Mar 16 07:23:49 PM +08 2026 ===
 make[1]: Entering directory '/home/god_spud/Spud_os/os'
-mkdir -p build
-nasm -f elf32 boot.asm -o build/boot.o
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/god_spud/Spud_os/os'
+=== Build: Mon Mar 16 07:26:17 PM +08 2026 ===
+make[1]: Entering directory '/home/god_spud/Spud_os/os'
+mkdir -p build/commands/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/commands/default_cmds.c -o build/commands/default_cmds.o
+ld -m elf_i386 -T linker.ld -o build/kernel.bin build/boot.o build/cmd_processor.o build/commands/default_cmds.o build/kernel.o build/keyboard.o build/string.o build/vga.o
+ld: warning: build/boot.o: missing .note.GNU-stack section implies executable stack
+ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+ld: warning: build/kernel.bin has a LOAD segment with RWX permissions
+mkdir -p iso/boot/grub
+cp build/kernel.bin iso/boot/kernel.bin
+cp grub.cfg iso/boot/grub/grub.cfg
+grub-mkrescue -o build/os.iso iso
+xorriso 1.5.4 : RockRidge filesystem manipulator, libburnia project.
+
+Drive current: -outdev 'stdio:build/os.iso'
+Media current: stdio file, overwriteable
+Media status : is blank
+Media summary: 0 sessions, 0 data blocks, 0 data, 3718m free
+Added to ISO image: directory '/'='/tmp/grub.uvU96d'
+xorriso : UPDATE :     294 files added in 1 seconds
+Added to ISO image: directory '/'='/home/god_spud/Spud_os/os/iso'
+xorriso : UPDATE :     298 files added in 1 seconds
+xorriso : NOTE : Copying to System Area: 512 bytes from file '/usr/lib/grub/i386-pc/boot_hybrid.img'
+ISO image produced: 2484 sectors
+Written to medium : 2484 sectors at LBA 0
+Writing to 'stdio:build/os.iso' completed successfully.
+
+make[1]: Leaving directory '/home/god_spud/Spud_os/os'
+=== Build: Mon Mar 16 07:27:53 PM +08 2026 ===
+make[1]: Entering directory '/home/god_spud/Spud_os/os'
+mkdir -p build/commands/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/commands/default_cmds.c -o build/commands/default_cmds.o
+ld -m elf_i386 -T linker.ld -o build/kernel.bin build/boot.o build/cmd_processor.o build/commands/default_cmds.o build/kernel.o build/keyboard.o build/string.o build/vga.o
+ld: warning: build/boot.o: missing .note.GNU-stack section implies executable stack
+ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+ld: warning: build/kernel.bin has a LOAD segment with RWX permissions
+mkdir -p iso/boot/grub
+cp build/kernel.bin iso/boot/kernel.bin
+cp grub.cfg iso/boot/grub/grub.cfg
+grub-mkrescue -o build/os.iso iso
+xorriso 1.5.4 : RockRidge filesystem manipulator, libburnia project.
+
+Drive current: -outdev 'stdio:build/os.iso'
+Media current: stdio file, overwriteable
+Media status : is blank
+Media summary: 0 sessions, 0 data blocks, 0 data, 3715m free
+Added to ISO image: directory '/'='/tmp/grub.MqZisi'
+xorriso : UPDATE :     294 files added in 1 seconds
+Added to ISO image: directory '/'='/home/god_spud/Spud_os/os/iso'
+xorriso : UPDATE :     298 files added in 1 seconds
+xorriso : NOTE : Copying to System Area: 512 bytes from file '/usr/lib/grub/i386-pc/boot_hybrid.img'
+ISO image produced: 2484 sectors
+Written to medium : 2484 sectors at LBA 0
+Writing to 'stdio:build/os.iso' completed successfully.
+
+make[1]: Leaving directory '/home/god_spud/Spud_os/os'
+=== Build: Mon Mar 16 07:39:39 PM +08 2026 ===
+make[1]: Entering directory '/home/god_spud/Spud_os/os'
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/god_spud/Spud_os/os'
+=== Build: Tue Mar 17 05:59:41 AM +08 2026 ===
+make[1]: Entering directory '/home/god_spud/Spud_os/os'
 mkdir -p build/
 gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/cmd_processor.c -o build/cmd_processor.o
 mkdir -p build/commands/
 gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/commands/default_cmds.c -o build/commands/default_cmds.o
+ld -m elf_i386 -T linker.ld -o build/kernel.bin build/boot.o build/cmd_processor.o build/commands/default_cmds.o build/kernel.o build/keyboard.o build/string.o build/vga.o
+ld: warning: build/boot.o: missing .note.GNU-stack section implies executable stack
+ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+ld: warning: build/kernel.bin has a LOAD segment with RWX permissions
+mkdir -p iso/boot/grub
+cp build/kernel.bin iso/boot/kernel.bin
+cp grub.cfg iso/boot/grub/grub.cfg
+grub-mkrescue -o build/os.iso iso
+xorriso 1.5.4 : RockRidge filesystem manipulator, libburnia project.
+
+Drive current: -outdev 'stdio:build/os.iso'
+Media current: stdio file, overwriteable
+Media status : is blank
+Media summary: 0 sessions, 0 data blocks, 0 data, 3698m free
+Added to ISO image: directory '/'='/tmp/grub.qNQiNS'
+xorriso : UPDATE :     294 files added in 1 seconds
+Added to ISO image: directory '/'='/home/god_spud/Spud_os/os/iso'
+xorriso : UPDATE :     298 files added in 1 seconds
+xorriso : NOTE : Copying to System Area: 512 bytes from file '/usr/lib/grub/i386-pc/boot_hybrid.img'
+ISO image produced: 2484 sectors
+Written to medium : 2484 sectors at LBA 0
+Writing to 'stdio:build/os.iso' completed successfully.
+
+make[1]: Leaving directory '/home/god_spud/Spud_os/os'
+=== Build: Tue Mar 17 06:00:30 AM +08 2026 ===
+make[1]: Entering directory '/home/god_spud/Spud_os/os'
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/god_spud/Spud_os/os'
+=== Build: Tue Mar 17 07:05:52 AM +08 2026 ===
+make[1]: Entering directory '/home/god_spud/Spud_os/os'
 mkdir -p build/
-gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/kernel.c -o build/kernel.o
-mkdir -p build/
-gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/keyboard.c -o build/keyboard.o
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/cmd_processor.c -o build/cmd_processor.o
 mkdir -p build/
 gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/string.c -o build/string.o
 mkdir -p build/
@@ -981,12 +1071,13 @@ xorriso 1.5.4 : RockRidge filesystem manipulator, libburnia project.
 Drive current: -outdev 'stdio:build/os.iso'
 Media current: stdio file, overwriteable
 Media status : is blank
-Media summary: 0 sessions, 0 data blocks, 0 data, 3720m free
-Added to ISO image: directory '/'='/tmp/grub.UyzLDK'
+Media summary: 0 sessions, 0 data blocks, 0 data, 3695m free
+Added to ISO image: directory '/'='/tmp/grub.JSLaAW'
 xorriso : UPDATE :     294 files added in 1 seconds
 Added to ISO image: directory '/'='/home/god_spud/Spud_os/os/iso'
 xorriso : UPDATE :     298 files added in 1 seconds
 xorriso : NOTE : Copying to System Area: 512 bytes from file '/usr/lib/grub/i386-pc/boot_hybrid.img'
+xorriso : UPDATE : Thank you for being patient. Working since 0 seconds.
 ISO image produced: 2484 sectors
 Written to medium : 2484 sectors at LBA 0
 Writing to 'stdio:build/os.iso' completed successfully.
