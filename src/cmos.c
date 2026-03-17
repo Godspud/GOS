@@ -22,6 +22,8 @@ static unsigned char bcd_to_bin(unsigned char bcd)
  */
 void cmos_get_time(cmos_time *time)
 {
+    // Read time values from CMOS registers found at https://osdev.wiki/wiki/%601%60#Getting_Current_Date_and_Time_from_RTC
+    // used code from the same wki page
     unsigned char century;
     unsigned char second;
     unsigned char minute;
@@ -40,6 +42,7 @@ void cmos_get_time(cmos_time *time)
     month = cmos_read(0x08);
     year = cmos_read(0x09);
     century = cmos_read(0x32);
+    registerB = cmos_read(0x0B);
     if (!(registerB & 0x04))
     {
         second = (second & 0x0F) + ((second / 16) * 10);
@@ -67,12 +70,12 @@ void cmos_get_time(cmos_time *time)
         if (year < CURRENT_YEAR)
             year += 100;
     }
-    // Read time values from CMOS registers found at https://osdev.wiki/wiki/%601%60#Getting_Current_Date_and_Time_from_RTC
-    time->seconds = inb(0x00);
-    time->minutes = inb(0x02);
-    time->hours = inb(0x04);
-    time->day = inb(0x07);
-    time->month = inb(0x08);
-    time->year = inb(0x09);
-    time->century = inb(0x32);
+
+    time->seconds = second;
+    time->minutes = minute;
+    time->hours = hour;
+    time->day = day;
+    time->month = month;
+    time->year = year;
+    time->century = century;
 }
