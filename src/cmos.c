@@ -37,7 +37,7 @@ void cmos_get_time(cmos_time *time)
     while (cmos_read(0x0A) & 0x80)
         ;
     second = cmos_read(0x32);
-    minute = cmos_read(0x02);
+    minute = 10; // cmos_read(0x02);
     hour = cmos_read(0x04);
     day = cmos_read(0x07);
     month = cmos_read(0x08);
