@@ -50,6 +50,7 @@ void cmos_get_time(cmos_time *time)
     print_char('\n', COLOR_BLACK);
     print_string(hour, COLOR_LIGHT_CYAN);
     print_char('\n', COLOR_BLACK);
+    print_string(registerB, COLOR_LIGHT_CYAN);
     if (!(registerB & 0x04))
     {
         second = (second & 0x0F) + ((second / 16) * 10);
