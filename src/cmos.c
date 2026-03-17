@@ -44,6 +44,10 @@ void cmos_get_time(cmos_time *time)
     year = cmos_read(0x09);
     century = cmos_read(0x32);
     registerB = cmos_read(0x0B);
+    print_string(second, COLOR_LIGHT_CYAN);
+    print_string(minute, COLOR_LIGHT_CYAN);
+    print_string(hour, COLOR_LIGHT_CYAN);
+    print_char('\n', COLOR_BLACK);
     if (!(registerB & 0x04))
     {
         second = (second & 0x0F) + ((second / 16) * 10);
