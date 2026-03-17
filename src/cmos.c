@@ -44,33 +44,33 @@ void cmos_get_time(cmos_time *time)
     year = cmos_read(0x09);
     century = cmos_read(0x32);
     registerB = cmos_read(0x0B);
-    if (!(registerB & 0x04))
-    {
-        second = (second & 0x0F) + ((second / 16) * 10);
-        minute = (minute & 0x0F) + ((minute / 16) * 10);
-        hour = ((hour & 0x0F) + (((hour & 0x70) / 16) * 10)) | (hour & 0x80);
-        day = (day & 0x0F) + ((day / 16) * 10);
-        month = (month & 0x0F) + ((month / 16) * 10);
-        year = (year & 0x0F) + ((year / 16) * 10);
-        if (century != 0)
-        {
-            century = (century & 0x0F) + ((century / 16) * 10);
-        }
-    }
-    if (!(registerB & 0x02) && (hour & 0x80))
-    {
-        hour = ((hour & 0x7F) + 12) % 24;
-    }
-    if (century != 0)
-    {
-        year += century * 100;
-    }
-    else
-    {
-        year += (CURRENT_YEAR / 100) * 100;
-        if (year < CURRENT_YEAR)
-            year += 100;
-    }
+    // if (!(registerB & 0x04))
+    //{
+    //     second = (second & 0x0F) + ((second / 16) * 10);
+    //     minute = (minute & 0x0F) + ((minute / 16) * 10);
+    //     hour = ((hour & 0x0F) + (((hour & 0x70) / 16) * 10)) | (hour & 0x80);
+    //     day = (day & 0x0F) + ((day / 16) * 10);
+    //     month = (month & 0x0F) + ((month / 16) * 10);
+    //     year = (year & 0x0F) + ((year / 16) * 10);
+    //     if (century != 0)
+    //     {
+    //         century = (century & 0x0F) + ((century / 16) * 10);
+    //     }
+    // }
+    // f (!(registerB & 0x02) && (hour & 0x80))
+    //
+    //    hour = ((hour & 0x7F) + 12) % 24;
+    //
+    // f (century != 0)
+    //
+    //    year += century * 100;
+    //
+    // lse
+    //
+    //    year += (CURRENT_YEAR / 100) * 100;
+    //    if (year < CURRENT_YEAR)
+    //        year += 100;
+    //
 
     if (second == minute && minute == hour)
     {
