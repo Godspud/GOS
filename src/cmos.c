@@ -45,7 +45,9 @@ void cmos_get_time(cmos_time *time)
     century = cmos_read(0x32);
     registerB = cmos_read(0x0B);
     print_string(second, COLOR_LIGHT_CYAN);
+    print_char('\n', COLOR_BLACK);
     print_string(minute, COLOR_LIGHT_CYAN);
+    print_char('\n', COLOR_BLACK);
     print_string(hour, COLOR_LIGHT_CYAN);
     print_char('\n', COLOR_BLACK);
     if (!(registerB & 0x04))
