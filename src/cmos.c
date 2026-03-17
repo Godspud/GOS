@@ -36,7 +36,7 @@ void cmos_get_time(cmos_time *time)
     // Wait until the CMOS is not updating to ensure we get a consistent time reading
     while (cmos_read(0x0A) & 0x80)
         ;
-    second = cmos_read(0x00);
+    second = cmos_read(0x32);
     minute = cmos_read(0x02);
     hour = cmos_read(0x04);
     day = cmos_read(0x07);
@@ -72,9 +72,9 @@ void cmos_get_time(cmos_time *time)
             year += 100;
     }
 
-    if (second != minute && minute != hour)
+    if (second == minute && minute == hour)
     {
-        print_string("Warning: CMOS time may be inconsistent (seconds, minutes, and hours differ). Consider checking the CMOS battery.\n", COLOR_LIGHT_RED);
+        print_string("Warning: CMOS time may be inconsistent (seconds, minutes, and hours equvalent). Consider checking the CMOS battery.\n", COLOR_LIGHT_RED);
     }
 
     time->seconds = second;
