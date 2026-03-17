@@ -36,9 +36,9 @@ void cmos_get_time(cmos_time *time)
     // Wait until the CMOS is not updating to ensure we get a consistent time reading
     while (cmos_read(0x0A) & 0x80)
         ;
-    second = cmos_read(0x00) + '0';
-    minute = cmos_read(0x02) + '0';
-    hour = cmos_read(0x04) + '0';
+    second = cmos_read(0x00);
+    minute = cmos_read(0x02);
+    hour = cmos_read(0x04);
     day = cmos_read(0x07);
     month = cmos_read(0x08);
     year = cmos_read(0x09);
@@ -53,16 +53,13 @@ void cmos_get_time(cmos_time *time)
     print_string(registerB, COLOR_LIGHT_CYAN);
     if (!(registerB & 0x04))
     {
-        second = (second & 0x0F) + ((second / 16) * 10);
-        minute = (minute & 0x0F) + ((minute / 16) * 10);
-        hour = ((hour & 0x0F) + (((hour & 0x70) / 16) * 10)) | (hour & 0x80);
-        day = (day & 0x0F) + ((day / 16) * 10);
-        month = (month & 0x0F) + ((month / 16) * 10);
-        year = (year & 0x0F) + ((year / 16) * 10);
-        if (century != 0)
-        {
-            century = (century & 0x0F) + ((century / 16) * 10);
-        }
+        second = bcd_to_bin(second);
+        minute = bcd_to_bin(minute);
+        // Mask out the 12/24 hour bit
+        hour = bcd_to_bin(hour & 0x7F);
+        day = bcd_to_bin(day);
+        month = bcd_to_bin(month);
+        year = bcd_to_bin(year);
     }
     if (!(registerB & 0x02) && (hour & 0x80))
 
