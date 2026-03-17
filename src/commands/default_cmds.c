@@ -112,16 +112,16 @@ static void cmd_reboot(int argc, char **argv)
 static void cmd_time(int argc, char **argv)
 {
     cmos_get_time(&cmos_current_time);
-    print_string("Current time: ", COLOR_GREEN);
-    print_char((cmos_current_time.hours / 10) + '0', COLOR_GREEN);
-    print_char((cmos_current_time.hours % 10) + '0', COLOR_GREEN);
-    print_char(':', COLOR_RED);
+    print_string("Current time: ", COLOR_CYAN);
+    print_char((cmos_current_time.hours / 10) + '0', COLOR_CYAN);
+    print_char((cmos_current_time.hours % 10) + '0', COLOR_CYAN);
+    print_char(':', COLOR_CYAN);
     print_char((cmos_current_time.minutes / 10) + '0', COLOR_GREEN);
-    print_char((cmos_current_time.minutes % 10) + '0', COLOR_GREEN);
-    print_char(':', COLOR_BLUE);
-    print_char((cmos_current_time.seconds / 10) + '0', COLOR_GREEN);
-    print_char((cmos_current_time.seconds % 10) + '0', COLOR_GREEN);
-    print_char('\n', COLOR_GREEN);
+    print_char((cmos_current_time.minutes % 10) + '0', COLOR_CYAN);
+    print_char(':', COLOR_CYAN);
+    print_char((cmos_current_time.seconds / 10) + '0', COLOR_CYAN);
+    print_char((cmos_current_time.seconds % 10) + '0', COLOR_CYAN);
+    print_char('\n', COLOR_CYAN);
 }
 
 static void cmd_delay(int argc, char **argv)
