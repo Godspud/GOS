@@ -116,8 +116,8 @@ static void cmd_time(int argc, char **argv)
     print_char((cmos_current_time.hours / 10) + '0', COLOR_CYAN);
     print_char((cmos_current_time.hours % 10) + '0', COLOR_CYAN);
     print_char(':', COLOR_CYAN);
-    print_char((cmos_current_time.minutes / 10) + '0', COLOR_CYAN);
-    print_char((cmos_current_time.minutes % 10) + '0', COLOR_RED);
+    print_char((cmos_current_time.minutes / 10) + '0', COLOR_RED);
+    print_char((cmos_current_time.minutes % 10) + '0', COLOR_CYAN);
     print_char(':', COLOR_CYAN);
     print_char((cmos_current_time.seconds / 10) + '0', COLOR_CYAN);
     print_char((cmos_current_time.seconds % 10) + '0', COLOR_CYAN);
