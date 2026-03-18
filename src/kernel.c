@@ -2,6 +2,7 @@
 #include "vga.h"
 #include "cmd_processor.h"
 #include "commands/default_cmds.h"
+#include "include/drivers/cmos.h"
 
 static char input_buffer[256];
 static int input_pos = 0;
@@ -24,7 +25,18 @@ void kernel_main()
 
     while (1)
     {
-        vga_write_string(72, 0, "Shift: ", COLOR_LIGHT_MAGENTA);
+        cmos_get_time(&cmos_current_time);
+        char time[9];
+        time[0] = (cmos_current_time.hours / 10) + '0';
+        time[1] = (cmos_current_time.hours % 10) + '0';
+        time[2] = ':';
+        time[3] = (cmos_current_time.minutes / 10) + '0';
+        time[4] = (cmos_current_time.minutes % 10) + '0';
+        time[5] = ':';
+        time[6] = (cmos_current_time.seconds / 10) + '0';
+        time[7] = (cmos_current_time.seconds % 10) + '0';
+        time[8] = '\0';
+        vga_write_string(72, 0, time, COLOR_LIGHT_MAGENTA);
         input_char = keyboard_read(&shift_pressed);
         if (input_char == '\n')
         {
