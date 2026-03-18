@@ -1,4 +1,4 @@
-#include "keyboard.h"
+#include "include/drivers/keyboard.h"
 #include "vga.h"
 #include "cmd_processor.h"
 #include "commands/default_cmds.h"
@@ -24,6 +24,7 @@ void kernel_main()
 
     while (1)
     {
+        vga_write_string(72, 0, "Shift: ", COLOR_LIGHT_MAGENTA);
         input_char = keyboard_read(&shift_pressed);
         if (input_char == '\n')
         {
