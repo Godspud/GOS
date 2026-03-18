@@ -11,23 +11,11 @@
 - keyboard_set_repeat_rate: Sets the rate at which keys repeat when held down.
 - keyboard_read: Reads a key press from the keyboard, returning the corresponding ASCII character and updating the shift_pressed state.
 */
-
-unsigned int keyboard_repeat_delay = 1000000;
-unsigned int keyboard_repeat_rate = 5000;
+unsigned int keyboard_repeat_rate = 1000000000;
 
 static int repeat_enabled = 1;
 static int last_scancode = 0;
-static int last_key_pressed = 0;
-static unsigned int key_press_time = 0;
 
-static unsigned int timer_ticks = 0;
-/**
- * get_time_ms: Returns the current time in milliseconds based on the timer ticks.
- */
-static unsigned int get_time_ms(void)
-{
-    return timer_ticks;
-}
 /**
  * scancode_to_ascii: Converts a keyboard scancode to its corresponding ASCII character, taking into account whether the Shift key is pressed.
  */
@@ -86,9 +74,6 @@ void keyboard_init(void)
     }
 
     last_scancode = 0;
-    last_key_pressed = 0;
-    key_press_time = 0;
-    timer_ticks = 0;
 }
 /**
  * keyboard_set_repeat: Enables or disables key repeat functionality.
@@ -99,10 +84,38 @@ void keyboard_set_repeat(int enabled)
 }
 /**
  * keyboard_set_repeat_delay: Sets the delay before key repeat starts when a key is held down.
+ * 0.25 sec or 0.5 sec or 0.75 sec or 1 sec
+ *
  */
-void keyboard_set_repeat_delay(unsigned int delay_ms)
+void keyboard_set_repeat_delay(unsigned int delay)
 {
-    keyboard_repeat_delay = delay_ms;
+    enum
+    {
+        DELAY_250_MS = 00,
+        DELAY_500_MS = 01,
+        DELAY_750_MS = 10,
+        DELAY_1000_MS = 11
+    };
+    switch (delay)
+    {
+    case 250:
+        delay = DELAY_250_MS;
+        break;
+    case 500:
+        delay = DELAY_500_MS;
+        break;
+    case 750:
+        delay = DELAY_750_MS;
+        break;
+    case 1000:
+        delay = DELAY_1000_MS;
+        break;
+    default:
+        delay = DELAY_1000_MS;
+        break;
+    }
+    outb(0x60, 0xF3);
+    outb(0x60, delay);
 }
 /**
  * keyboard_set_repeat_rate: Sets the rate at which keys repeat when held down.
@@ -119,32 +132,6 @@ char keyboard_read(int *shift_pressed)
     // handle key repeat if enabled and a key is currently pressed
     static int internal_shift = 0;
 
-    timer_ticks++;
-
-    if ((inb(KEYBOARD_STATUS_PORT) & 0x01) == 0)
-    {
-        if (repeat_enabled && last_key_pressed && last_scancode != 0)
-        {
-            unsigned int current_time = get_time_ms();
-            unsigned int hold_time = current_time - key_press_time;
-
-            if (hold_time >= keyboard_repeat_delay)
-            {
-                unsigned int repeat_time = hold_time - keyboard_repeat_delay;
-
-                if (repeat_time >= keyboard_repeat_rate)
-                {
-                    key_press_time = current_time;
-                    char repeated_char = scancode_to_ascii(last_scancode, internal_shift);
-                    if (repeated_char != 0)
-                    {
-                        return repeated_char;
-                    }
-                }
-            }
-        }
-        return 0;
-    }
     // read the scancode of the pressed key
     unsigned char scancode = keyboard_wait();
     // if the scancode has the high bit set, it means the key was released
@@ -158,11 +145,6 @@ char keyboard_read(int *shift_pressed)
             *shift_pressed = 0;
         }
 
-        if (released_code == last_scancode)
-        {
-            last_key_pressed = 0;
-        }
-
         return 0;
     }
     // if the scancode corresponds to a Shift key being pressed, update the internal shift state and the output parameter
@@ -174,8 +156,6 @@ char keyboard_read(int *shift_pressed)
     }
     // for any other key press, update the last scancode and key press time, and return the corresponding ASCII character
     last_scancode = scancode;
-    last_key_pressed = 1;
-    key_press_time = get_time_ms();
 
     return scancode_to_ascii(scancode, internal_shift);
 }

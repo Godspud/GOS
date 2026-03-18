@@ -2596,3 +2596,140 @@ make[1]: Leaving directory '/home/god_spud/Spud_os/os'
 make[1]: Entering directory '/home/god_spud/Spud_os/os'
 make[1]: Nothing to be done for 'all'.
 make[1]: Leaving directory '/home/god_spud/Spud_os/os'
+=== Build: Wed Mar 18 04:57:57 PM +08 2026 ===
+make[1]: Entering directory '/home/god_spud/Spud_os/os'
+mkdir -p build/drivers/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/drivers/keyboard.c -o build/drivers/keyboard.o
+src/drivers/keyboard.c: In function ‘keyboard_read’:
+src/drivers/keyboard.c:140:41: warning: implicit declaration of function ‘get_time_ms’ [-Wimplicit-function-declaration]
+  140 |             unsigned int current_time = get_time_ms();
+      |                                         ^~~~~~~~~~~
+src/drivers/keyboard.c:141:53: error: ‘key_press_time’ undeclared (first use in this function)
+  141 |             unsigned int hold_time = current_time - key_press_time;
+      |                                                     ^~~~~~~~~~~~~~
+src/drivers/keyboard.c:141:53: note: each undeclared identifier is reported only once for each function it appears in
+make[1]: *** [Makefile:48: build/drivers/keyboard.o] Error 1
+make[1]: Leaving directory '/home/god_spud/Spud_os/os'
+=== Build: Wed Mar 18 05:09:36 PM +08 2026 ===
+make[1]: Entering directory '/home/god_spud/Spud_os/os'
+mkdir -p build/drivers/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/drivers/keyboard.c -o build/drivers/keyboard.o
+src/drivers/keyboard.c: In function ‘keyboard_init’:
+src/drivers/keyboard.c:76:5: error: ‘last_key_pressed’ undeclared (first use in this function)
+   76 |     last_key_pressed = 0;
+      |     ^~~~~~~~~~~~~~~~
+src/drivers/keyboard.c:76:5: note: each undeclared identifier is reported only once for each function it appears in
+src/drivers/keyboard.c: In function ‘keyboard_read’:
+src/drivers/keyboard.c:150:13: error: ‘last_key_pressed’ undeclared (first use in this function)
+  150 |             last_key_pressed = 0;
+      |             ^~~~~~~~~~~~~~~~
+make[1]: *** [Makefile:48: build/drivers/keyboard.o] Error 1
+make[1]: Leaving directory '/home/god_spud/Spud_os/os'
+=== Build: Wed Mar 18 05:09:49 PM +08 2026 ===
+make[1]: Entering directory '/home/god_spud/Spud_os/os'
+mkdir -p build/drivers/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/drivers/keyboard.c -o build/drivers/keyboard.o
+src/drivers/keyboard.c: In function ‘keyboard_init’:
+src/drivers/keyboard.c:76:5: error: ‘last_key_pressed’ undeclared (first use in this function)
+   76 |     last_key_pressed = 0;
+      |     ^~~~~~~~~~~~~~~~
+src/drivers/keyboard.c:76:5: note: each undeclared identifier is reported only once for each function it appears in
+make[1]: *** [Makefile:48: build/drivers/keyboard.o] Error 1
+make[1]: Leaving directory '/home/god_spud/Spud_os/os'
+=== Build: Wed Mar 18 05:10:05 PM +08 2026 ===
+make[1]: Entering directory '/home/god_spud/Spud_os/os'
+mkdir -p build/drivers/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/drivers/keyboard.c -o build/drivers/keyboard.o
+ld -m elf_i386 -T linker.ld -o build/kernel.bin build/boot.o build/commands/default_cmds.o build/kernel.o build/cmd_processor.o build/vga.o build/drivers/cmos.o build/drivers/keyboard.o build/shell/shell.o build/core/string.o
+ld: warning: build/boot.o: missing .note.GNU-stack section implies executable stack
+ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+ld: warning: build/kernel.bin has a LOAD segment with RWX permissions
+ld: build/drivers/keyboard.o: in function `keyboard_set_repeat_rate':
+keyboard.c:(.text+0x189): undefined reference to `keyboard_repeat_rate'
+make[1]: *** [Makefile:52: build/kernel.bin] Error 1
+make[1]: Leaving directory '/home/god_spud/Spud_os/os'
+=== Build: Wed Mar 18 05:10:12 PM +08 2026 ===
+make[1]: Entering directory '/home/god_spud/Spud_os/os'
+mkdir -p build
+nasm -f elf32 boot.asm -o build/boot.o
+mkdir -p build/commands/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/commands/default_cmds.c -o build/commands/default_cmds.o
+mkdir -p build/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/kernel.c -o build/kernel.o
+mkdir -p build/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/cmd_processor.c -o build/cmd_processor.o
+mkdir -p build/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/vga.c -o build/vga.o
+mkdir -p build/drivers/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/drivers/cmos.c -o build/drivers/cmos.o
+mkdir -p build/drivers/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/drivers/keyboard.c -o build/drivers/keyboard.o
+mkdir -p build/shell/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/shell/shell.c -o build/shell/shell.o
+mkdir -p build/core/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/core/string.c -o build/core/string.o
+ld -m elf_i386 -T linker.ld -o build/kernel.bin build/boot.o build/commands/default_cmds.o build/kernel.o build/cmd_processor.o build/vga.o build/drivers/cmos.o build/drivers/keyboard.o build/shell/shell.o build/core/string.o
+ld: warning: build/boot.o: missing .note.GNU-stack section implies executable stack
+ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+ld: warning: build/kernel.bin has a LOAD segment with RWX permissions
+ld: build/drivers/keyboard.o: in function `keyboard_set_repeat_rate':
+keyboard.c:(.text+0x189): undefined reference to `keyboard_repeat_rate'
+make[1]: *** [Makefile:52: build/kernel.bin] Error 1
+make[1]: Leaving directory '/home/god_spud/Spud_os/os'
+=== Build: Wed Mar 18 05:10:28 PM +08 2026 ===
+make[1]: Entering directory '/home/god_spud/Spud_os/os'
+mkdir -p build
+nasm -f elf32 boot.asm -o build/boot.o
+mkdir -p build/commands/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/commands/default_cmds.c -o build/commands/default_cmds.o
+mkdir -p build/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/kernel.c -o build/kernel.o
+mkdir -p build/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/cmd_processor.c -o build/cmd_processor.o
+mkdir -p build/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/vga.c -o build/vga.o
+mkdir -p build/drivers/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/drivers/cmos.c -o build/drivers/cmos.o
+mkdir -p build/drivers/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/drivers/keyboard.c -o build/drivers/keyboard.o
+mkdir -p build/shell/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/shell/shell.c -o build/shell/shell.o
+mkdir -p build/core/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/core/string.c -o build/core/string.o
+ld -m elf_i386 -T linker.ld -o build/kernel.bin build/boot.o build/commands/default_cmds.o build/kernel.o build/cmd_processor.o build/vga.o build/drivers/cmos.o build/drivers/keyboard.o build/shell/shell.o build/core/string.o
+ld: warning: build/boot.o: missing .note.GNU-stack section implies executable stack
+ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+ld: warning: build/kernel.bin has a LOAD segment with RWX permissions
+ld: build/drivers/keyboard.o: in function `keyboard_set_repeat_rate':
+keyboard.c:(.text+0x189): undefined reference to `keyboard_repeat_rate'
+make[1]: *** [Makefile:52: build/kernel.bin] Error 1
+make[1]: Leaving directory '/home/god_spud/Spud_os/os'
+=== Build: Wed Mar 18 05:19:18 PM +08 2026 ===
+make[1]: Entering directory '/home/god_spud/Spud_os/os'
+mkdir -p build/drivers/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/drivers/keyboard.c -o build/drivers/keyboard.o
+ld -m elf_i386 -T linker.ld -o build/kernel.bin build/boot.o build/commands/default_cmds.o build/kernel.o build/cmd_processor.o build/vga.o build/drivers/cmos.o build/drivers/keyboard.o build/shell/shell.o build/core/string.o
+ld: warning: build/boot.o: missing .note.GNU-stack section implies executable stack
+ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+ld: warning: build/kernel.bin has a LOAD segment with RWX permissions
+mkdir -p iso/boot/grub
+cp build/kernel.bin iso/boot/kernel.bin
+cp grub.cfg iso/boot/grub/grub.cfg
+grub-mkrescue -o build/os.iso iso
+xorriso 1.5.4 : RockRidge filesystem manipulator, libburnia project.
+
+Drive current: -outdev 'stdio:build/os.iso'
+Media current: stdio file, overwriteable
+Media status : is blank
+Media summary: 0 sessions, 0 data blocks, 0 data, 3563m free
+Added to ISO image: directory '/'='/tmp/grub.csHetm'
+xorriso : UPDATE :     294 files added in 1 seconds
+Added to ISO image: directory '/'='/home/god_spud/Spud_os/os/iso'
+xorriso : UPDATE :     298 files added in 1 seconds
+xorriso : NOTE : Copying to System Area: 512 bytes from file '/usr/lib/grub/i386-pc/boot_hybrid.img'
+xorriso : UPDATE :  74.72% done
+ISO image produced: 2484 sectors
+Written to medium : 2484 sectors at LBA 0
+Writing to 'stdio:build/os.iso' completed successfully.
+
+make[1]: Leaving directory '/home/god_spud/Spud_os/os'
