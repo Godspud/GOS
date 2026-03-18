@@ -2426,3 +2426,59 @@ ld: build/drivers/keyboard.o: in function `keyboard_read':
 keyboard.c:(.text+0x134): undefined reference to `inb'
 make[1]: *** [Makefile:52: build/kernel.bin] Error 1
 make[1]: Leaving directory '/home/god_spud/Spud_os/os'
+=== Build: Wed Mar 18 02:23:21 PM +08 2026 ===
+make[1]: Entering directory '/home/god_spud/Spud_os/os'
+ld -m elf_i386 -T linker.ld -o build/kernel.bin build/boot.o build/commands/default_cmds.o build/kernel.o build/cmd_processor.o build/vga.o build/drivers/cmos.o build/drivers/keyboard.o build/drivers/io.o build/shell/shell.o build/core/string.o
+ld: warning: build/boot.o: missing .note.GNU-stack section implies executable stack
+ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+ld: warning: build/kernel.bin has a LOAD segment with RWX permissions
+ld: build/commands/default_cmds.o: in function `cmd_reboot':
+default_cmds.c:(.text+0x21c): undefined reference to `outb'
+ld: build/vga.o: in function `vga_move_cursor':
+vga.c:(.text+0x14b): undefined reference to `outb'
+ld: vga.c:(.text+0x165): undefined reference to `outb'
+ld: vga.c:(.text+0x177): undefined reference to `outb'
+ld: vga.c:(.text+0x18e): undefined reference to `outb'
+ld: build/vga.o:vga.c:(.text+0x1b5): more undefined references to `outb' follow
+ld: build/drivers/cmos.o: in function `cmos_read':
+cmos.c:(.text+0x2a): undefined reference to `inb'
+ld: build/drivers/keyboard.o: in function `keyboard_wait':
+keyboard.c:(.text+0x50): undefined reference to `inb'
+ld: keyboard.c:(.text+0x67): undefined reference to `inb'
+ld: build/drivers/keyboard.o: in function `keyboard_init':
+keyboard.c:(.text+0x7d): undefined reference to `inb'
+ld: keyboard.c:(.text+0x99): undefined reference to `outb'
+ld: keyboard.c:(.text+0xa8): undefined reference to `inb'
+ld: keyboard.c:(.text+0xb5): undefined reference to `inb'
+ld: build/drivers/keyboard.o: in function `keyboard_read':
+keyboard.c:(.text+0x134): undefined reference to `inb'
+make[1]: *** [Makefile:52: build/kernel.bin] Error 1
+make[1]: Leaving directory '/home/god_spud/Spud_os/os'
+=== Build: Wed Mar 18 02:23:30 PM +08 2026 ===
+make[1]: Entering directory '/home/god_spud/Spud_os/os'
+ld -m elf_i386 -T linker.ld -o build/kernel.bin build/boot.o build/commands/default_cmds.o build/kernel.o build/cmd_processor.o build/vga.o build/drivers/cmos.o build/drivers/keyboard.o build/drivers/io.o build/shell/shell.o build/core/string.o
+ld: warning: build/boot.o: missing .note.GNU-stack section implies executable stack
+ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+ld: warning: build/kernel.bin has a LOAD segment with RWX permissions
+ld: build/commands/default_cmds.o: in function `cmd_reboot':
+default_cmds.c:(.text+0x21c): undefined reference to `outb'
+ld: build/vga.o: in function `vga_move_cursor':
+vga.c:(.text+0x14b): undefined reference to `outb'
+ld: vga.c:(.text+0x165): undefined reference to `outb'
+ld: vga.c:(.text+0x177): undefined reference to `outb'
+ld: vga.c:(.text+0x18e): undefined reference to `outb'
+ld: build/vga.o:vga.c:(.text+0x1b5): more undefined references to `outb' follow
+ld: build/drivers/cmos.o: in function `cmos_read':
+cmos.c:(.text+0x2a): undefined reference to `inb'
+ld: build/drivers/keyboard.o: in function `keyboard_wait':
+keyboard.c:(.text+0x50): undefined reference to `inb'
+ld: keyboard.c:(.text+0x67): undefined reference to `inb'
+ld: build/drivers/keyboard.o: in function `keyboard_init':
+keyboard.c:(.text+0x7d): undefined reference to `inb'
+ld: keyboard.c:(.text+0x99): undefined reference to `outb'
+ld: keyboard.c:(.text+0xa8): undefined reference to `inb'
+ld: keyboard.c:(.text+0xb5): undefined reference to `inb'
+ld: build/drivers/keyboard.o: in function `keyboard_read':
+keyboard.c:(.text+0x134): undefined reference to `inb'
+make[1]: *** [Makefile:52: build/kernel.bin] Error 1
+make[1]: Leaving directory '/home/god_spud/Spud_os/os'
