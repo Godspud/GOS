@@ -2259,3 +2259,170 @@ Written to medium : 2485 sectors at LBA 0
 Writing to 'stdio:build/os.iso' completed successfully.
 
 make[1]: Leaving directory '/home/god_spud/Spud_os/os'
+=== Build: Wed Mar 18 02:14:36 PM +08 2026 ===
+make[1]: Entering directory '/home/god_spud/Spud_os/os'
+mkdir -p build/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/kernel.c -o build/kernel.o
+src/kernel.c: In function ‘kernel_main’:
+src/kernel.c:39:33: warning: character constant too long for its type
+   39 |         vga_write_string(66, 0, 'Time: ', COLOR_LIGHT_MAGENTA);
+      |                                 ^~~~~~~~
+src/kernel.c:39:33: warning: passing argument 3 of ‘vga_write_string’ makes pointer from integer without a cast [-Wint-conversion]
+   39 |         vga_write_string(66, 0, 'Time: ', COLOR_LIGHT_MAGENTA);
+      |                                 ^~~~~~~~
+      |                                 |
+      |                                 int
+In file included from src/kernel.c:2:
+src/vga.h:29:49: note: expected ‘const char *’ but argument is of type ‘int’
+   29 | void vga_write_string(int x, int y, const char *str, int color);
+      |                                     ~~~~~~~~~~~~^~~
+mkdir -p build/drivers/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/drivers/keyboard.c -o build/drivers/keyboard.o
+In file included from src/drivers/keyboard.c:2:
+src/include/drivers/io.h:4:29: warning: ‘inb’ used but never defined
+    4 | static inline unsigned char inb(unsigned short port);
+      |                             ^~~
+src/include/drivers/io.h:6:20: warning: ‘outb’ used but never defined
+    6 | static inline void outb(unsigned short port, unsigned char data);
+      |                    ^~~~
+mkdir -p build/core/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/core/string.c -o build/core/string.o
+ld -m elf_i386 -T linker.ld -o build/kernel.bin build/boot.o build/commands/default_cmds.o build/kernel.o build/cmd_processor.o build/vga.o build/drivers/cmos.o build/drivers/keyboard.o build/drivers/io.o build/shell/shell.o build/core/string.o
+ld: warning: build/boot.o: missing .note.GNU-stack section implies executable stack
+ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+ld: warning: build/kernel.bin has a LOAD segment with RWX permissions
+ld: build/drivers/keyboard.o: in function `keyboard_wait':
+keyboard.c:(.text+0x50): undefined reference to `inb'
+ld: keyboard.c:(.text+0x67): undefined reference to `inb'
+ld: build/drivers/keyboard.o: in function `keyboard_init':
+keyboard.c:(.text+0x7d): undefined reference to `inb'
+ld: keyboard.c:(.text+0x99): undefined reference to `outb'
+ld: keyboard.c:(.text+0xa8): undefined reference to `inb'
+ld: keyboard.c:(.text+0xb5): undefined reference to `inb'
+ld: build/drivers/keyboard.o: in function `keyboard_read':
+keyboard.c:(.text+0x134): undefined reference to `inb'
+make[1]: *** [Makefile:52: build/kernel.bin] Error 1
+make[1]: Leaving directory '/home/god_spud/Spud_os/os'
+=== Build: Wed Mar 18 02:18:27 PM +08 2026 ===
+make[1]: Entering directory '/home/god_spud/Spud_os/os'
+ld -m elf_i386 -T linker.ld -o build/kernel.bin build/boot.o build/commands/default_cmds.o build/kernel.o build/cmd_processor.o build/vga.o build/drivers/cmos.o build/drivers/keyboard.o build/drivers/io.o build/shell/shell.o build/core/string.o
+ld: warning: build/boot.o: missing .note.GNU-stack section implies executable stack
+ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+ld: warning: build/kernel.bin has a LOAD segment with RWX permissions
+ld: build/drivers/keyboard.o: in function `keyboard_wait':
+keyboard.c:(.text+0x50): undefined reference to `inb'
+ld: keyboard.c:(.text+0x67): undefined reference to `inb'
+ld: build/drivers/keyboard.o: in function `keyboard_init':
+keyboard.c:(.text+0x7d): undefined reference to `inb'
+ld: keyboard.c:(.text+0x99): undefined reference to `outb'
+ld: keyboard.c:(.text+0xa8): undefined reference to `inb'
+ld: keyboard.c:(.text+0xb5): undefined reference to `inb'
+ld: build/drivers/keyboard.o: in function `keyboard_read':
+keyboard.c:(.text+0x134): undefined reference to `inb'
+make[1]: *** [Makefile:52: build/kernel.bin] Error 1
+make[1]: Leaving directory '/home/god_spud/Spud_os/os'
+=== Build: Wed Mar 18 02:18:40 PM +08 2026 ===
+make[1]: Entering directory '/home/god_spud/Spud_os/os'
+mkdir -p build
+nasm -f elf32 boot.asm -o build/boot.o
+mkdir -p build/commands/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/commands/default_cmds.c -o build/commands/default_cmds.o
+In file included from src/commands/default_cmds.c:5:
+src/include/drivers/io.h:6:20: warning: ‘outb’ used but never defined
+    6 | static inline void outb(unsigned short port, unsigned char data);
+      |                    ^~~~
+mkdir -p build/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/kernel.c -o build/kernel.o
+src/kernel.c: In function ‘kernel_main’:
+src/kernel.c:39:33: warning: character constant too long for its type
+   39 |         vga_write_string(66, 0, 'Time: ', COLOR_LIGHT_MAGENTA);
+      |                                 ^~~~~~~~
+src/kernel.c:39:33: warning: passing argument 3 of ‘vga_write_string’ makes pointer from integer without a cast [-Wint-conversion]
+   39 |         vga_write_string(66, 0, 'Time: ', COLOR_LIGHT_MAGENTA);
+      |                                 ^~~~~~~~
+      |                                 |
+      |                                 int
+In file included from src/kernel.c:2:
+src/vga.h:29:49: note: expected ‘const char *’ but argument is of type ‘int’
+   29 | void vga_write_string(int x, int y, const char *str, int color);
+      |                                     ~~~~~~~~~~~~^~~
+mkdir -p build/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/cmd_processor.c -o build/cmd_processor.o
+mkdir -p build/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/vga.c -o build/vga.o
+src/vga.c:2:10: fatal error: io.h: No such file or directory
+    2 | #include "io.h"
+      |          ^~~~~~
+compilation terminated.
+make[1]: *** [Makefile:48: build/vga.o] Error 1
+make[1]: Leaving directory '/home/god_spud/Spud_os/os'
+=== Build: Wed Mar 18 02:19:11 PM +08 2026 ===
+make[1]: Entering directory '/home/god_spud/Spud_os/os'
+mkdir -p build/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/kernel.c -o build/kernel.o
+mkdir -p build/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/vga.c -o build/vga.o
+src/vga.c:2:10: fatal error: io.h: No such file or directory
+    2 | #include "io.h"
+      |          ^~~~~~
+compilation terminated.
+make[1]: *** [Makefile:48: build/vga.o] Error 1
+make[1]: Leaving directory '/home/god_spud/Spud_os/os'
+=== Build: Wed Mar 18 02:19:42 PM +08 2026 ===
+make[1]: Entering directory '/home/god_spud/Spud_os/os'
+mkdir -p build/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/vga.c -o build/vga.o
+In file included from src/vga.c:2:
+src/include/drivers/io.h:6:20: warning: ‘outb’ used but never defined
+    6 | static inline void outb(unsigned short port, unsigned char data);
+      |                    ^~~~
+mkdir -p build/drivers/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/drivers/cmos.c -o build/drivers/cmos.o
+In file included from src/drivers/cmos.c:2:
+src/include/drivers/io.h:4:29: warning: ‘inb’ used but never defined
+    4 | static inline unsigned char inb(unsigned short port);
+      |                             ^~~
+src/include/drivers/io.h:6:20: warning: ‘outb’ used but never defined
+    6 | static inline void outb(unsigned short port, unsigned char data);
+      |                    ^~~~
+mkdir -p build/drivers/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/drivers/keyboard.c -o build/drivers/keyboard.o
+In file included from src/drivers/keyboard.c:2:
+src/include/drivers/io.h:4:29: warning: ‘inb’ used but never defined
+    4 | static inline unsigned char inb(unsigned short port);
+      |                             ^~~
+src/include/drivers/io.h:6:20: warning: ‘outb’ used but never defined
+    6 | static inline void outb(unsigned short port, unsigned char data);
+      |                    ^~~~
+mkdir -p build/drivers/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/drivers/io.c -o build/drivers/io.o
+mkdir -p build/shell/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/shell/shell.c -o build/shell/shell.o
+mkdir -p build/core/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/core/string.c -o build/core/string.o
+ld -m elf_i386 -T linker.ld -o build/kernel.bin build/boot.o build/commands/default_cmds.o build/kernel.o build/cmd_processor.o build/vga.o build/drivers/cmos.o build/drivers/keyboard.o build/drivers/io.o build/shell/shell.o build/core/string.o
+ld: warning: build/boot.o: missing .note.GNU-stack section implies executable stack
+ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+ld: warning: build/kernel.bin has a LOAD segment with RWX permissions
+ld: build/commands/default_cmds.o: in function `cmd_reboot':
+default_cmds.c:(.text+0x21c): undefined reference to `outb'
+ld: build/vga.o: in function `vga_move_cursor':
+vga.c:(.text+0x14b): undefined reference to `outb'
+ld: vga.c:(.text+0x165): undefined reference to `outb'
+ld: vga.c:(.text+0x177): undefined reference to `outb'
+ld: vga.c:(.text+0x18e): undefined reference to `outb'
+ld: build/vga.o:vga.c:(.text+0x1b5): more undefined references to `outb' follow
+ld: build/drivers/cmos.o: in function `cmos_read':
+cmos.c:(.text+0x2a): undefined reference to `inb'
+ld: build/drivers/keyboard.o: in function `keyboard_wait':
+keyboard.c:(.text+0x50): undefined reference to `inb'
+ld: keyboard.c:(.text+0x67): undefined reference to `inb'
+ld: build/drivers/keyboard.o: in function `keyboard_init':
+keyboard.c:(.text+0x7d): undefined reference to `inb'
+ld: keyboard.c:(.text+0x99): undefined reference to `outb'
+ld: keyboard.c:(.text+0xa8): undefined reference to `inb'
+ld: keyboard.c:(.text+0xb5): undefined reference to `inb'
+ld: build/drivers/keyboard.o: in function `keyboard_read':
+keyboard.c:(.text+0x134): undefined reference to `inb'
+make[1]: *** [Makefile:52: build/kernel.bin] Error 1
+make[1]: Leaving directory '/home/god_spud/Spud_os/os'

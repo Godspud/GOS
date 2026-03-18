@@ -36,6 +36,7 @@ void kernel_main()
         time[6] = (cmos_current_time.seconds / 10) + '0';
         time[7] = (cmos_current_time.seconds % 10) + '0';
         time[8] = '\0';
+        vga_write_string(66, 0, "Time: ", COLOR_LIGHT_MAGENTA);
         vga_write_string(72, 0, time, COLOR_LIGHT_MAGENTA);
         input_char = keyboard_read(&shift_pressed);
         if (input_char == '\n')
