@@ -1,9 +1,9 @@
 #include "default_cmds.h"
 #include "vga.h"
-#include "keyboard.h"
+#include "include/drivers/keyboard.h"
 #include "string.h"
-#include "io.h"
-#include "cmos.h"
+#include "include/drivers/io.h"
+#include "include/drivers/cmos.h"
 
 /*
 - cmd_help: Displays a list of available commands and their descriptions.

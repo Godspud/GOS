@@ -1,13 +1,14 @@
-#include "cmos.h"
-#include "io.h"
+#include "include/drivers/cmos.h"
+#include "include/drivers/io.h"
 #include "vga.h"
 #define CURRENT_YEAR 2023
 
+float gmt_offset = 8;
 cmos_time cmos_current_time;
 
 void cmos_init(void)
 {
-    // Nothing to initialize for CMOS
+    // cmos_set_gmt_offset();
 }
 unsigned char cmos_read(unsigned char reg)
 {
@@ -17,6 +18,13 @@ unsigned char cmos_read(unsigned char reg)
 static unsigned char bcd_to_bin(unsigned char bcd)
 {
     return ((bcd & 0x0F) + ((bcd >> 4) * 10));
+}
+/**
+ * cmos_set_gmt_offset: Sets the GMT offset for time calculations. The offset is specified in hours and is used to adjust the time read from the CMOS to the user's local time zone. For example, if the user is in a time zone that is GMT+2, they would call cmos_set_gmt_offset(2) to set the offset to 2 hours ahead of GMT.
+ */
+void cmos_set_gmt_offset(int offset)
+{
+    gmt_offset = offset;
 }
 /**
  * cmos_get_time: Reads the current time from the CMOS registers and fills the provided cmos_time structure with the values. The function reads the seconds, minutes, hours, day, month, year, and century from their respective CMOS registers (0x00 to 0x09 and 0x32) and stores them in the cmos_time structure pointed to by the time parameter.
@@ -44,13 +52,6 @@ void cmos_get_time(cmos_time *time)
     year = cmos_read(0x09);
     century = cmos_read(0x32);
     registerB = cmos_read(0x0B);
-    print_string(second, COLOR_LIGHT_CYAN);
-    print_char('\n', COLOR_BLACK);
-    print_string(minute, COLOR_LIGHT_CYAN);
-    print_char('\n', COLOR_BLACK);
-    print_string(hour, COLOR_LIGHT_CYAN);
-    print_char('\n', COLOR_BLACK);
-    print_string(registerB, COLOR_LIGHT_CYAN);
     if (!(registerB & 0x04))
     {
         second = bcd_to_bin(second);
@@ -79,6 +80,8 @@ void cmos_get_time(cmos_time *time)
     {
         print_string("Warning: CMOS time may be inconsistent (seconds, minutes, and hours equvalent). Consider checking the CMOS battery.\n", COLOR_LIGHT_RED);
     }
+    // switch ti users time zone
+    hour = hour + gmt_offset;
 
     time->seconds = second;
     time->minutes = minute;

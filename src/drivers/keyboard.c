@@ -1,5 +1,5 @@
-#include "keyboard.h"
-#include "io.h"
+#include "include/drivers/keyboard.h"
+#include "include/drivers/io.h"
 
 /*
 - get_time_ms: Returns the current time in milliseconds based on the timer ticks.

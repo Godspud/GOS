@@ -13,8 +13,10 @@ typedef struct
 } cmos_time;
 
 void cmos_init(void);
+void cmos_set_gmt_offset(int offset);
 void cmos_get_time(cmos_time *time);
 
+extern float gmt_offset;
 extern cmos_time cmos_current_time;
 
 #endif
