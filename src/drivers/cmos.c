@@ -1,9 +1,31 @@
 #include "include/drivers/cmos.h"
 #include "include/drivers/io.h"
 #include "vga.h"
-#define CURRENT_YEAR 2023
 
-float gmt_offset = 8;
+#define CURRENT_YEAR 2023
+#define CMOS_INDEX_PORT 0x70        // CMOS command/index port
+#define CMOS_DATA_PORT 0x71         // CMOS data port
+#define CMOS_REG_STATUS_A 0x0A      // CMOS register A (status)
+#define CMOS_STATUS_UPDATE_BIT 0x80 // Status A: Update in progress bit
+#define CMOS_REG_SECONDS 0x00       // CMOS register: seconds
+#define CMOS_REG_MINUTES 0x02       // CMOS register: minutes
+#define CMOS_REG_HOURS 0x04         // CMOS register: hours
+#define CMOS_REG_DAY 0x07           // CMOS register: day of month
+#define CMOS_REG_MONTH 0x08         // CMOS register: month
+#define CMOS_REG_YEAR 0x09          // CMOS register: year
+#define CMOS_REG_CENTURY 0x32       // CMOS register: century
+#define CMOS_REG_CONTROL_B 0x0B     // CMOS register B (control)
+#define CMOS_BINARY_MODE_BIT 0x04   // Register B: Binary/BCD mode bit
+#define CMOS_12HR_MODE_BIT 0x02     // Register B: 12/24 hour mode bit
+#define CMOS_PM_BIT 0x80            // PM indicator (12-hour)
+#define CMOS_HOUR_MASK 0x7F         // Mask for hour without PM bit
+#define CMOS_12HOUR_FORMAT 12       // 12-hour adjustment constant
+#define HOURS_PER_DAY 24            // Hours per day
+#define CENTURY_MULTIPLIER 100      // Century multiplier
+#define BCD_LOW_NIBBLE_MASK 0x0F    // BCD low nibble mask
+#define BCD_HIGH_NIBBLE_SHIFT 4     // BCD high nibble shift
+
+float gmt_offset = 8; // Default GMT offset (hours)
 cmos_time cmos_current_time;
 
 void cmos_init(void)
@@ -17,7 +39,7 @@ unsigned char cmos_read(unsigned char reg)
 }
 static unsigned char bcd_to_bin(unsigned char bcd)
 {
-    return ((bcd & 0x0F) + ((bcd >> 4) * 10));
+    return ((bcd & BCD_LOW_NIBBLE_MASK) + ((bcd >> BCD_HIGH_NIBBLE_SHIFT) * 10));
 }
 /**
  * cmos_set_gmt_offset: Sets the GMT offset for time calculations. The offset is specified in hours and is used to adjust the time read from the CMOS to the user's local time zone. For example, if the user is in a time zone that is GMT+2, they would call cmos_set_gmt_offset(2) to set the offset to 2 hours ahead of GMT.
@@ -82,6 +104,14 @@ void cmos_get_time(cmos_time *time)
     }
     // switch ti users time zone
     hour = hour + gmt_offset;
+    if (hour >= 24)
+    {
+        hour -= 24;
+    }
+    if (hour < 0)
+    {
+        hour += 24;
+    }
 
     time->seconds = second;
     time->minutes = minute;
