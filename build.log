@@ -2807,3 +2807,46 @@ Written to medium : 2484 sectors at LBA 0
 Writing to 'stdio:build/os.iso' completed successfully.
 
 make[1]: Leaving directory '/home/god_spud/Spud_os/os'
+=== Build: Fri Mar 20 09:35:34 AM +08 2026 ===
+make[1]: Entering directory '/home/god_spud/Spud_os/os'
+mkdir -p build/shell/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/shell/shell.c -o build/shell/shell.o
+src/shell/shell.c: In function ‘process_command’:
+src/shell/shell.c:70:13: warning: implicit declaration of function ‘strncmp’ [-Wimplicit-function-declaration]
+   70 |         if (strncmp(default_cmds[counter].cmd, argv[0], strlen(default_cmds[counter].cmd)) == 0)
+      |             ^~~~~~~
+src/shell/shell.c:3:1: note: ‘strncmp’ is defined in header ‘<string.h>’; did you forget to ‘#include <string.h>’?
+    2 | #include "commands/default_cmds.h"
+  +++ |+#include <string.h>
+    3 | /**
+src/shell/shell.c:70:57: warning: implicit declaration of function ‘strlen’ [-Wimplicit-function-declaration]
+   70 |         if (strncmp(default_cmds[counter].cmd, argv[0], strlen(default_cmds[counter].cmd)) == 0)
+      |                                                         ^~~~~~
+src/shell/shell.c:70:57: note: ‘strlen’ is defined in header ‘<string.h>’; did you forget to ‘#include <string.h>’?
+mkdir -p build/shell/commands/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/shell/commands/default_cmds.c -o build/shell/commands/default_cmds.o
+ld -m elf_i386 -T linker.ld -o build/kernel.bin build/boot.o build/kernel.o build/vga.o build/drivers/cmos.o build/drivers/keyboard.o build/shell/shell.o build/shell/commands/default_cmds.o build/core/string.o
+ld: warning: build/boot.o: missing .note.GNU-stack section implies executable stack
+ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+ld: warning: build/kernel.bin has a LOAD segment with RWX permissions
+mkdir -p iso/boot/grub
+cp build/kernel.bin iso/boot/kernel.bin
+cp grub.cfg iso/boot/grub/grub.cfg
+grub-mkrescue -o build/os.iso iso
+xorriso 1.5.4 : RockRidge filesystem manipulator, libburnia project.
+
+Drive current: -outdev 'stdio:build/os.iso'
+Media current: stdio file, overwriteable
+Media status : is blank
+Media summary: 0 sessions, 0 data blocks, 0 data, 3504m free
+Added to ISO image: directory '/'='/tmp/grub.zCmXQV'
+xorriso : UPDATE :     294 files added in 1 seconds
+Added to ISO image: directory '/'='/home/god_spud/Spud_os/os/iso'
+xorriso : UPDATE :     298 files added in 1 seconds
+xorriso : NOTE : Copying to System Area: 512 bytes from file '/usr/lib/grub/i386-pc/boot_hybrid.img'
+xorriso : UPDATE :  66.34% done
+ISO image produced: 2484 sectors
+Written to medium : 2484 sectors at LBA 0
+Writing to 'stdio:build/os.iso' completed successfully.
+
+make[1]: Leaving directory '/home/god_spud/Spud_os/os'
