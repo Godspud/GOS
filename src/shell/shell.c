@@ -1,5 +1,7 @@
 #include "vga.h"
 #include "commands/default_cmds.h"
+#include "core/string.h"
+
 /**
  * parse_args: Parses a command line input into individual arguments, splitting on spaces and newlines, and stores them in the provided argv array. Returns the number of arguments parsed.
  * process_command: Takes a command line input, parses it into arguments, and executes the corresponding command handler if it matches a known command. If the command is unknown, it prints an error message.
