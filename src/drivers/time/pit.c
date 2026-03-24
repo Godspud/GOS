@@ -1,7 +1,8 @@
 #include "include/drivers/io.h"
 
 int frenqucy;
-int PIT_BASE = 0;
+// if u dont know what "1193182" is look it upx
+int PIT_BASE = 1193182;
 
 void pit_init()
 {

@@ -14,6 +14,6 @@ char keyboard_read(int *shift_pressed);
 
 unsigned char keyboard_wait(void);
 
-void keyboard_init(void);
+int keyboard_init(void);
 
 #endif

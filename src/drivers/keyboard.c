@@ -60,8 +60,9 @@ unsigned char keyboard_wait(void)
 /**
  * keyboard_init: Initializes the keyboard controller and sets up necessary state for handling keyboard input.
  */
-void keyboard_init(void)
+int keyboard_init(void)
 {
+    int result = 0b00;
     // wait until the keyboard controller is ready to receive commands (bit 1 of the status port is clear)
     while ((inb(KEYBOARD_STATUS_PORT) & 0x02) != 0)
         ;
@@ -73,7 +74,28 @@ void keyboard_init(void)
         inb(KEYBOARD_DATA_PORT);
     }
 
+    outb(0x64, 0xFF);
+    int response = inb(0x60);
+    if (response == 0xFE)
+    {
+        keyboard_init();
+    }
+    if (response == 0xFA)
+    {
+        result = result | 0b10;
+    }
+    if (response == 0xAA)
+    {
+        result = result | 0b01;
+    }
+    else if ((response == 0xFC) || (response == 0xFD))
+        ;
+    {
+        result = result | 0b00;
+    }
+
     last_scancode = 0;
+    return result;
 }
 /**
  * keyboard_set_repeat: Enables or disables key repeat functionality.

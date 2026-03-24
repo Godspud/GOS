@@ -22,6 +22,11 @@ void timer_init()
     ticks = seconds * 1000;
 }
 
+int tick()
+{
+    ticks += 1;
+}
+
 int get_time_ticks()
 {
     return ticks;

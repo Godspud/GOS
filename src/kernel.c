@@ -3,6 +3,7 @@
 #include "shell/shell.h"
 #include "shell/commands/default_cmds.h"
 #include "include/drivers/cmos.h"
+#include "include/drivers/time/pit.h"
 
 static char input_buffer[256];
 static int input_pos = 0;
@@ -11,15 +12,35 @@ void kernel_main()
 {
     int shift_pressed = 0;
     char input_char;
+    int keyboard_response = 0b00;
 
     vga_clear(COLOR_BLACK);
     vga_enable_cursor();
-    keyboard_init();
+    keyboard_response = keyboard_init();
     print_string("================================================\n", COLOR_LIGHT_CYAN);
     print_string("            Welcome to OS!\n", COLOR_WHITE);
     print_string("================================================\n\n", COLOR_LIGHT_CYAN);
-
-    print_string("Keyboard initialized!\n", COLOR_LIGHT_GREEN);
+    int out0 = keyboard_response & 0xFF;
+    int out1 = (keyboard_response >> 8) & 0xFF;
+    if ((keyboard_response & 0b10) && (keyboard_response & 0b01))
+    {
+        print_string("[OK] Keyboard\n", COLOR_LIGHT_GREEN);
+    }
+    else if ((keyboard_response & 0b10) && (keyboard_response & 0b01))
+    {
+        print_string("[ERROR] Keyboard Did Not Acknowlage Command\n", COLOR_RED);
+        print_string("[OK] Keyboard Initialized\n", COLOR_LIGHT_GREEN);
+    }
+    else if ((keyboard_response & 0b10) && (keyboard_response & 0b01))
+    {
+        print_string("[OK] Keyboard Acknowlaged Command\n", COLOR_LIGHT_GREEN);
+        print_string("[ERROR] Keyboard Errored During Self Test\n", COLOR_RED);
+    }
+    else if ((keyboard_response & 0b10) && (keyboard_response & 0b01))
+    {
+        print_string("[ERROR] Keyboard Did Not Acknowlage Command\n", COLOR_RED);
+        print_string("[ERROR] Keyboard Errored During Self Test\n", COLOR_RED);
+    }
     print_string("Start typing below:\n\n", COLOR_LIGHT_GREY);
     print_string("> ", COLOR_LIGHT_GREEN);
 
@@ -46,7 +67,7 @@ void kernel_main()
             process_command(input_buffer);
             input_pos = 0;
         }
-        if (input_char != 0)
+        if (input_char != '\0')
         {
             if (input_char == '\n')
             {
