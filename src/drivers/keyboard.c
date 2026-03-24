@@ -89,7 +89,6 @@ int keyboard_init(void)
         result = result | 0b01;
     }
     else if ((response == 0xFC) || (response == 0xFD))
-        ;
     {
         result = result | 0b00;
     }
