@@ -20,8 +20,6 @@ void kernel_main()
     print_string("================================================\n", COLOR_LIGHT_CYAN);
     print_string("            Welcome to OS!\n", COLOR_WHITE);
     print_string("================================================\n\n", COLOR_LIGHT_CYAN);
-    int out0 = keyboard_response & 0xFF;
-    int out1 = (keyboard_response >> 8) & 0xFF;
     if ((keyboard_response & 0b10) && (keyboard_response & 0b01))
     {
         print_string("[OK] Keyboard\n", COLOR_LIGHT_GREEN);
@@ -31,12 +29,12 @@ void kernel_main()
         print_string("[ERROR] Keyboard Did Not Acknowlage Command\n", COLOR_RED);
         print_string("[OK] Keyboard Initialized\n", COLOR_LIGHT_GREEN);
     }
-    else if ((keyboard_response & 0b10) && (keyboard_response & 0b01))
+    else if ((keyboard_response & 0b10) && !(keyboard_response & 0b01))
     {
         print_string("[OK] Keyboard Acknowlaged Command\n", COLOR_LIGHT_GREEN);
         print_string("[ERROR] Keyboard Errored During Self Test\n", COLOR_RED);
     }
-    else if ((keyboard_response & 0b10) && (keyboard_response & 0b01))
+    else if (!(keyboard_response & 0b10) && !(keyboard_response & 0b01))
     {
         print_string("[ERROR] Keyboard Did Not Acknowlage Command\n", COLOR_RED);
         print_string("[ERROR] Keyboard Errored During Self Test\n", COLOR_RED);
