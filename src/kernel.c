@@ -1,7 +1,7 @@
 #include "include/drivers/keyboard.h"
 #include "vga.h"
-#include "cmd_processor.h"
-#include "commands/default_cmds.h"
+#include "shell/shell.h"
+#include "shell/commands/default_cmds.h"
 #include "include/drivers/cmos.h"
 
 static char input_buffer[256];

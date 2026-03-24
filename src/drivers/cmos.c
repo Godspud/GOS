@@ -29,6 +29,7 @@ void cmos_set_gmt_offset(int offset)
 }
 /**
  * cmos_get_time: Reads the current time from the CMOS registers and fills the provided cmos_time structure with the values. The function reads the seconds, minutes, hours, day, month, year, and century from their respective CMOS registers (0x00 to 0x09 and 0x32) and stores them in the cmos_time structure pointed to by the time parameter.
+ * pass in &var_name
  */
 void cmos_get_time(cmos_time *time)
 {

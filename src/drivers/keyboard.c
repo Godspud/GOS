@@ -80,6 +80,7 @@ void keyboard_init(void)
  */
 void keyboard_set_repeat(int enabled)
 {
+    // TODO: UPGRADE TO THE SAME SYSTEM AS keyboard_set_repeat_delay
     repeat_enabled = enabled;
 }
 /**
@@ -91,10 +92,10 @@ void keyboard_set_repeat_delay(unsigned int delay)
 {
     enum
     {
-        DELAY_250_MS = 00,
-        DELAY_500_MS = 01,
-        DELAY_750_MS = 10,
-        DELAY_1000_MS = 11
+        DELAY_250_MS = 0b00,
+        DELAY_500_MS = 0b01,
+        DELAY_750_MS = 0b10,
+        DELAY_1000_MS = 0b11
     };
     switch (delay)
     {
