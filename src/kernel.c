@@ -24,7 +24,7 @@ void kernel_main()
     {
         print_string("[OK] Keyboard\n", COLOR_LIGHT_GREEN);
     }
-    else if ((keyboard_response & 0b10) && (keyboard_response & 0b01))
+    else if (!(keyboard_response & 0b10) && (keyboard_response & 0b01))
     {
         print_string("[ERROR] Keyboard Did Not Acknowlage Command\n", COLOR_RED);
         print_string("[OK] Keyboard Initialized\n", COLOR_LIGHT_GREEN);
