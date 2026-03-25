@@ -98,7 +98,7 @@ int keyboard_init(void)
         if (response == 0xFE)
         {
             print_string("RETURN", COLOR_RED);
-            return keyboard_init;
+            return keyboard_init();
         }
     }
 
