@@ -67,19 +67,24 @@ int keyboard_init(void)
     while ((inb(KEYBOARD_STATUS_PORT) & 0x02) != 0)
         ;
 
-    outb(0x64, 0xAE);
+    outb(KEYBOARD_STATUS_PORT, 0xAE);
 
     while ((inb(KEYBOARD_STATUS_PORT) & 0x01) != 0)
     {
         inb(KEYBOARD_DATA_PORT);
     }
 
-    outb(0x64, 0xFF);
+    outb(0x60, 0xFF);
+    while (!(inb(KEYBOARD_STATUS_PORT) & 0x01))
+        ;
     int response = inb(0x60);
     if (response == 0xFE)
     {
-        keyboard_init();
+        return keyboard_init();
     }
+    while (!(inb(KEYBOARD_STATUS_PORT) & 0x01))
+        ;
+    response = inb(0x60);
     if (response == 0xFA)
     {
         result = result | 0b10;
@@ -87,10 +92,6 @@ int keyboard_init(void)
     if (response == 0xAA)
     {
         result = result | 0b01;
-    }
-    else if ((response == 0xFC) || (response == 0xFD))
-    {
-        result = result | 0b00;
     }
 
     last_scancode = 0;
