@@ -62,7 +62,10 @@ unsigned char keyboard_wait(void)
  */
 int keyboard_init(void)
 {
-    int result = 0b00;
+    int ack = 0;
+    int pass = 0;
+    int counter = 0;
+    int response = 0;
     // wait until the keyboard controller is ready to receive commands (bit 1 of the status port is clear)
     while ((inb(KEYBOARD_STATUS_PORT) & 0x02) != 0)
         ;
@@ -75,27 +78,27 @@ int keyboard_init(void)
     }
 
     outb(0x60, 0xFF);
-    while (!(inb(KEYBOARD_STATUS_PORT) & 0x01))
+    for (counter; counter < 3; counter++)
         ;
-    int response = inb(0x60);
-    if (response == 0xFE)
     {
-        return keyboard_init();
-    }
-    while (!(inb(KEYBOARD_STATUS_PORT) & 0x01))
-        ;
-    response = inb(0x60);
-    if (response == 0xFA)
-    {
-        result = result | 0b10;
-    }
-    if (response == 0xAA)
-    {
-        result = result | 0b01;
+        while (!(inb(KEYBOARD_STATUS_PORT) & 0x01))
+            ;
+        if (response == 0xFA)
+        {
+            ack = 1;
+        }
+        if (response == 0xAA)
+        {
+            pass = 1;
+        }
+        if (response == 0xFE)
+        {
+            return keyboard_init;
+        }
     }
 
     last_scancode = 0;
-    return result;
+    return ((ack << 1) | pass);
 }
 /**
  * keyboard_set_repeat: Enables or disables key repeat functionality.
