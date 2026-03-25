@@ -25,6 +25,8 @@
 extern int cursor_x;
 extern int cursor_y;
 
+extern color;
+
 void vga_write_char(int x, int y, char c, int color);
 void vga_write_string(int x, int y, const char *str, int color);
 void vga_clear(int bgcolor);
