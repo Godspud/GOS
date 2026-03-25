@@ -87,7 +87,6 @@ int keyboard_init(void)
         response = inb(KEYBOARD_DATA_PORT);
         if (response == 0xFA)
         {
-            print_string("ACK", COLOR_GREEN);
             ack = 1;
         }
         if (response == 0xAA)
