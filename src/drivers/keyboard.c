@@ -1,5 +1,6 @@
 #include "include/drivers/keyboard.h"
 #include "include/drivers/io.h"
+#include "vga.h"
 
 /*
 - get_time_ms: Returns the current time in milliseconds based on the timer ticks.
@@ -85,14 +86,17 @@ int keyboard_init(void)
             ;
         if (response == 0xFA)
         {
+            print_string("ACK", COLOR_GREEN);
             ack = 1;
         }
         if (response == 0xAA)
         {
             pass = 1;
+            print_string("PASS", COLOR_GREEN);
         }
         if (response == 0xFE)
         {
+            print_string("RETURN", COLOR_RED);
             return keyboard_init;
         }
     }

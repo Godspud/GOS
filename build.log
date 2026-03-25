@@ -3420,3 +3420,32 @@ Written to medium : 2485 sectors at LBA 0
 Writing to 'stdio:build/os.iso' completed successfully.
 
 make[1]: Leaving directory '/home/god_spud/Spud_os/os'
+=== Build: Wed Mar 25 10:54:50 AM +08 2026 ===
+make[1]: Entering directory '/home/god_spud/Spud_os/os'
+mkdir -p build/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/kernel.c -o build/kernel.o
+ld -m elf_i386 -T linker.ld -o build/kernel.bin build/boot.o build/kernel.o build/vga.o build/drivers/cmos.o build/drivers/keyboard.o build/drivers/time/timer.o build/drivers/time/pit.o build/drivers/irq.o build/shell/shell.o build/shell/commands/default_cmds.o build/core/string.o
+ld: warning: build/boot.o: missing .note.GNU-stack section implies executable stack
+ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+ld: warning: build/kernel.bin has a LOAD segment with RWX permissions
+mkdir -p iso/boot/grub
+cp build/kernel.bin iso/boot/kernel.bin
+cp grub.cfg iso/boot/grub/grub.cfg
+grub-mkrescue -o build/os.iso iso
+xorriso 1.5.4 : RockRidge filesystem manipulator, libburnia project.
+
+Drive current: -outdev 'stdio:build/os.iso'
+Media current: stdio file, overwriteable
+Media status : is blank
+Media summary: 0 sessions, 0 data blocks, 0 data, 2909m free
+Added to ISO image: directory '/'='/tmp/grub.whmYUm'
+xorriso : UPDATE :     294 files added in 1 seconds
+Added to ISO image: directory '/'='/home/god_spud/Spud_os/os/iso'
+xorriso : UPDATE :     298 files added in 1 seconds
+xorriso : NOTE : Copying to System Area: 512 bytes from file '/usr/lib/grub/i386-pc/boot_hybrid.img'
+xorriso : UPDATE :  56.02% done
+ISO image produced: 2485 sectors
+Written to medium : 2485 sectors at LBA 0
+Writing to 'stdio:build/os.iso' completed successfully.
+
+make[1]: Leaving directory '/home/god_spud/Spud_os/os'
