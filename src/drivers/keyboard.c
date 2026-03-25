@@ -84,6 +84,7 @@ int keyboard_init(void)
     {
         while (!(inb(KEYBOARD_STATUS_PORT) & 0x01))
             ;
+        response = inb(KEYBOARD_DATA_PORT);
         if (response == 0xFA)
         {
             print_string("ACK", COLOR_GREEN);
