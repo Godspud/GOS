@@ -16,7 +16,7 @@ SRC_DIR = src
 
 # Output files
 KERNEL = $(BUILD_DIR)/kernel.bin
-FLOPPY_IMG = $(BUILD_DIR)/floppy.img/floppy.img
+FLOPPY_IMG = $(BUILD_DIR)/floppy.img
 LOG_FILE = build.log
 
 # Auto-detect all C files in src/
@@ -51,12 +51,15 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
 $(KERNEL): $(OBJECTS) linker.ld
 	$(LD) $(LDFLAGS) -T linker.ld -o $(KERNEL) $(OBJECTS)
 
-# Create bootable ISO
-$(ISO): $(KERNEL)
-	mkdir -p $(ISO_DIR)/boot/grub
-	cp $(KERNEL) $(ISO_DIR)/boot/kernel.bin
-	cp grub.cfg $(ISO_DIR)/boot/grub/grub.cfg
-	grub-mkrescue -o $(ISO) $(ISO_DIR)
+# Create bootable floppy
+$(FLOPPY_IMG): $(KERNEL)
+	mkdir -p $(BUILD_DIR)
+	dd if=/dev/zero of=$(FLOPPY_IMG) bs=512 count=2880
+	mkfs.fat -F 12 $(FLOPPY_IMG)
+	mmd -i $(FLOPPY_IMG) ::boot
+	mmd -i $(FLOPPY_IMG) ::boot/grub
+	mcopy -i $(FLOPPY_IMG) $(KERNEL) ::boot/kernel.bin
+	mcopy -i $(FLOPPY_IMG) grub.cfg ::boot/grub/grub.cfg
 
 # Run in Bochs
 run: $(FLOPPY_IMG)
