@@ -14,7 +14,7 @@ ata0-master: type=cdrom, path=build/os.iso, status=inserted
 boot: cdrom
 
 # Display settings
-display_library: sdl
+display_library: x
 vga: extension=vbe
 
 # Enable logging
