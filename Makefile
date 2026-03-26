@@ -16,7 +16,7 @@ SRC_DIR = src
 
 # Output files
 KERNEL = $(BUILD_DIR)/kernel.bin
-ISO = $(BUILD_DIR)/os.iso
+FLOPPY_IMG = $(BUILD_DIR)/floppy.img
 LOG_FILE = build.log
 
 # Auto-detect all C files in src/
