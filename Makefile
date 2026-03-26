@@ -63,7 +63,7 @@ $(ISO): $(KERNEL)
 
 # Run Bochs
 run: $(ISO)
-	bochs -f .bochsrc
+	qemu-system-i386 -cdrom build/os.iso -boot d -m 32 -vga std -serial stdio
 
 # -------------------------------
 # Git integration
