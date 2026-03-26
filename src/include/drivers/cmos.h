@@ -12,7 +12,7 @@ typedef struct
     unsigned char century;
 } cmos_time;
 
-int cmos_init(void);
+void cmos_init(void);
 void cmos_set_gmt_offset(int offset);
 void cmos_get_time(cmos_time *time);
 
