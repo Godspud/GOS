@@ -16,7 +16,7 @@ SRC_DIR = src
 
 # Output files
 KERNEL = $(BUILD_DIR)/kernel.bin
-FLOPPY_IMG = $(BUILD_DIR)/floppy.img
+FLOPPY_IMG = $(BUILD_DIR)/floppy.img/floppy.img
 LOG_FILE = build.log
 
 # Auto-detect all C files in src/
@@ -58,9 +58,9 @@ $(ISO): $(KERNEL)
 	cp grub.cfg $(ISO_DIR)/boot/grub/grub.cfg
 	grub-mkrescue -o $(ISO) $(ISO_DIR)
 
-# Run in QEMU
-run: $(ISO)
-	qemu-system-i386 -cdrom $(ISO) -m 128M
+# Run in Bochs
+run: $(FLOPPY_IMG)
+	bochs -f .bochsrc -q
 
 # Build with output logged to build.log, then push
 log:
