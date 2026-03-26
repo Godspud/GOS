@@ -1,10 +1,23 @@
+# Memory
 megs: 32
 
+# ROM images (adjust paths if your system differs)
 romimage: file=/usr/share/bochs/BIOS-bochs-latest
-vgaromimage: file=/usr/share/bochs/VGABIOS-lgpl-latest
+vgaromimage: file=/usr/share/bochs/BIOS-VGABIOS-lgpl-latest
 
-ata0-master: type=disk, path=build/floppy.img, status=inserted
-boot: disk
+# Disk / Boot
+ata0-master: type=cdrom, path="build/os.iso", status=inserted
+boot: cdrom
 
+# VGA / Display
+vga: extension=vbe
+display_library: x
+
+# Logging
 log: bochs.log
+
+# Input
 mouse: enabled=0
+
+# CPU
+cpu: count=1, ips=4000000
