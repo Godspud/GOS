@@ -1,0 +1,27 @@
+# Bochs configuration file for OS emulation
+
+# Memory
+megs: 32
+
+# BIOS and VGA BIOS
+romimage: file=/usr/share/bochs/BIOS-bochs-latest
+vgaromimage: file=/usr/share/bochs/VGABIOS-lgpl-latest
+
+# CD-ROM drive with OS ISO
+ata0-master: type=cdrom, path=build/os.iso, status=inserted
+
+# Boot from CD-ROM
+boot: cdrom
+
+# Display settings
+display_library: sdl
+vga: extension=vbe
+
+# Enable logging
+log: bochs.log
+
+# Disable mouse
+mouse: enabled=0
+
+# CPU settings
+cpu: count=1, ips=1000000
