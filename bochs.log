@@ -44,44 +44,44 @@
 00000000000i[USBCTL] Pluggable USB devices
 00000000000i[USBCTL]   floppy mouse tablet keypad keyboard hub disk cdrom
 00000000000i[USBCTL]   printer
-00000000000i[MEM0  ] allocated memory at 0x7f5edf4d6010. after alignment, vector=0x7f5edf4d7000
+00000000000i[MEM0  ] allocated memory at 0x7f1c7959f010. after alignment, vector=0x7f1c795a0000
 00000000000i[MEM0  ] 32.00MB
 00000000000i[MEM0  ] mem block size = 0x00020000, blocks=256
 00000000000i[MEM0  ] rom at 0xfffe0000/131072 ('/usr/share/bochs/BIOS-bochs-latest')
 00000000000i[CPU0  ] WARNING: 3DNow! is not implemented yet !
 00000000000i[DEV   ] will paste characters every 100 iodev timer ticks
-00000000000i[      ] lt_dlhandle is 0x559736f57a10
+00000000000i[      ] lt_dlhandle is 0x561b257aaa10
 00000000000i[PLUGIN] loaded plugin libbx_soundalsa.so
 00000000000i[WAVOUT] ALSA: opened default PCM output device
-00000000000i[      ] lt_dlhandle is 0x559736fdf1e0
+00000000000i[      ] lt_dlhandle is 0x561b258321e0
 00000000000i[PLUGIN] loaded plugin libbx_pci.so
-00000000000i[      ] lt_dlhandle is 0x559736f940d0
+00000000000i[      ] lt_dlhandle is 0x561b257e70d0
 00000000000i[PLUGIN] loaded plugin libbx_pci2isa.so
-00000000000i[      ] lt_dlhandle is 0x559736f97a30
+00000000000i[      ] lt_dlhandle is 0x561b257eaa30
 00000000000i[PLUGIN] loaded plugin libbx_usb_uhci.so
-00000000000i[      ] lt_dlhandle is 0x559736fe3810
+00000000000i[      ] lt_dlhandle is 0x561b25836810
 00000000000i[PLUGIN] loaded plugin libbx_acpi.so
-00000000000i[      ] lt_dlhandle is 0x559736fe4320
+00000000000i[      ] lt_dlhandle is 0x561b25837320
 00000000000i[PLUGIN] loaded plugin libbx_hpet.so
-00000000000i[      ] lt_dlhandle is 0x559736fe51a0
+00000000000i[      ] lt_dlhandle is 0x561b258381a0
 00000000000i[PLUGIN] loaded plugin libbx_cmos.so
-00000000000i[      ] lt_dlhandle is 0x559736fe59b0
+00000000000i[      ] lt_dlhandle is 0x561b258389b0
 00000000000i[PLUGIN] loaded plugin libbx_dma.so
-00000000000i[      ] lt_dlhandle is 0x559736fe6320
+00000000000i[      ] lt_dlhandle is 0x561b25839320
 00000000000i[PLUGIN] loaded plugin libbx_pic.so
-00000000000i[      ] lt_dlhandle is 0x559736fe6af0
+00000000000i[      ] lt_dlhandle is 0x561b25839af0
 00000000000i[PLUGIN] loaded plugin libbx_pit.so
-00000000000i[      ] lt_dlhandle is 0x559736fe7510
+00000000000i[      ] lt_dlhandle is 0x561b2583a510
 00000000000i[PLUGIN] loaded plugin libbx_vga.so
-00000000000i[      ] lt_dlhandle is 0x559736fe7d90
+00000000000i[      ] lt_dlhandle is 0x561b2583ad90
 00000000000i[PLUGIN] loaded plugin libbx_floppy.so
-00000000000i[      ] lt_dlhandle is 0x559736fe8940
+00000000000i[      ] lt_dlhandle is 0x561b2583b940
 00000000000i[PLUGIN] loaded plugin libbx_ioapic.so
-00000000000i[      ] lt_dlhandle is 0x559736fe9270
+00000000000i[      ] lt_dlhandle is 0x561b2583c270
 00000000000i[PLUGIN] loaded plugin libbx_keyboard.so
-00000000000i[      ] lt_dlhandle is 0x559736fe9b80
+00000000000i[      ] lt_dlhandle is 0x561b2583cb80
 00000000000i[PLUGIN] loaded plugin libbx_harddrv.so
-00000000000i[      ] lt_dlhandle is 0x559736febc60
+00000000000i[      ] lt_dlhandle is 0x561b2583ec60
 00000000000i[PLUGIN] loaded plugin libbx_pci_ide.so
 00000000000i[PLUGIN] init_dev of 'pci' plugin device by virtual method
 00000000000i[DEV   ] i440FX PMC present at device 0, function 0
@@ -89,7 +89,7 @@
 00000000000i[DEV   ] PIIX3 PCI-to-ISA bridge present at device 1, function 0
 00000000000i[PLUGIN] init_dev of 'cmos' plugin device by virtual method
 00000000000i[CMOS  ] Using local time for initial clock
-00000000000i[CMOS  ] Setting initial clock to: Thu Mar 26 15:33:48 2026 (time0=1774510428)
+00000000000i[CMOS  ] Setting initial clock to: Thu Mar 26 15:45:35 2026 (time0=1774511135)
 00000000000i[PLUGIN] init_dev of 'dma' plugin device by virtual method
 00000000000i[DMA   ] channel 4 used by cascade
 00000000000i[PLUGIN] init_dev of 'pic' plugin device by virtual method
@@ -106,7 +106,7 @@
 00000000000i[MEM0  ] rom at 0xc0000/38400 ('/usr/share/bochs/VGABIOS-lgpl-latest')
 00000000000i[PLUGIN] init_dev of 'floppy' plugin device by virtual method
 00000000000i[DMA   ] channel 2 used by Floppy Drive
-00000000000i[FLOPPY] Using boot sequence cdrom, none, none
+00000000000i[FLOPPY] Using boot sequence disk, none, none
 00000000000i[FLOPPY] Floppy boot signature check is enabled
 00000000000i[PLUGIN] init_dev of 'acpi' plugin device by virtual method
 00000000000i[DEV   ] ACPI Controller present at device 1, function 3
@@ -119,11 +119,11 @@
 00000000000i[IOAPIC] IOAPIC enabled (base address = 0xfec00000)
 00000000000i[PLUGIN] init_dev of 'keyboard' plugin device by virtual method
 00000000000i[PLUGIN] init_dev of 'harddrv' plugin device by virtual method
-00000000000i[HD    ] CD on ata0-0: 'build/os.iso'
-00000000000i[CD1   ] load cdrom with path='build/os.iso'
-00000000000i[CD1   ] Opening image file as a cd.
-00000000000i[HD    ] Media present in CD-ROM drive
-00000000000i[HD    ] Capacity is 2486 sectors (4.86 MB)
+00000000000i[HD    ] HD on ata0-0: 'build/floppy.img', 'flat' mode
+00000000000i[IMG   ] hd_size: 1474560
+00000000000i[HD    ] ata0-0: autodetect geometry: CHS=2/16/63 (sector size=512)
+00000000000i[HD    ] ata0-0: extra data outside of CHS address range
+00000000000i[HD    ] translation on ata0-0 set to 'none'
 00000000000i[PLUGIN] init_dev of 'pci_ide' plugin device by virtual method
 00000000000i[DEV   ] PIIX3 PCI IDE controller present at device 1, function 1
 00000000000i[PLUGIN] init_dev of 'biosdev' plugin device by virtual method
@@ -234,6 +234,3 @@
 00000000000i[PLUGIN] reset of 'unmapped' plugin device by virtual method
 00000000000i[PLUGIN] reset of 'usb_uhci' plugin device by virtual method
 00000000000i[      ] set SIGINT handler to bx_debug_ctrlc_handler
-00000000000i[      ] Ctrl-C detected in signal handler.
-00000000000i[      ] Ctrl-C detected in signal handler.
-00000000000i[      ] Ctrl-C detected in signal handler.

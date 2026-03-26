@@ -3,9 +3,8 @@ megs: 32
 romimage: file=/usr/share/bochs/BIOS-bochs-latest
 vgaromimage: file=/usr/share/bochs/VGABIOS-lgpl-latest
 
-ata0-master: type=cdrom, path=build/os.iso, status=inserted
-
-boot: cdrom
+ata0-master: type=disk, path=build/floppy.img, status=inserted
+boot: disk
 
 log: bochs.log
 mouse: enabled=0
