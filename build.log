@@ -1083,6 +1083,7 @@ Written to medium : 2484 sectors at LBA 0
 Writing to 'stdio:build/os.iso' completed successfully.
 
 make[1]: Leaving directory '/home/god_spud/Spud_os/os'
+<<<<<<< HEAD
 === Build: Tue Mar 17 09:27:35 AM +08 2026 ===
 make[1]: Entering directory '/home/god_spud/Spud_os/os'
 mkdir -p build
@@ -1202,6 +1203,14 @@ make[1]: *** [Makefile:48: build/commands/default_cmds.o] Error 1
 make[1]: Leaving directory '/home/god_spud/Spud_os/os'
 === Build: Tue Mar 17 09:35:25 AM +08 2026 ===
 make[1]: Entering directory '/home/god_spud/Spud_os/os'
+=======
+=== Build: Sat Mar 28 06:20:57 PM +08 2026 ===
+make[1]: Entering directory '/home/god_spud/Spud_os/os'
+mkdir -p build
+nasm -f elf32 boot.asm -o build/boot.o
+mkdir -p build/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/cmd_processor.c -o build/cmd_processor.o
+>>>>>>> 4b0a0e3 (Update: 2026-03-28 18:21)
 mkdir -p build/commands/
 gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/commands/default_cmds.c -o build/commands/default_cmds.o
 mkdir -p build/
@@ -1209,6 +1218,7 @@ gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/k
 mkdir -p build/
 gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/keyboard.c -o build/keyboard.o
 mkdir -p build/
+<<<<<<< HEAD
 gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/cmd_processor.c -o build/cmd_processor.o
 mkdir -p build/
 gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/string.c -o build/string.o
@@ -1234,6 +1244,12 @@ make[1]: Entering directory '/home/god_spud/Spud_os/os'
 mkdir -p build/
 gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/cmos.c -o build/cmos.o
 ld -m elf_i386 -T linker.ld -o build/kernel.bin build/boot.o build/commands/default_cmds.o build/kernel.o build/keyboard.o build/cmd_processor.o build/string.o build/vga.o build/cmos.o
+=======
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/string.c -o build/string.o
+mkdir -p build/
+gcc -m32 -ffreestanding -fno-stack-protector -fno-pic -nostdlib -I src/ -c src/vga.c -o build/vga.o
+ld -m elf_i386 -T linker.ld -o build/kernel.bin build/boot.o build/cmd_processor.o build/commands/default_cmds.o build/kernel.o build/keyboard.o build/string.o build/vga.o
+>>>>>>> 4b0a0e3 (Update: 2026-03-28 18:21)
 ld: warning: build/boot.o: missing .note.GNU-stack section implies executable stack
 ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
 ld: warning: build/kernel.bin has a LOAD segment with RWX permissions
@@ -1246,17 +1262,27 @@ xorriso 1.5.4 : RockRidge filesystem manipulator, libburnia project.
 Drive current: -outdev 'stdio:build/os.iso'
 Media current: stdio file, overwriteable
 Media status : is blank
+<<<<<<< HEAD
 Media summary: 0 sessions, 0 data blocks, 0 data, 3695m free
 Added to ISO image: directory '/'='/tmp/grub.N0oBLX'
+=======
+Media summary: 0 sessions, 0 data blocks, 0 data, 3650m free
+Added to ISO image: directory '/'='/tmp/grub.K78hdD'
+>>>>>>> 4b0a0e3 (Update: 2026-03-28 18:21)
 xorriso : UPDATE :     294 files added in 1 seconds
 Added to ISO image: directory '/'='/home/god_spud/Spud_os/os/iso'
 xorriso : UPDATE :     298 files added in 1 seconds
 xorriso : NOTE : Copying to System Area: 512 bytes from file '/usr/lib/grub/i386-pc/boot_hybrid.img'
+<<<<<<< HEAD
+=======
+xorriso : UPDATE :  31.56% done
+>>>>>>> 4b0a0e3 (Update: 2026-03-28 18:21)
 ISO image produced: 2484 sectors
 Written to medium : 2484 sectors at LBA 0
 Writing to 'stdio:build/os.iso' completed successfully.
 
 make[1]: Leaving directory '/home/god_spud/Spud_os/os'
+<<<<<<< HEAD
 === Build: Tue Mar 17 11:34:40 AM +08 2026 ===
 make[1]: Entering directory '/home/god_spud/Spud_os/os'
 mkdir -p build/
@@ -3549,3 +3575,5 @@ make[1]: Leaving directory '/home/god_spud/Spud_os/os'
 make[1]: Entering directory '/home/god_spud/Spud_os/os'
 make[1]: Nothing to be done for 'all'.
 make[1]: Leaving directory '/home/god_spud/Spud_os/os'
+=======
+>>>>>>> 4b0a0e3 (Update: 2026-03-28 18:21)
