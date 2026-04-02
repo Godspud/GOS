@@ -161,11 +161,13 @@ char keyboard_read(int *shift_pressed)
 {
     // handle key repeat if enabled and a key is currently pressed
     static int internal_shift = 0;
-    unsigned char scancode = inb(KEYBOARD_DATA_PORT);
-    if ((scancode & 0x80) == 0)
+
+    if ((inb(KEYBOARD_STATUS_PORT) & 0x01) == 0)
     {
         return "";
     }
+
+    unsigned char scancode = inb(KEYBOARD_DATA_PORT);
 
     // read the scancode of the pressed key
     // unsigned char scancode = keyboard_wait();
