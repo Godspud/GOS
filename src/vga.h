@@ -33,6 +33,6 @@ void vga_disable_cursor(void);
 void vga_enable_cursor(void);
 void vga_scroll(void);
 void print_char(char c, int color);
-void print_string(const char *str, int color);
+void print_string(const char *str, int color)
 
 #endif
