@@ -23,6 +23,7 @@ static void cmd_reboot(int argc, char **argv);
 static void cmd_delay(int argc, char **argv);
 static void cmd_rate(int argc, char **argv);
 static void cmd_time(int argc, char **argv);
+static void cmd_quit(int argc, char **argv);
 
 // Command table mapping command strings to their handler functions
 // The last entry has an empty command string to indicate the end of the table
@@ -33,6 +34,7 @@ command_entry default_cmds[] = {
     {"version", cmd_version},
     {"reboot", cmd_reboot},
     {"time", cmd_time},
+    {"quit", cmd_quit},
     {"", 0}};
 
 static void cmd_help(int argc, char **argv)
@@ -44,6 +46,7 @@ static void cmd_help(int argc, char **argv)
     print_string("  version  - Show version\n", COLOR_LIGHT_GREY);
     print_string("  reboot   - Restart system\n", COLOR_LIGHT_GREY);
     print_string("  time     - Show current time", COLOR_LIGHT_GREY);
+    print_string("  quit     - Exit shell\n", COLOR_LIGHT_GREY);
 }
 
 static void cmd_clear(int argc, char **argv)
@@ -127,4 +130,10 @@ static void cmd_delay(int argc, char **argv)
 static void cmd_rate(int argc, char **argv)
 {
     keyboard_set_repeat_rate(argc);
+}
+
+static void cmd_quit(int argc, char **argv)
+{
+    print_string("Halting...\n", COLOR_LIGHT_RED);
+    __asm__ volatile("cli; hlt");
 }
