@@ -136,4 +136,6 @@ static void cmd_quit(int argc, char **argv)
 {
     print_string("Halting...\n", COLOR_LIGHT_RED);
     __asm__ volatile("cli; hlt");
+    // this is quem specefic so it will exit back to the host os instead of halting the cpu
+    outb(0x604, 0x2000);
 }
