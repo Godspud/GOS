@@ -69,7 +69,7 @@ run: $(ISO)
 # Git integration
 # -------------------------------
 
-git:
+git: all
 	@echo "=== Git push: $$(date) ==="
 	@git add .
 	@-git diff --cached --quiet || git commit -m "Update: $$(date +'%Y-%m-%d %H:%M')"
