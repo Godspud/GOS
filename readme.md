@@ -85,6 +85,24 @@ src/keyboard.c/h PS/2 keyboard driver\
 src/string.c/h String utilities\
 src/io.h I/O port helpers\
 
+## Dependencies
+
+build-essential
+gcc-multilib
+nasm
+make
+grub-pc-bin
+xorriso
+qemu-system-x86
+git
+
+## build
+
+Install Dependencies: sudo apt update && sudo apt install -y build-essential gcc-multilib nasm make grub-pc-bin xorriso qemu-system-x86 git
+Clone project: git clone https://github.com/godspud/os
+Build project: make
+Run it!: make run
+
 ## How It Works
 
 Boot: GRUB loads the kernel at 1MB memory address\
