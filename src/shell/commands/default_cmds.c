@@ -1,7 +1,7 @@
 #include "default_cmds.h"
 #include "vga.h"
 #include "include/drivers/keyboard.h"
-#include "string.h"
+#include "core/string.h"
 #include "include/drivers/io.h"
 #include "include/drivers/cmos.h"
 
@@ -33,8 +33,6 @@ command_entry default_cmds[] = {
     {"echo", cmd_echo},
     {"version", cmd_version},
     {"reboot", cmd_reboot},
-    {"delay", cmd_delay},
-    {"rate", cmd_rate},
     {"time", cmd_time},
     {"", 0}};
 
@@ -46,8 +44,7 @@ static void cmd_help(int argc, char **argv)
     print_string("  echo     - Print text\n", COLOR_LIGHT_GREY);
     print_string("  version  - Show version\n", COLOR_LIGHT_GREY);
     print_string("  reboot   - Restart system\n", COLOR_LIGHT_GREY);
-    print_string("  delay    - Set key repeat delay\n", COLOR_LIGHT_GREY);
-    print_string("  rate     - Set key repeat rate\n", COLOR_LIGHT_GREY);
+    print_string("  time     - Show current time\n", COLOR_LIGHT_GREY);
 }
 
 static void cmd_clear(int argc, char **argv)
@@ -116,7 +113,7 @@ static void cmd_time(int argc, char **argv)
     print_char((cmos_current_time.hours / 10) + '0', COLOR_CYAN);
     print_char((cmos_current_time.hours % 10) + '0', COLOR_CYAN);
     print_char(':', COLOR_CYAN);
-    print_char((cmos_current_time.minutes / 10) + '0', COLOR_RED);
+    print_char((cmos_current_time.minutes / 10) + '0', COLOR_CYAN);
     print_char((cmos_current_time.minutes % 10) + '0', COLOR_CYAN);
     print_char(':', COLOR_CYAN);
     print_char((cmos_current_time.seconds / 10) + '0', COLOR_CYAN);
