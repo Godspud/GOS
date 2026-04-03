@@ -35,7 +35,7 @@ OBJECTS = $(ASM_OBJ) $(C_OBJECTS)
 # Build Rules
 # -------------------------------
 
-all: $(ISO) git_push
+all: $(ISO)
 
 # Build directory
 $(BUILD_DIR):
@@ -69,7 +69,7 @@ run: $(ISO)
 # Git integration
 # -------------------------------
 
-git_push:
+git:
 	@echo "=== Git push: $$(date) ==="
 	@git add .
 	@-git diff --cached --quiet || git commit -m "Update: $$(date +'%Y-%m-%d %H:%M')"
