@@ -60,10 +60,13 @@ void kernel_main()
         input_char = keyboard_read(&shift_pressed);
         if (input_char == '\n')
         {
-            print_char('\n', COLOR_WHITE);
-            input_buffer[input_pos] = '\0';
-            process_command(input_buffer);
-            input_pos = 0;
+            if (input_pos > 0)
+            {
+                print_char('\n', COLOR_WHITE);
+                input_buffer[input_pos] = '\0';
+                process_command(input_buffer);
+                input_pos = 0;
+            }
         }
         if (input_char != '\0')
         {
