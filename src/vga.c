@@ -1,6 +1,6 @@
 #include "vga.h"
-#include "io.h"
-#include "string.h"
+#include "include/drivers/io.h"
+#include "core/string.h"
 
 /** Functions:
 - vga_write_char: Writes a single character at the specified (x, y) position with the given color.
@@ -53,7 +53,7 @@ void vga_clear(int bgcolor)
     {
         for (int x = 0; x < VGA_WIDTH; x++)
         {
-            vga_write_char(x, y, ' ', bgcolor << 8);
+            vga_write_char(x, y, ' ', bgcolor);
         }
     }
     cursor_x = 0;
