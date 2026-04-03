@@ -53,7 +53,7 @@ void vga_clear(int bgcolor)
     {
         for (int x = 0; x < VGA_WIDTH; x++)
         {
-            vga_write_char(x, y, ' ', bgcolor << 8);
+            vga_write_char(x, y, ' ', bgcolor);
         }
     }
     cursor_x = 0;
