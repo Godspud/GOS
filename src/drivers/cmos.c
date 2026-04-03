@@ -2,7 +2,7 @@
 #include "include/drivers/io.h"
 #include "vga.h"
 
-#define CURRENT_YEAR 2023
+#define CURRENT_YEAR 2026
 
 float gmt_offset = 8;
 cmos_time cmos_current_time;

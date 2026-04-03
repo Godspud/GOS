@@ -18,7 +18,6 @@
 static void cmd_help(int argc, char **argv);
 static void cmd_clear(int argc, char **argv);
 static void cmd_echo(int argc, char **argv);
-static void cmd_color(int argc, char **argv);
 static void cmd_version(int argc, char **argv);
 static void cmd_reboot(int argc, char **argv);
 static void cmd_delay(int argc, char **argv);
@@ -44,7 +43,7 @@ static void cmd_help(int argc, char **argv)
     print_string("  echo     - Print text\n", COLOR_LIGHT_GREY);
     print_string("  version  - Show version\n", COLOR_LIGHT_GREY);
     print_string("  reboot   - Restart system\n", COLOR_LIGHT_GREY);
-    print_string("  time     - Show current time\n", COLOR_LIGHT_GREY);
+    print_string("  time     - Show current time", COLOR_LIGHT_GREY);
 }
 
 static void cmd_clear(int argc, char **argv)
@@ -118,7 +117,6 @@ static void cmd_time(int argc, char **argv)
     print_char(':', COLOR_CYAN);
     print_char((cmos_current_time.seconds / 10) + '0', COLOR_CYAN);
     print_char((cmos_current_time.seconds % 10) + '0', COLOR_CYAN);
-    print_char('\n', COLOR_CYAN);
 }
 
 static void cmd_delay(int argc, char **argv)
