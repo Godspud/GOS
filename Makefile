@@ -19,22 +19,25 @@ KERNEL = $(BUILD_DIR)/kernel.bin
 ISO = $(BUILD_DIR)/os.iso
 LOG_FILE = build.log
 
-# Auto-detect all C files in src/
+# Auto-detect all C files
 C_SOURCES = $(shell find $(SRC_DIR) -name '*.c')
 C_OBJECTS = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(C_SOURCES))
 
-# Assembly object
+# ASM object
 ASM_OBJ = $(BUILD_DIR)/boot.o
 
 # All object files
 OBJECTS = $(ASM_OBJ) $(C_OBJECTS)
 
-.DEFAULT_GOAL := log
+.DEFAULT_GOAL := all
 
-# Default target
-all: $(ISO)
+# -------------------------------
+# Build Rules
+# -------------------------------
 
-# Create build directory
+all: $(ISO) git_push
+
+# Build directory
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
@@ -42,37 +45,39 @@ $(BUILD_DIR):
 $(ASM_OBJ): boot.asm | $(BUILD_DIR)
 	$(AS) $(ASFLAGS) $< -o $@
 
-# Compile all C files (pattern rule)
+# Compile C files
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
 	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Link kernel.bin
+# Link kernel
 $(KERNEL): $(OBJECTS) linker.ld
-	$(LD) $(LDFLAGS) -T linker.ld -o $(KERNEL) $(OBJECTS)
+	$(LD) $(LDFLAGS) -T linker.ld -o $@ $(OBJECTS)
 
 # Create bootable ISO
 $(ISO): $(KERNEL)
 	mkdir -p $(ISO_DIR)/boot/grub
 	cp $(KERNEL) $(ISO_DIR)/boot/kernel.bin
 	cp grub.cfg $(ISO_DIR)/boot/grub/grub.cfg
-	grub-mkrescue -o $(ISO) $(ISO_DIR)
+	grub-mkrescue -o $@ $(ISO_DIR)
 
-# Run in QEMU
+# Run Bochs
 run: $(ISO)
-	qemu-system-i386 -cdrom $(ISO) -m 128M
+	qemu-system-i386 -cdrom build/os.iso -boot d -m 32 -vga std -serial stdio
 
-# Build with output logged to build.log, then push
-log:
-	@echo "=== Build: $$(date) ===" >> $(LOG_FILE)
-	@$(MAKE) all 2>&1 | tee -a $(LOG_FILE); exit $${PIPESTATUS[0]}
-	@$(MAKE) git
+# -------------------------------
+# Git integration
+# -------------------------------
 
-# Push to git
-git:
-	git add .
-	git commit -m "Update: $$(date +'%Y-%m-%d %H:%M')"
-	git push origin testing
+git_push:
+	@echo "=== Git push: $$(date) ==="
+	@git add .
+	@-git diff --cached --quiet || git commit -m "Update: $$(date +'%Y-%m-%d %H:%M')"
+	@git push origin testing
+
+# -------------------------------
+# Clean
+# -------------------------------
 
 clean:
 	rm -rf $(BUILD_DIR) $(ISO_DIR)
