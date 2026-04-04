@@ -9,7 +9,7 @@ int seconds = 0;
 int ticks = 0;
 cmos_time time;
 
-void timer_init()
+void time_init()
 {
     cmos_get_time(&time);
     years = time.year + time.century * 100;
@@ -22,7 +22,7 @@ void timer_init()
     ticks = seconds * 1000;
 }
 
-int tick()
+void tick()
 {
     ticks += 1;
 }

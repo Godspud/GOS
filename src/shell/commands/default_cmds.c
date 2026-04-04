@@ -45,8 +45,8 @@ static void cmd_help(int argc, char **argv)
     print_string("  echo     - Print text\n", COLOR_LIGHT_GREY);
     print_string("  version  - Show version\n", COLOR_LIGHT_GREY);
     print_string("  reboot   - Restart system\n", COLOR_LIGHT_GREY);
-    print_string("  time     - Show current time", COLOR_LIGHT_GREY);
-    print_string("  quit     - Exit shell\n", COLOR_LIGHT_GREY);
+    print_string("  time     - Show current time\n", COLOR_LIGHT_GREY);
+    print_string("  quit     - Exit shell", COLOR_LIGHT_GREY);
 }
 
 static void cmd_clear(int argc, char **argv)

@@ -1,8 +1,8 @@
 #ifndef TIMER_H
 #define TIMER_H
 
-int time_init();
-int tick();
-void get_timer_ticks();
+void time_init();
+void tick();
+int get_time_ticks();
 
 #endif

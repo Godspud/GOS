@@ -23,8 +23,9 @@ LOG_FILE = build.log
 C_SOURCES = $(shell find $(SRC_DIR) -name '*.c')
 C_OBJECTS = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(C_SOURCES))
 
-# ASM object
-ASM_OBJ = $(BUILD_DIR)/boot.o
+# Auto-detect all ASM files
+ASM_SOURCES = $(shell find . -maxdepth 1 -name '*.asm')
+ASM_OBJ = $(patsubst %.asm,$(BUILD_DIR)/%.o,$(ASM_SOURCES))
 
 # All object files
 OBJECTS = $(ASM_OBJ) $(C_OBJECTS)
@@ -41,8 +42,8 @@ all: $(ISO)
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
-# Assemble boot.asm
-$(ASM_OBJ): boot.asm | $(BUILD_DIR)
+# Assemble ASM files
+$(BUILD_DIR)/%.o: %.asm | $(BUILD_DIR)
 	$(AS) $(ASFLAGS) $< -o $@
 
 # Compile C files

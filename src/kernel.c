@@ -1,9 +1,10 @@
-#include "include/drivers/keyboard.h"
 #include "vga.h"
 #include "shell/shell.h"
 #include "shell/commands/default_cmds.h"
+#include "init_all.h"
+#include "include/drivers/keyboard.h"
+#include "include/drivers/time/timer.h"
 #include "include/drivers/cmos.h"
-#include "include/drivers/time/pit.h"
 
 static char input_buffer[256];
 static int input_pos = 0;
@@ -16,29 +17,10 @@ void kernel_main()
 
     vga_clear(COLOR_BLACK);
     vga_enable_cursor();
-    keyboard_response = keyboard_init();
+    init_all();
     print_string("================================================\n", COLOR_LIGHT_CYAN);
     print_string("            Welcome to OS!\n", COLOR_WHITE);
     print_string("================================================\n\n", COLOR_LIGHT_CYAN);
-    if ((keyboard_response & 0b10) && (keyboard_response & 0b01))
-    {
-        print_string("[OK] Keyboard\n", COLOR_LIGHT_GREEN);
-    }
-    else if (!(keyboard_response & 0b10) && (keyboard_response & 0b01))
-    {
-        print_string("[ERROR] Keyboard Did Not Acknowlage Command\n", COLOR_RED);
-        print_string("[OK] Keyboard Initialized\n", COLOR_LIGHT_GREEN);
-    }
-    else if ((keyboard_response & 0b10) && !(keyboard_response & 0b01))
-    {
-        print_string("[OK] Keyboard Acknowlaged Command\n", COLOR_LIGHT_GREEN);
-        print_string("[ERROR] Keyboard Errored During Self Test\n", COLOR_RED);
-    }
-    else if (!(keyboard_response & 0b10) && !(keyboard_response & 0b01))
-    {
-        print_string("[ERROR] Keyboard Did Not Acknowlage Command\n", COLOR_RED);
-        print_string("[ERROR] Keyboard Errored During Self Test\n", COLOR_RED);
-    }
     print_string("Start typing below:\n\n", COLOR_LIGHT_GREY);
     print_string("> ", COLOR_LIGHT_GREEN);
 

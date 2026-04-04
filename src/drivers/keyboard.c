@@ -61,7 +61,7 @@ unsigned char keyboard_wait(void)
 /**
  * keyboard_init: Initializes the keyboard controller and sets up necessary state for handling keyboard input.
  */
-int keyboard_init(void)
+void keyboard_init(void)
 {
     int ack = 0;
     int pass = 0;
@@ -102,7 +102,7 @@ int keyboard_init(void)
     }
 
     last_scancode = 0;
-    return ((ack << 1) | pass);
+    // return ((ack << 1) | pass);
 }
 /**
  * keyboard_set_repeat: Enables or disables key repeat functionality.

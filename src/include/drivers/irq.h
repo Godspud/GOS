@@ -3,5 +3,6 @@
 
 void send_eoi();
 void irq_hendler();
+int irq_remap();
 
 #endif
