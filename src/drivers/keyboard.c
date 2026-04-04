@@ -164,7 +164,7 @@ char keyboard_read(int *shift_pressed)
 
     if ((inb(KEYBOARD_STATUS_PORT) & 0x01) == 0)
     {
-        return "";
+        return 0;
     }
 
     unsigned char scancode = inb(KEYBOARD_DATA_PORT);
