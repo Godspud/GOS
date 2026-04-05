@@ -16,6 +16,9 @@ int irq_remap()
     char mask_1 = inb(0x21);
     char mask_2 = inb(0xA1);
 
+    outb(0x20, 0x11);
+    outb(0xA0, 0x11);
+
     // init
     outb(0x21, 0x20);
     outb(0xA1, 0x28);
