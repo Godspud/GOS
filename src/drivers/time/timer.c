@@ -6,7 +6,7 @@ int days = 0;
 int hours = 0;
 int minutes = 0;
 int seconds = 0;
-int ticks = 0;
+volatile unsigned int ticks = 0;
 cmos_time time;
 
 void time_init()

@@ -4,6 +4,7 @@
 #include "core/string.h"
 #include "include/drivers/io.h"
 #include "include/drivers/cmos.h"
+#include "usr/snake.h"
 
 /*
 - cmd_help: Displays a list of available commands and their descriptions.
@@ -23,6 +24,7 @@ static void cmd_reboot(int argc, char **argv);
 static void cmd_delay(int argc, char **argv);
 static void cmd_rate(int argc, char **argv);
 static void cmd_time(int argc, char **argv);
+static void cmd_snake(int argc, char **argv);
 static void cmd_quit(int argc, char **argv);
 
 // Command table mapping command strings to their handler functions
@@ -34,6 +36,7 @@ command_entry default_cmds[] = {
     {"version", cmd_version},
     {"reboot", cmd_reboot},
     {"time", cmd_time},
+    {"snake", cmd_snake},
     {"quit", cmd_quit},
     {"", 0}};
 
@@ -46,6 +49,7 @@ static void cmd_help(int argc, char **argv)
     print_string("  version  - Show version\n", COLOR_LIGHT_GREY);
     print_string("  reboot   - Restart system\n", COLOR_LIGHT_GREY);
     print_string("  time     - Show current time\n", COLOR_LIGHT_GREY);
+    print_string("  snake    - Play snake game\n", COLOR_LIGHT_GREY);
     print_string("  quit     - Exit shell", COLOR_LIGHT_GREY);
 }
 
@@ -136,4 +140,9 @@ static void cmd_quit(int argc, char **argv)
 {
     print_string("Halting...\n", COLOR_LIGHT_RED);
     __asm__ volatile("cli; hlt");
+}
+
+static void cmd_snake(int argc, char **argv)
+{
+    snake_main();
 }
