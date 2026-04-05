@@ -14,5 +14,5 @@ void init_all()
     pit_init();
     time_init();
     cmos_init();
-    __asm__ volatile("sti"); // INTERUPTS
+    //__asm__ volatile("sti"); // INTERUPTS
 }
