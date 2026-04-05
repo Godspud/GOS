@@ -187,3 +187,11 @@ void print_string(const char *str, int color)
         i++;
     }
 }
+void write_bg_color(int x, int y, int color)
+{
+    if (x < 0 || x >= VGA_WIDTH || y < 0 || y >= VGA_HEIGHT)
+        return;
+    unsigned short *vga = (unsigned short *)VGA_MEMORY;
+    int offset = y * VGA_WIDTH + x;
+    vga[offset] = (color << 8) | (vga[offset] & 0xFF);
+}

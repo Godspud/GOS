@@ -5,6 +5,6 @@ void snake_main()
 {
     while (1)
     {
-        vga_write_char(0, 0, " ", COLOR_GREEN);
+        write_bg_color(0, 0, COLOR_GREEN);
     }
 }
