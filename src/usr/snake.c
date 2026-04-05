@@ -7,5 +7,8 @@ void snake_main()
     while (1)
     {
         vga_write_char(0, 0, '#', COLOR_GREEN);
+        char key = keyboard_read(0);
+        if (key == '\b')
+        {break;}
     }
 }
