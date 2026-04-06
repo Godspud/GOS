@@ -34,5 +34,6 @@ void snake_main()
         {
             break;
         }
+        snake_pos[0] += 1;
     }
 }
