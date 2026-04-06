@@ -4,11 +4,35 @@
 void snake_main()
 {
     vga_clear(COLOR_BLACK);
+    int snake_pos[2] = {0, 0};
     while (1)
     {
-        vga_write_char(0, 0, '#', COLOR_GREEN);
+        vga_write_char(snake_pos[0], snake_pos[1], '#', COLOR_GREEN);
         char key = keyboard_read(0);
         if (key == '\b')
-        {break;}
+        {
+            break;
+        }
+        else if (key == 'w' && snake_pos[1] > 0)
+        {
+            snake_pos[1]--;
+        }
+        else if (key == 's' && snake_pos[1] < 24)
+        {
+            snake_pos[1]++;
+        }
+        else if (key == 'a' && snake_pos[0] > 0)
+        {
+            snake_pos[0]--;
+        }
+        else if (key == 'd' && snake_pos[0] < 79)
+        {
+            snake_pos[0]++;
+        }
+        // kill logic
+        if (snake_pos[0] < 0 || snake_pos[0] >= VGA_WIDTH || snake_pos[1] < 0 || snake_pos[1] >= VGA_HEIGHT)
+        {
+            break;
+        }
     }
 }
