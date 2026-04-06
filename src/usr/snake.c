@@ -1,14 +1,19 @@
 #include "vga.h"
 #include "include/drivers/keyboard.h"
 
-void snake_main()
+/*helper func
+ */
+void snake_redraw(int snake_pos[2])
 {
     vga_clear(COLOR_BLACK);
+    vga_write_char(snake_pos[0], snake_pos[1], '#', COLOR_GREEN);
+}
+
+void snake_main()
+{
     int snake_pos[2] = {0, 0};
     while (1)
     {
-        vga_clear(COLOR_BLACK);
-        vga_write_char(snake_pos[0], snake_pos[1], '#', COLOR_GREEN);
         char key = keyboard_read(0);
         if (key == '\b')
         {
@@ -17,18 +22,22 @@ void snake_main()
         else if (key == 'w')
         {
             snake_pos[1] -= 1;
+            snake_redraw(snake_pos);
         }
         else if (key == 's')
         {
             snake_pos[1] += 1;
+            snake_redraw(snake_pos);
         }
         else if (key == 'a')
         {
             snake_pos[0] -= 1;
+            snake_redraw(snake_pos);
         }
         else if (key == 'd')
         {
             snake_pos[0] += 1;
+            snake_redraw(snake_pos);
         }
         // kill logic
         if ((snake_pos[0] < 0 || snake_pos[0] >= 80) || (snake_pos[1] < 0 || snake_pos[1] >= 25))
