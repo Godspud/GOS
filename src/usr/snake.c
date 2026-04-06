@@ -30,7 +30,7 @@ void snake_main()
             snake_pos[0]++;
         }
         // kill logic
-        if (snake_pos[0] == -1 || snake_pos[0] == 79 || snake_pos[1] == -1 || snake_pos[1] == 24)
+        if (snake_pos[0] < 0 || snake_pos[0] > 79 || snake_pos[1] < 0 || snake_pos[1] > 24)
         {
             break;
         }
