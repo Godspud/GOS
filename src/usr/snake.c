@@ -7,6 +7,7 @@ void snake_main()
     int snake_pos[2] = {0, 0};
     while (1)
     {
+        vga_clear(COLOR_BLACK);
         vga_write_char(snake_pos[0], snake_pos[1], '#', COLOR_GREEN);
         char key = keyboard_read(0);
         if (key == '\b')
@@ -28,6 +29,11 @@ void snake_main()
         else if (key == 'd')
         {
             snake_pos[0] += 1;
+        }
+        // kill logic
+        if ((snake_pos[0] < 0 || snake_pos[0] >= 80) || (snake_pos[1] < 0 || snake_pos[1] >= 25))
+        {
+            break;
         }
     }
 }
