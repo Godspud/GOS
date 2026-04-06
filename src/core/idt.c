@@ -2,6 +2,7 @@
 #include "include/drivers/irq.h"
 
 extern void irq0_handler(void); // in asm
+extern void irq_dummy(void);    // asm oso
 
 static idt_entry_t idt[256];
 static idt_ptr_t idtr;
@@ -20,6 +21,11 @@ void idt_init()
 {
     idtr.limit = sizeof(idt_entry_t) * 256 - 1;
     idtr.base = (unsigned int)&idt;
+
+    for (int counter = 0; counter < 256; counter++)
+    {
+        set_idt_entry(counter, irq_dummy);
+    }
 
     set_idt_entry(0x20, irq0_handler);
 

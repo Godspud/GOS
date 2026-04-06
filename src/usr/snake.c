@@ -13,26 +13,21 @@ void snake_main()
         {
             break;
         }
-        else if (key == 'w' && snake_pos[1] > 0)
+        else if (key == 'w')
         {
             snake_pos[1] -= 1;
         }
-        else if (key == 's' && snake_pos[1] < 24)
+        else if (key == 's')
         {
             snake_pos[1] += 1;
         }
-        else if (key == 'a' && snake_pos[0] > 0)
+        else if (key == 'a')
         {
             snake_pos[0] -= 1;
         }
-        else if (key == 'd' && snake_pos[0] < 79)
+        else if (key == 'd')
         {
             snake_pos[0] += 1;
-        }
-        // kill logic
-        if (snake_pos[0] < 0 || snake_pos[0] > 79 || snake_pos[1] < 0 || snake_pos[1] > 24)
-        {
-            break;
         }
     }
 }
