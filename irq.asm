@@ -14,6 +14,5 @@ irq_dummy:
     pusha
     mov al, 0x20
     out 0x20, al
-    out 0xA0, al
     popa
     iret    
