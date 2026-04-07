@@ -23,13 +23,6 @@ section .text
 
 start:
     cli
-
-    mov ax, 0x10
-    mov ds, ax
-    mov ss, ax
-    mov es, ax
-    mov fs, ax
-    mov gs, ax
-
     mov esp, stack_top
     call kernel_main
+    hlt

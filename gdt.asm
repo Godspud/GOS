@@ -16,3 +16,10 @@ gdt_flush:
     jmp 0x08:.flush
 .flush:
     ret
+
+global idt_load
+
+idt_load:
+    mov eax, [esp+4]
+    lidt [eax]
+    ret

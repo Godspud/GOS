@@ -18,24 +18,20 @@ void set_idt_entry(int vector, void *handler)
     idt[vector].isr_high = (addr >> 16) & 0xFFFF;
 }
 
+extern void idt_load(idt_ptr_t *);
+
 void idt_init()
 {
     idtr.limit = sizeof(idt_entry_t) * 256 - 1;
     idtr.base = (unsigned int)&idt;
 
-    // Handle CPU exceptions (0–31)
     for (int i = 0; i < 32; i++)
-    {
         set_idt_entry(i, isr_dummy);
-    }
 
-    // Handle IRQs (32–255)
     for (int i = 32; i < 256; i++)
-    {
         set_idt_entry(i, irq_dummy);
-    }
 
     set_idt_entry(0x20, irq0_handler);
 
-    __asm__ volatile("lidt %0" : : "m"(idtr));
+    idt_load(&idtr); // 🔥 USE THIS INSTEAD
 }
