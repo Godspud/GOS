@@ -37,4 +37,6 @@ int irq_remap()
     // restore masks
     outb(0x21, mask_1);
     outb(0xA1, mask_2);
+
+    outb(0x21, inb(0x21) & ~0x01);
 }
