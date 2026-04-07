@@ -33,9 +33,24 @@ void snake_tail_update(int snake_pos[2], int tail_pos[100][2])
     tail_pos[0][1] = snake_pos[1];
 }
 
+void food_gen(int food_pos[2])
+{
+    food_pos[0] = rand() % 80;
+    food_pos[1] = rand() % 25;
+}
+
+void check_food_pickup(int snake_pos[2], int food_pos[2])
+{
+    if (snake_pos[0] == food_pos[0] && snake_pos[1] == food_pos[1])
+    {
+        food_gen(food_pos);
+    }
+}
+
 void snake_main()
 {
-    int food_pos[2] = {rand() % 80, rand() % 25};
+    int food_pos[2];
+    food_gen(food_pos);
     int snake_pos[2] = {0, 0};
     int tail_pos[100][2] = {0};
     tail_pos[0][0] = snake_pos[0];
@@ -53,24 +68,28 @@ void snake_main()
         {
             snake_pos[1] -= 1;
             snake_tail_update(snake_pos, tail_pos);
+            check_food_pickup(snake_pos, food_pos);
             snake_redraw(snake_pos, tail_pos, food_pos);
         }
         else if (key == 's')
         {
             snake_pos[1] += 1;
             snake_tail_update(snake_pos, tail_pos);
+            check_food_pickup(snake_pos, food_pos);
             snake_redraw(snake_pos, tail_pos, food_pos);
         }
         else if (key == 'a')
         {
             snake_pos[0] -= 1;
             snake_tail_update(snake_pos, tail_pos);
+            check_food_pickup(snake_pos, food_pos);
             snake_redraw(snake_pos, tail_pos, food_pos);
         }
         else if (key == 'd')
         {
             snake_pos[0] += 1;
             snake_tail_update(snake_pos, tail_pos);
+            check_food_pickup(snake_pos, food_pos);
             snake_redraw(snake_pos, tail_pos, food_pos);
         }
         // kill logic
