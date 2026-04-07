@@ -48,6 +48,7 @@ void idt_init()
     print_hex(idtr.limit);
 
     vga_write_string(2, 0, "idt_entry size: ", COLOR_LIGHT_RED);
+    print_char('\n', COLOR_LIGHT_RED);
     print_hex(sizeof(idt_entry_t));
 
     for (int i = 0; i < 32; i++)
