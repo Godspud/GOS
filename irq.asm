@@ -3,6 +3,7 @@ extern irq_handler
 
 global irq0_handler
 global irq_dummy
+global isr_dummy
 
 irq0_handler:
     pusha
@@ -15,4 +16,11 @@ irq_dummy:
     mov al, 0x20
     out 0x20, al
     popa
-    iret    
+    iret
+
+
+isr_dummy:
+    cli
+.hang:
+    hlt
+    jmp .hang

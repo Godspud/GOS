@@ -3,6 +3,7 @@
 
 extern void irq0_handler(void); // in asm
 extern void irq_dummy(void);    // asm oso
+extern void isr_dummy(void);    // in asm
 
 static idt_entry_t idt[256];
 static idt_ptr_t idtr;
@@ -22,9 +23,16 @@ void idt_init()
     idtr.limit = sizeof(idt_entry_t) * 256 - 1;
     idtr.base = (unsigned int)&idt;
 
-    for (int counter = 32; counter < 256; counter++)
+    // Handle CPU exceptions (0–31)
+    for (int i = 0; i < 32; i++)
     {
-        set_idt_entry(counter, irq_dummy);
+        set_idt_entry(i, isr_dummy);
+    }
+
+    // Handle IRQs (32–255)
+    for (int i = 32; i < 256; i++)
+    {
+        set_idt_entry(i, irq_dummy);
     }
 
     set_idt_entry(0x20, irq0_handler);
