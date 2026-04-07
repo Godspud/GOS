@@ -2,7 +2,7 @@
 #define IRQ_H
 
 void send_eoi();
-void irq_hendler();
+void irq_handler();
 int irq_remap();
 
 #endif

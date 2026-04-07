@@ -10,9 +10,9 @@ void init_all()
 {
     irq_remap();
     idt_init();
-    // pit_init();
+    pit_init();
     time_init();
     keyboard_init();
     cmos_init();
-    //__asm__ volatile("sti"); // INTERUPTS
+    __asm__ volatile("sti"); // INTERUPTS
 }
