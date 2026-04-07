@@ -12,14 +12,24 @@ void irq_handler()
     send_eoi();
 }
 
+static void io_wait()
+{
+    outb(0x80, 0);
+}
+
 void irq_remap()
 {
+    outb(0x21, 0xFF);
+    outb(0xA1, 0xFF);
+
     uint8_t a1 = inb(0x21);
     uint8_t a2 = inb(0xA1);
 
     // start init
     outb(0x20, 0x11);
+    io_wait();
     outb(0xA0, 0x11);
+    io_wait();
 
     // set offsets
     outb(0x21, 0x20); // master → 0x20
