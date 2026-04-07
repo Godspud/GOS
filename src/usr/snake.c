@@ -9,7 +9,7 @@ void snake_redraw(int snake_pos[2], int tail_pos[100][2], int food_pos[2], int t
 {
     vga_clear(COLOR_BLACK);
 
-    for (int counter = tail_length; counter > 0; counter--)
+    for (int counter = tail_length - 1; counter >= 0; counter--)
     {
         vga_write_char(tail_pos[counter][0], tail_pos[counter][1], '@', COLOR_LIGHT_GREEN);
     }
@@ -22,15 +22,18 @@ void snake_redraw(int snake_pos[2], int tail_pos[100][2], int food_pos[2], int t
 /**
  * assign the last tail pos recursively
  */
-void snake_tail_update(int snake_pos[2], int tail_pos[100][2], int tail_length)
+void snake_tail_update(int prev_head_pos[2], int tail_pos[100][2], int tail_length)
 {
     for (int counter = tail_length - 1; counter > 0; counter--)
     {
         tail_pos[counter][0] = tail_pos[counter - 1][0];
         tail_pos[counter][1] = tail_pos[counter - 1][1];
     }
-    tail_pos[0][0] = snake_pos[0];
-    tail_pos[0][1] = snake_pos[1];
+    if (tail_length > 0)
+    {
+        tail_pos[0][0] = prev_head_pos[0];
+        tail_pos[0][1] = prev_head_pos[1];
+    }
 }
 
 void food_gen(int food_pos[2])
@@ -39,15 +42,12 @@ void food_gen(int food_pos[2])
     food_pos[1] = rand() % 25;
 }
 
-void check_food_pickup(int snake_pos[2], int food_pos[2], int tail_length)
+void check_food_pickup(int snake_pos[2], int food_pos[2], int *tail_length)
 {
     if (snake_pos[0] == food_pos[0] && snake_pos[1] == food_pos[1])
     {
         food_gen(food_pos);
-        if (tail_length <= 100)
-        {
-            tail_length++;
-        }
+        (*tail_length) += 1;
     }
 }
 
@@ -71,36 +71,44 @@ void snake_main()
         }
         else if (key == 'w')
         {
+            int prev_pos[2] = {snake_pos[0], snake_pos[1]};
             snake_pos[1] -= 1;
-            snake_tail_update(snake_pos, tail_pos, tail_length);
-            check_food_pickup(snake_pos, food_pos, tail_length);
+            snake_tail_update(prev_pos, tail_pos, tail_length);
+            check_food_pickup(snake_pos, food_pos, &tail_length);
             snake_redraw(snake_pos, tail_pos, food_pos, tail_length);
         }
         else if (key == 's')
         {
+            int prev_pos[2] = {snake_pos[0], snake_pos[1]};
             snake_pos[1] += 1;
-            snake_tail_update(snake_pos, tail_pos, tail_length);
-            check_food_pickup(snake_pos, food_pos, tail_length);
+            snake_tail_update(prev_pos, tail_pos, tail_length);
+            check_food_pickup(snake_pos, food_pos, &tail_length);
             snake_redraw(snake_pos, tail_pos, food_pos, tail_length);
         }
         else if (key == 'a')
         {
+            int prev_pos[2] = {snake_pos[0], snake_pos[1]};
             snake_pos[0] -= 1;
-            snake_tail_update(snake_pos, tail_pos, tail_length);
-            check_food_pickup(snake_pos, food_pos, tail_length);
+            snake_tail_update(prev_pos, tail_pos, tail_length);
+            check_food_pickup(snake_pos, food_pos, &tail_length);
             snake_redraw(snake_pos, tail_pos, food_pos, tail_length);
         }
         else if (key == 'd')
         {
+            int prev_pos[2] = {snake_pos[0], snake_pos[1]};
             snake_pos[0] += 1;
-            snake_tail_update(snake_pos, tail_pos, tail_length);
-            check_food_pickup(snake_pos, food_pos, tail_length);
+            snake_tail_update(prev_pos, tail_pos, tail_length);
+            check_food_pickup(snake_pos, food_pos, &tail_length);
             snake_redraw(snake_pos, tail_pos, food_pos, tail_length);
         }
         // kill logic
         if ((snake_pos[0] < 0 || snake_pos[0] >= 80) || (snake_pos[1] < 0 || snake_pos[1] >= 25))
         {
             vga_clear(COLOR_BLACK);
+            break;
+        }
+        if (tail_length == 1)
+        {
             break;
         }
     }
