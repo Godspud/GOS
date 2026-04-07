@@ -1,5 +1,6 @@
 #include "include/drivers/time/timer.h"
 #include "include/drivers/io.h"
+#include "stdint.h"
 
 void send_eoi()
 {
@@ -11,20 +12,21 @@ void irq_handler()
     send_eoi();
 }
 
-int irq_remap()
+void irq_remap()
 {
-    char mask_1 = inb(0x21);
-    char mask_2 = inb(0xA1);
+    uint8_t a1 = inb(0x21);
+    uint8_t a2 = inb(0xA1);
 
+    // start init
     outb(0x20, 0x11);
     outb(0xA0, 0x11);
 
-    // init
-    outb(0x21, 0x20);
-    outb(0xA1, 0x28);
+    // set offsets
+    outb(0x21, 0x20); // master → 0x20
+    outb(0xA1, 0x28); // slave  → 0x28
 
-    // set vector offest
-    outb(0x21, 0x04);
+    // tell master/slave wiring
+    outb(0x21, 0x04); // slave on IRQ2
     outb(0xA1, 0x02);
 
     // 8086 mode
@@ -32,8 +34,9 @@ int irq_remap()
     outb(0xA1, 0x01);
 
     // restore masks
-    outb(0x21, mask_1);
-    outb(0xA1, mask_2);
+    outb(0x21, a1);
+    outb(0xA1, a2);
 
+    // UNMASK IRQ0 (timer)
     outb(0x21, inb(0x21) & ~0x01);
 }
