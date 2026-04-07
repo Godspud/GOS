@@ -1,10 +1,11 @@
 #include "vga.h"
 #include "include/drivers/keyboard.h"
+#include "lib/random.h"
 
 /**
  * helper func
  */
-void snake_redraw(int snake_pos[2], int tail_pos[100][2])
+void snake_redraw(int snake_pos[2], int tail_pos[100][2], int food_pos[2])
 {
     vga_clear(COLOR_BLACK);
 
@@ -14,6 +15,8 @@ void snake_redraw(int snake_pos[2], int tail_pos[100][2])
     }
 
     vga_write_char(snake_pos[0], snake_pos[1], '#', COLOR_LIGHT_GREEN);
+
+    vga_write_char(food_pos[0], food_pos[1], 'X', COLOR_RED);
 }
 
 /**
@@ -32,6 +35,7 @@ void snake_tail_update(int snake_pos[2], int tail_pos[100][2])
 
 void snake_main()
 {
+    int food_pos[2] = {rand() % 80, rand() % 25};
     int snake_pos[2] = {0, 0};
     int tail_pos[100][2] = {0};
     tail_pos[0][0] = snake_pos[0];
@@ -49,25 +53,25 @@ void snake_main()
         {
             snake_pos[1] -= 1;
             snake_tail_update(snake_pos, tail_pos);
-            snake_redraw(snake_pos, tail_pos);
+            snake_redraw(snake_pos, tail_pos, food_pos);
         }
         else if (key == 's')
         {
             snake_pos[1] += 1;
             snake_tail_update(snake_pos, tail_pos);
-            snake_redraw(snake_pos, tail_pos);
+            snake_redraw(snake_pos, tail_pos, food_pos);
         }
         else if (key == 'a')
         {
             snake_pos[0] -= 1;
             snake_tail_update(snake_pos, tail_pos);
-            snake_redraw(snake_pos, tail_pos);
+            snake_redraw(snake_pos, tail_pos, food_pos);
         }
         else if (key == 'd')
         {
             snake_pos[0] += 1;
             snake_tail_update(snake_pos, tail_pos);
-            snake_redraw(snake_pos, tail_pos);
+            snake_redraw(snake_pos, tail_pos, food_pos);
         }
         // kill logic
         if ((snake_pos[0] < 0 || snake_pos[0] >= 80) || (snake_pos[1] < 0 || snake_pos[1] >= 25))

@@ -1,7 +1,7 @@
 #include "default_cmds.h"
 #include "vga.h"
 #include "include/drivers/keyboard.h"
-#include "core/string.h"
+#include "lib/string.h"
 #include "include/drivers/io.h"
 #include "include/drivers/cmos.h"
 #include "usr/snake.h"

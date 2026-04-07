@@ -1,6 +1,6 @@
 #include "vga.h"
 #include "include/drivers/io.h"
-#include "core/string.h"
+#include "lib/string.h"
 
 /** Functions:
 - vga_write_char: Writes a single character at the specified (x, y) position with the given color.
