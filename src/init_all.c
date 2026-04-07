@@ -8,11 +8,12 @@
 
 void init_all()
 {
+    //__asm__ volatile("cli"); // DISABLE INTERUPTS
     irq_remap();
     idt_init();
     pit_init();
     time_init();
     keyboard_init();
     cmos_init();
-    __asm__ volatile("sti"); // INTERUPTS
+    //__asm__ volatile("sti"); // INTERUPTS
 }

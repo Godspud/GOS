@@ -33,19 +33,27 @@ void irq_remap()
 
     // set offsets
     outb(0x21, 0x20); // master → 0x20
+    io_wait();
     outb(0xA1, 0x28); // slave  → 0x28
+    io_wait();
 
     // tell master/slave wiring
     outb(0x21, 0x04); // slave on IRQ2
+    io_wait();
     outb(0xA1, 0x02);
+    io_wait();
 
     // 8086 mode
     outb(0x21, 0x01);
+    io_wait();
     outb(0xA1, 0x01);
+    io_wait();
 
     // restore masks
     outb(0x21, a1);
+    io_wait();
     outb(0xA1, a2);
+    io_wait();
 
     // UNMASK IRQ0 (timer)
     outb(0x21, inb(0x21) & ~0x01);

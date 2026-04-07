@@ -20,5 +20,6 @@ gdt_flush:
 global idt_load
 
 idt_load:
-    lidt [esp+4]
+    mov eax, [esp+4]
+    lidt [eax]
     ret
