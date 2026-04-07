@@ -1,6 +1,7 @@
 #include "vga.h"
 #include "include/drivers/keyboard.h"
 #include "lib/random.h"
+#include "include/macros.h"
 
 /**
  * helper func
@@ -89,6 +90,10 @@ void snake_main()
     vga_write_char(snake_pos[0], snake_pos[1], '#', COLOR_LIGHT_GREEN);
     while (1)
     {
+        every(100)
+        {
+            move_snake(direction, snake_pos, tail_pos, food_pos, tail_length);
+        }
         char key = keyboard_read(0);
         if (key == '\b')
         {
