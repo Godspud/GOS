@@ -51,7 +51,7 @@ void check_food_pickup(int snake_pos[2], int food_pos[2], int *tail_length)
     }
 }
 
-void move_snake(int direction, int snake_pos[2], int tail_pos[100][2], int food_pos[2], int *tail_length)
+void move_snake(int direction, int snake_pos[2], int tail_pos[100][2], int food_pos[2], int tail_length)
 {
     if (direction == 0)
     {
