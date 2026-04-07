@@ -22,7 +22,7 @@ void idt_init()
     idtr.limit = sizeof(idt_entry_t) * 256 - 1;
     idtr.base = (unsigned int)&idt;
 
-    for (int counter = 0; counter < 256; counter++)
+    for (int counter = 32; counter < 256; counter++)
     {
         set_idt_entry(counter, irq_dummy);
     }
