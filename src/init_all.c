@@ -8,11 +8,11 @@
 
 void init_all()
 {
-    keyboard_init();
     irq_remap();
     idt_init();
     pit_init();
     time_init();
+    keyboard_init();
     cmos_init();
     __asm__ volatile("sti"); // INTERUPTS
 }
