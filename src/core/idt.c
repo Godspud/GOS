@@ -33,5 +33,5 @@ void idt_init()
 
     set_idt_entry(0x20, irq0_handler);
 
-    idt_load(&idtr); // 🔥 USE THIS INSTEAD
+    idt_load(&idtr);
 }
