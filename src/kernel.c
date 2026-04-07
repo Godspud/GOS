@@ -11,7 +11,6 @@ static int input_pos = 0;
 
 void kernel_main()
 {
-    __asm__ volatile("cli");
     int shift_pressed = 0;
     char input_char;
     int keyboard_response = 0b00;
