@@ -5,6 +5,7 @@
 #include "include/drivers/keyboard.h"
 #include "include/drivers/time/timer.h"
 #include "include/drivers/cmos.h"
+#include "core/idt.h"
 
 static char input_buffer[256];
 static int input_pos = 0;
@@ -23,6 +24,7 @@ void kernel_main()
     print_string("================================================\n\n", COLOR_LIGHT_CYAN);
     print_string("Start typing below:\n\n", COLOR_LIGHT_GREY);
     print_string("> ", COLOR_LIGHT_GREEN);
+    idt_init();
 
     while (1)
     {
