@@ -1,5 +1,6 @@
 #include "core/idt.h"
 #include "include/drivers/irq.h"
+#include "vga.h"
 
 extern void irq0_handler(void); // in asm
 extern void irq_dummy(void);    // asm oso
@@ -34,4 +35,5 @@ void idt_init()
     set_idt_entry(0x20, irq0_handler);
 
     idt_load(&idtr);
+    vga_write_char(0, 0, 'I', COLOR_LIGHT_GREEN);
 }
