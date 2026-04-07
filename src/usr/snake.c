@@ -107,9 +107,5 @@ void snake_main()
             vga_clear(COLOR_BLACK);
             break;
         }
-        if (tail_length == 1)
-        {
-            break;
-        }
     }
 }
