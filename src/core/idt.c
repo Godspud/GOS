@@ -32,6 +32,7 @@ void set_idt_entry(int vector, void *handler)
     idt[vector].reserved = 0;
     idt[vector].attributes = 0x8E; // Interrupt gate, present, ring 0
     idt[vector].isr_high = (addr >> 16) & 0xFFFF;
+    print_hex(handler);
 }
 
 extern void idt_load(idt_ptr_t *);
