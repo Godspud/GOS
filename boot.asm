@@ -1,6 +1,7 @@
 [BITS 32]
 
 extern kernel_main
+extern init_all
 
 magic    equ 0x1BADB002
 flags    equ 0x0
@@ -24,5 +25,6 @@ section .text
 start:
     cli
     mov esp, stack_top
+    call init_all
     call kernel_main
     hlt
