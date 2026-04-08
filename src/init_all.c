@@ -14,10 +14,10 @@ void init_all()
     gdt_init();
     idt_init();
     irq_remap();
-    // pit_init();
+    pit_init();
     //__asm__ volatile("sti");
     time_init();
-    // keyboard_init();
+    keyboard_init();
     cmos_init();
     print_string("Initialization complete!\n", COLOR_LIGHT_GREEN);
     __asm__ volatile("sti"); // INTERUPTS

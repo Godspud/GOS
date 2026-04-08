@@ -5,20 +5,13 @@
 
 #include <stdint.h>
 
-// static inline uint8_t inb(uint16_t port)
-//{
-//     uint8_t ret;
-//     __asm__ volatile("inb %1, %0" : "=a"(ret) : "Nd"(port));
-//     return ret;
-// }
-//
-// void keyboard_callback()
-//{
-//     uint8_t scancode = inb(0x60); // 🔥 THIS LINE IS REQUIRED
-//
-//     // optional debug
-//     print_string("K", COLOR_LIGHT_RED);
-// }
+void keyboard_callback()
+{
+    uint8_t scancode = inb(0x60); // 🔥 THIS LINE IS REQUIRED
+
+    // optional debug
+    print_string("K", COLOR_LIGHT_RED);
+}
 /*
 - get_time_ms: Returns the current time in milliseconds based on the timer ticks.
 - scancode_to_ascii: Converts a keyboard scancode to its corresponding ASCII character, taking into account whether the Shift key is pressed.
