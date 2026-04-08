@@ -15,9 +15,14 @@ irq0_entry:
 
 irq0_handler:
     cli
-.hang:
-    hlt
-    jmp .hang
+    pusha
+
+    ; 🔥 send EOI FIRST (safe position)
+    mov al, 0x20
+    out 0x20, al
+
+    popa
+    iret
 
 irq_dummy:
     pusha
