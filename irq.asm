@@ -17,9 +17,10 @@ irq0_handler:
     cli
     pusha
 
-    ; 🔥 send EOI FIRST (safe position)
     mov al, 0x20
     out 0x20, al
+
+    call irq_handler
 
     popa
     iret
