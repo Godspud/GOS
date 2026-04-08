@@ -14,13 +14,11 @@ irq0_entry:
     iret
 
 irq0_handler:
-    cli
     pusha
 
+    ; send EOI to PIC
     mov al, 0x20
     out 0x20, al
-
-    call irq_handler
 
     popa
     iret

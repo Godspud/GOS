@@ -14,7 +14,7 @@ void init_all()
     gdt_init();
     idt_init();
     irq_remap();
-    pit_init();
+    // pit_init();
     //__asm__ volatile("sti");
     time_init();
     keyboard_init();
