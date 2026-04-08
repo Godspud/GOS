@@ -2,13 +2,20 @@
 #include "include/drivers/io.h"
 #include "stdint.h"
 #include "vga.h"
+#include "include/drivers/keyboard.h"
 
 void send_eoi()
 {
     outb(0x20, 0x20);
 }
-void irq_handler()
+void irq_handler(int irq)
 {
+    // if (irq == 1)
+    //{
+    print_string("Keyboard IRQ received! ", COLOR_LIGHT_RED);
+    keyboard_callback();
+    print_string("Keyboard IRQ handled!", COLOR_LIGHT_RED);
+    //}
     print_string("IRQ received! ", COLOR_LIGHT_RED);
     tick();
     send_eoi();

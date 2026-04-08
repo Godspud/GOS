@@ -12,7 +12,7 @@ irq0_entry:
     mov al,0x20
     out 0x20, al
     iret
-    
+
 irq0_handler:
     cli
     pusha
@@ -28,7 +28,7 @@ irq0_handler:
     mov fs, ax
     mov gs, ax
 
-    push esp        ; pass pointer to registers
+    push dword 1        ; pass pointer to registers
     call irq_handler
     add esp, 4
 
