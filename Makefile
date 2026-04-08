@@ -66,6 +66,9 @@ $(ISO): $(KERNEL)
 run: $(ISO)
 	qemu-system-i386 -cdrom build/os.iso -boot d -m 32 -vga std -serial stdio
 
+run_debug: $(ISO)
+	qemu-system-i386 -cdrom build/os.iso -boot d -m 32 -vga std -no-reboot -d int,cpu_reset 2>&1 | tee $(LOG_FILE)
+
 # -------------------------------
 # Git integration
 # -------------------------------
