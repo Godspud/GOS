@@ -14,9 +14,9 @@ void init_all()
     idt_init();
     irq_remap();
     pit_init();
-    __asm__ volatile("sti");
+    //__asm__ volatile("sti");
     time_init();
     keyboard_init();
     cmos_init();
-    //__asm__ volatile("sti"); // INTERUPTS
+    __asm__ volatile("sti"); // INTERUPTS
 }
