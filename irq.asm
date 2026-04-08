@@ -15,13 +15,9 @@ irq0_entry:
 
 irq0_handler:
     cli
-    pusha
-
-    mov al, 0x20
-    out 0x20, al
-
-    popa
-    iret
+.hang:
+    hlt
+    jmp .hang
 
 irq_dummy:
     pusha
