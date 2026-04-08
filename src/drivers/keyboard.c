@@ -78,38 +78,38 @@ void keyboard_init(void)
     int counter = 0;
     int response = 0;
     // wait until the keyboard controller is ready to receive commands (bit 1 of the status port is clear)
-    while ((inb(KEYBOARD_STATUS_PORT) & 0x02) != 0)
-        ;
-
-    outb(KEYBOARD_STATUS_PORT, 0xAE);
-
-    while ((inb(KEYBOARD_STATUS_PORT) & 0x01) != 0)
-    {
-        inb(KEYBOARD_DATA_PORT);
-    }
-
-    outb(0x60, 0xFF);
-    for (counter; counter < 3; counter++)
-        ;
-    {
-        while (!(inb(KEYBOARD_STATUS_PORT) & 0x01))
-            ;
-        response = inb(KEYBOARD_DATA_PORT);
-        if (response == 0xFA)
-        {
-            ack = 1;
-        }
-        if (response == 0xAA)
-        {
-            pass = 1;
-            print_string("PASS", COLOR_GREEN);
-        }
-        if (response == 0xFE)
-        {
-            print_string("RETURN", COLOR_RED);
-            return keyboard_init();
-        }
-    }
+    // while ((inb(KEYBOARD_STATUS_PORT) & 0x02) != 0)
+    //    ;
+    //
+    // outb(KEYBOARD_STATUS_PORT, 0xAE);
+    //
+    // while ((inb(KEYBOARD_STATUS_PORT) & 0x01) != 0)
+    //{
+    //    inb(KEYBOARD_DATA_PORT);
+    //}
+    //
+    // outb(0x60, 0xFF);
+    // for (counter; counter < 3; counter++)
+    //    ;
+    //{
+    //    while (!(inb(KEYBOARD_STATUS_PORT) & 0x01))
+    //        ;
+    //    response = inb(KEYBOARD_DATA_PORT);
+    //    if (response == 0xFA)
+    //    {
+    //        ack = 1;
+    //    }
+    //    if (response == 0xAA)
+    //    {
+    //        pass = 1;
+    //        print_string("PASS", COLOR_GREEN);
+    //    }
+    //    if (response == 0xFE)
+    //    {
+    //        print_string("RETURN", COLOR_RED);
+    //        return keyboard_init();
+    //    }
+    //}
 
     last_scancode = 0;
     // return ((ack << 1) | pass);

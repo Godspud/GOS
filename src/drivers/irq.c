@@ -12,13 +12,13 @@ void irq_handler(int irq)
 {
     // if (irq == 1)
     //{
-    print_string("Keyboard IRQ received! ", COLOR_LIGHT_RED);
-    keyboard_callback();
-    print_string("Keyboard IRQ handled!", COLOR_LIGHT_RED);
+    // print_string("Keyboard IRQ received! ", COLOR_LIGHT_RED);
+    // keyboard_callback();
+    // print_string("Keyboard IRQ handled!", COLOR_LIGHT_RED);
     //}
-    print_string("IRQ received! ", COLOR_LIGHT_RED);
-    tick();
-    send_eoi();
+    // print_string("IRQ received! ", COLOR_LIGHT_RED);
+    // tick();
+    // send_eoi();
 }
 
 static inline void io_wait()
