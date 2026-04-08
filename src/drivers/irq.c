@@ -1,6 +1,7 @@
 #include "include/drivers/time/timer.h"
 #include "include/drivers/io.h"
 #include "stdint.h"
+#include "vga.h"
 
 void send_eoi()
 {
@@ -8,6 +9,7 @@ void send_eoi()
 }
 void irq_handler()
 {
+    print_string("IRQ received! ", COLOR_LIGHT_RED);
     tick();
     send_eoi();
 }

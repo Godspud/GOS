@@ -12,20 +12,38 @@ irq0_entry:
     mov al,0x20
     out 0x20, al
     iret
-
+    
 irq0_handler:
-    pushad
+    cli
+    pusha
+
+    push ds
+    push es
+    push fs
+    push gs
+
+    mov ax, 0x10
+    mov ds, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
+
+    push esp        ; pass pointer to registers
     call irq_handler
-    popad
+    add esp, 4
+
+    pop gs
+    pop fs
+    pop es
+    pop ds
+
+    popa
+
     mov al, 0x20
     out 0x20, al
+
+    sti
     iret
-    ;cli
-    ;pusha
-    ;call irq_handler
-    ;popa
-    ;sti
-    ;iret
 
 irq_dummy:
     pusha
