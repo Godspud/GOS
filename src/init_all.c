@@ -5,6 +5,7 @@
 #include "include/drivers/keyboard.h"
 #include "include/drivers/time/pit.h"
 #include "include/drivers/cmos.h"
+#include "core/gdt.h"
 
 void init_all()
 {
