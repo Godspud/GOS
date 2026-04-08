@@ -17,32 +17,10 @@ irq0_handler:
     cli
     pusha
 
-    push ds
-    push es
-    push fs
-    push gs
-
-    mov ax, 0x10
-    mov ds, ax
-    mov es, ax
-    mov fs, ax
-    mov gs, ax
-
-    push dword 1        ; pass pointer to registers
-    call irq_handler
-    add esp, 4
-
-    pop gs
-    pop fs
-    pop es
-    pop ds
-
-    popa
-
     mov al, 0x20
     out 0x20, al
 
-    ;sti
+    popa
     iret
 
 irq_dummy:
