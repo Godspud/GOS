@@ -9,9 +9,10 @@ void irq_handler(int irq)
     if (irq == 32)
     {
         tick();
-        print_string("T", COLOR_LIGHT_BLUE);
-        __asm__ volatile("hlt");
     }
+
+    print_string("T", COLOR_LIGHT_BLUE);
+    __asm__ volatile("hlt");
 }
 
 static inline void io_wait()
