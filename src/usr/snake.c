@@ -2,6 +2,7 @@
 #include "include/drivers/keyboard.h"
 #include "lib/random.h"
 #include "include/macros.h"
+#include "include/drivers/time/timer.h"
 
 extern volatile unsigned int ticks;
 
