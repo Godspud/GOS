@@ -54,8 +54,9 @@ void check_food_pickup(int snake_pos[2], int food_pos[2], int *tail_length)
     }
 }
 
-void move_snake(int direction, int snake_pos[2], int tail_pos[100][2], int food_pos[2], int tail_length)
+void move_snake(int direction, int snake_pos[2], int tail_pos[100][2], int food_pos[2], int *tail_length)
 {
+    int prev_pos[2] = {snake_pos[0], snake_pos[1]};
     if (direction == 0)
     {
         snake_pos[1] -= 1;
@@ -72,11 +73,9 @@ void move_snake(int direction, int snake_pos[2], int tail_pos[100][2], int food_
     {
         snake_pos[0] += 1;
     }
-    int prev_pos[2] = {snake_pos[0], snake_pos[1]};
-    snake_pos[1] -= 1;
-    snake_tail_update(prev_pos, tail_pos, tail_length);
-    check_food_pickup(snake_pos, food_pos, &tail_length);
-    snake_redraw(snake_pos, tail_pos, food_pos, tail_length);
+    snake_tail_update(prev_pos, tail_pos, *tail_length);
+    check_food_pickup(snake_pos, food_pos, tail_length);
+    snake_redraw(snake_pos, tail_pos, food_pos, *tail_length);
 }
 
 void snake_main()
@@ -92,7 +91,7 @@ void snake_main()
     tail_pos[0][0] = snake_pos[0];
     vga_clear(COLOR_BLACK);
     vga_write_char(snake_pos[0], snake_pos[1], '#', COLOR_LIGHT_GREEN);
-    move_snake(direction, snake_pos, tail_pos, food_pos, tail_length);
+    move_snake(direction, snake_pos, tail_pos, food_pos, &tail_length);
     while (1)
     {
 
