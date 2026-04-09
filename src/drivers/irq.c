@@ -4,17 +4,12 @@
 #include "vga.h"
 #include "include/drivers/keyboard.h"
 
-void send_eoi()
-{
-    outb(0x20, 0x20);
-}
 void irq_handler(int irq)
 {
     if (irq == 32)
     {
         tick();
     }
-    // send_eoi();
 }
 
 static inline void io_wait()
