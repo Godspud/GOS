@@ -94,12 +94,12 @@ void snake_main()
     vga_write_char(snake_pos[0], snake_pos[1], '#', COLOR_LIGHT_GREEN);
     while (1)
     {
-        // char dbg[4];
-        // dbg[0] = '0' + (ticks / 1000) % 10;
-        // dbg[1] = '0' + (ticks / 100) % 10;
-        // dbg[2] = '0' + (ticks / 10) % 10;
-        // dbg[3] = '\0';
-        // vga_write_string(70, 0, dbg, COLOR_WHITE);
+        char dbg[4];
+        dbg[0] = '0' + (ticks / 1000) % 10;
+        dbg[1] = '0' + (ticks / 100) % 10;
+        dbg[2] = '0' + (ticks / 10) % 10;
+        dbg[3] = '\0';
+        vga_write_string(70, 0, dbg, COLOR_WHITE);
         if (ticks - tick_counter >= 100)
         {
             tick_counter = ticks;
