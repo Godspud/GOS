@@ -28,27 +28,25 @@ irq1_handler:
 ; GENERIC IRQ HANDLER
 ; =========================
 irq_common:
-    pusha
+    pusha                   ; pushes 8 regs = 32 bytes, irq# now at [esp+32]
 
-    ; set segments
     mov ax, 0x10
     mov ds, ax
     mov es, ax
     mov fs, ax
     mov gs, ax
 
-    push esp
+    mov eax, [esp + 32]     ; read IRQ number from stack (skipping the 8 pusha regs)
+    push eax                ; push it as the argument to irq_handler(int irq)
     call irq_handler
-    add esp, 4
+    add esp, 4              ; clean up the argument
 
-    popa
-    add esp, 8
-
-    ; send EOI (master PIC only for now)
+    popa                    ; restore the 8 registers
+    add esp, 8              ; clean up the two pushes (error code + irq number)
     mov al, 0x20
     out 0x20, al
-
     iret
+
 
 ; =========================
 ; DUMMY IRQ HANDLER (for unused IRQs)
