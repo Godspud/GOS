@@ -20,7 +20,6 @@ void init_all()
     keyboard_init();
     cmos_init();
     print_string("IRQ0 addr: ", COLOR_LIGHT_GREEN);
-    print_hex((uint32_t)irq0_handler);
     print_string("Initialization complete!\n", COLOR_LIGHT_GREEN);
     __asm__ volatile("sti"); // INTERUPTS
     print_string("Starting kernel...\n", COLOR_LIGHT_GREEN);
