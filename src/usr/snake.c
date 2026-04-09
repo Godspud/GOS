@@ -105,35 +105,19 @@ void snake_main()
         }
         else if (key == 'w')
         {
-            int prev_pos[2] = {snake_pos[0], snake_pos[1]};
             direction = 0;
-            snake_tail_update(prev_pos, tail_pos, tail_length);
-            check_food_pickup(snake_pos, food_pos, &tail_length);
-            snake_redraw(snake_pos, tail_pos, food_pos, tail_length);
         }
         else if (key == 's')
         {
-            int prev_pos[2] = {snake_pos[0], snake_pos[1]};
             direction = 1;
-            snake_tail_update(prev_pos, tail_pos, tail_length);
-            check_food_pickup(snake_pos, food_pos, &tail_length);
-            snake_redraw(snake_pos, tail_pos, food_pos, tail_length);
         }
         else if (key == 'a')
         {
-            int prev_pos[2] = {snake_pos[0], snake_pos[1]};
             direction = 2;
-            snake_tail_update(prev_pos, tail_pos, tail_length);
-            check_food_pickup(snake_pos, food_pos, &tail_length);
-            snake_redraw(snake_pos, tail_pos, food_pos, tail_length);
         }
         else if (key == 'd')
         {
-            int prev_pos[2] = {snake_pos[0], snake_pos[1]};
             direction = 3;
-            snake_tail_update(prev_pos, tail_pos, tail_length);
-            check_food_pickup(snake_pos, food_pos, &tail_length);
-            snake_redraw(snake_pos, tail_pos, food_pos, tail_length);
         }
         // kill logic
         if ((snake_pos[0] < 0 || snake_pos[0] >= 80) || (snake_pos[1] < 0 || snake_pos[1] >= 25))
