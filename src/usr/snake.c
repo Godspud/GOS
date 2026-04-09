@@ -87,14 +87,15 @@ void snake_main()
     int snake_pos[2] = {0, 0};
     int tail_pos[100][2] = {0};
     int tail_length = 0;
-    unsigned int tick_counter = 0;
+    unsigned int last_move_tick = 0;
     tail_pos[0][0] = snake_pos[0];
     vga_clear(COLOR_BLACK);
     vga_write_char(snake_pos[0], snake_pos[1], '#', COLOR_LIGHT_GREEN);
     while (1)
     {
-        every(200)
+        if (ticks - last_move_tick >= 200)
         {
+            last_move_tick = ticks;
             move_snake(direction, snake_pos, tail_pos, food_pos, &tail_length);
         }
         char key = keyboard_read(0);
