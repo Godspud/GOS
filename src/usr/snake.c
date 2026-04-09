@@ -91,10 +91,12 @@ void snake_main()
     tail_pos[0][0] = snake_pos[0];
     vga_clear(COLOR_BLACK);
     vga_write_char(snake_pos[0], snake_pos[1], '#', COLOR_LIGHT_GREEN);
-    move_snake(direction, snake_pos, tail_pos, food_pos, &tail_length);
     while (1)
     {
-
+        every(1)
+        {
+            move_snake(direction, snake_pos, tail_pos, food_pos, &tail_length);
+        }
         char key = keyboard_read(0);
         if (key == '\b')
         {
