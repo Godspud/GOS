@@ -78,15 +78,13 @@ void keyboard_init(void)
     int counter = 0;
     int response = 0;
     // wait until the keyboard controller is ready to receive commands (bit 1 of the status port is clear)
-    // while ((inb(KEYBOARD_STATUS_PORT) & 0x02) != 0)
-    //    ;
-    //
-    // outb(KEYBOARD_STATUS_PORT, 0xAE);
-    //
-    // while ((inb(KEYBOARD_STATUS_PORT) & 0x01) != 0)
-    //{
-    //    inb(KEYBOARD_DATA_PORT);
-    //}
+    while ((inb(KEYBOARD_STATUS_PORT) & 0x02) != 0)
+        ;
+    outb(KEYBOARD_STATUS_PORT, 0xAE);
+    while ((inb(KEYBOARD_STATUS_PORT) & 0x01) != 0)
+    {
+        inb(KEYBOARD_DATA_PORT);
+    }
     //
     // outb(0x60, 0xFF);
     // for (counter; counter < 3; counter++)
