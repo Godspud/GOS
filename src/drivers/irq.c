@@ -9,7 +9,6 @@ void irq_handler(int irq)
     if (irq == 32)
     {
         tick();
-        print_string("T", COLOR_LIGHT_BLUE);
     }
 }
 

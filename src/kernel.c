@@ -40,6 +40,7 @@ void kernel_main()
         time[8] = '\0';
         vga_write_string(66, 0, "Time: ", COLOR_LIGHT_MAGENTA);
         vga_write_string(72, 0, time, COLOR_LIGHT_MAGENTA);
+        vga_write_string(0, 25, ticks, COLOR_LIGHT_MAGENTA);
         input_char = keyboard_read(&shift_pressed);
         if (input_char == '\n')
         {
