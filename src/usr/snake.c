@@ -93,7 +93,7 @@ void snake_main()
     vga_write_char(snake_pos[0], snake_pos[1], '#', COLOR_LIGHT_GREEN);
     while (1)
     {
-        every(1)
+        every(200)
         {
             move_snake(direction, snake_pos, tail_pos, food_pos, &tail_length);
         }
