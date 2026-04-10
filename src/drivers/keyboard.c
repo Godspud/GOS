@@ -1,7 +1,17 @@
 #include "include/drivers/keyboard.h"
 #include "include/drivers/io.h"
 #include "vga.h"
+#include <stdint.h>
 
+#include <stdint.h>
+
+void keyboard_callback()
+{
+    uint8_t scancode = inb(0x60); // 🔥 THIS LINE IS REQUIRED
+
+    // optional debug
+    print_string("K", COLOR_LIGHT_RED);
+}
 /*
 - get_time_ms: Returns the current time in milliseconds based on the timer ticks.
 - scancode_to_ascii: Converts a keyboard scancode to its corresponding ASCII character, taking into account whether the Shift key is pressed.
@@ -61,7 +71,7 @@ unsigned char keyboard_wait(void)
 /**
  * keyboard_init: Initializes the keyboard controller and sets up necessary state for handling keyboard input.
  */
-int keyboard_init(void)
+void keyboard_init(void)
 {
     int ack = 0;
     int pass = 0;
@@ -70,39 +80,37 @@ int keyboard_init(void)
     // wait until the keyboard controller is ready to receive commands (bit 1 of the status port is clear)
     while ((inb(KEYBOARD_STATUS_PORT) & 0x02) != 0)
         ;
-
     outb(KEYBOARD_STATUS_PORT, 0xAE);
-
     while ((inb(KEYBOARD_STATUS_PORT) & 0x01) != 0)
     {
         inb(KEYBOARD_DATA_PORT);
     }
-
-    outb(0x60, 0xFF);
-    for (counter; counter < 3; counter++)
-        ;
-    {
-        while (!(inb(KEYBOARD_STATUS_PORT) & 0x01))
-            ;
-        response = inb(KEYBOARD_DATA_PORT);
-        if (response == 0xFA)
-        {
-            ack = 1;
-        }
-        if (response == 0xAA)
-        {
-            pass = 1;
-            print_string("PASS", COLOR_GREEN);
-        }
-        if (response == 0xFE)
-        {
-            print_string("RETURN", COLOR_RED);
-            return keyboard_init();
-        }
-    }
+    //
+    // outb(0x60, 0xFF);
+    // for (counter; counter < 3; counter++)
+    //    ;
+    //{
+    //    while (!(inb(KEYBOARD_STATUS_PORT) & 0x01))
+    //        ;
+    //    response = inb(KEYBOARD_DATA_PORT);
+    //    if (response == 0xFA)
+    //    {
+    //        ack = 1;
+    //    }
+    //    if (response == 0xAA)
+    //    {
+    //        pass = 1;
+    //        print_string("PASS", COLOR_GREEN);
+    //    }
+    //    if (response == 0xFE)
+    //    {
+    //        print_string("RETURN", COLOR_RED);
+    //        return keyboard_init();
+    //    }
+    //}
 
     last_scancode = 0;
-    return ((ack << 1) | pass);
+    // return ((ack << 1) | pass);
 }
 /**
  * keyboard_set_repeat: Enables or disables key repeat functionality.
@@ -164,7 +172,7 @@ char keyboard_read(int *shift_pressed)
 
     if ((inb(KEYBOARD_STATUS_PORT) & 0x01) == 0)
     {
-        return "";
+        return 0;
     }
 
     unsigned char scancode = inb(KEYBOARD_DATA_PORT);
