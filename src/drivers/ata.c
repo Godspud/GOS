@@ -25,7 +25,7 @@ void ata_init(void)
 }
 
 // Read 512 bytes from sector at address 'lba'
-int ata_read_sector(unsigned int lba, unsigned char *buffer)
+int ata_read_sector(unsigned int lba, void *buffer)
 {
     unsigned short *buf_words = (unsigned short *)buffer;
     int i;
@@ -65,10 +65,10 @@ int ata_read_sector(unsigned int lba, unsigned char *buffer)
 }
 
 // Write 512 bytes to sector at address 'lba'
-int ata_write_sector(unsigned int lba, unsigned char *buffer)
+int ata_write_sector(unsigned int lba, const void *buffer)
 {
     print_char('0', COLOR_RED); // Debug: entered write function
-    unsigned short *buf_words = (unsigned short *)buffer;
+    const unsigned short *buf_words = (const unsigned short *)buffer;
     int counter;
 
     ata_wait_bsy();
