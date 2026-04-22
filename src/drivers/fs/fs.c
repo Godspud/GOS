@@ -29,5 +29,5 @@ void fs_init(void)
     {
         header.reserved[i - 19] = 0;
     }
-    ata_write_sector(0, (unsigned char *)&header);
+    ata_write_sector(0, &header, sizeof(header));
 }

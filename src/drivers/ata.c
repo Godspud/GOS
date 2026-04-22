@@ -1,5 +1,9 @@
 #include "include/drivers/ata.h"
 #include "vga.h"
+static unsigned int min_u32(unsigned int a, unsigned int b)
+{
+    return (a < b) ? a : b;
+}
 
 // Wait until drive is NOT busy
 static void ata_wait_bsy(void)
@@ -25,9 +29,12 @@ void ata_init(void)
 }
 
 // Read 512 bytes from sector at address 'lba'
-int ata_read_sector(unsigned int lba, void *buffer)
+int ata_read_sector(unsigned int lba, void *buffer, unsigned int buffer_size)
 {
-    unsigned short *buf_words = (unsigned short *)buffer;
+    unsigned short sector_words[256];
+    unsigned int bytes_to_copy;
+    unsigned char *dst = (unsigned char *)buffer;
+    unsigned char *src = (unsigned char *)sector_words;
     int i;
 
     // Step 1: Wait for drive to not be busy
@@ -58,18 +65,30 @@ int ata_read_sector(unsigned int lba, void *buffer)
     // Step 6: Read 256 words (512 bytes) from data port
     for (i = 0; i < 256; i++)
     {
-        buf_words[i] = inw(ATA_SEC_DATA); // inw reads 2 bytes at once
+        sector_words[i] = inw(ATA_SEC_DATA); // inw reads 2 bytes at once
     }
+    bytes_to_copy = min_u32(buffer_size, 512);
+    for (i = 0; i < (int)bytes_to_copy; i++)
+        dst[i] = src[i];
 
     return 0; // Success
 }
 
 // Write 512 bytes to sector at address 'lba'
-int ata_write_sector(unsigned int lba, const void *buffer)
+int ata_write_sector(unsigned int lba, const void *buffer, unsigned int buffer_size)
 {
     print_char('0', COLOR_RED); // Debug: entered write function
-    const unsigned short *buf_words = (const unsigned short *)buffer;
+    unsigned char sector[512];
+    const unsigned char *src = (const unsigned char *)buffer;
+    const unsigned short *buf_words = (const unsigned short *)sector;
+    unsigned int bytes_to_copy;
     int counter;
+
+    for (counter = 0; counter < 512; counter++)
+        sector[counter] = 0;
+    bytes_to_copy = min_u32(buffer_size, 512);
+    for (counter = 0; counter < (int)bytes_to_copy; counter++)
+        sector[counter] = src[counter];
 
     ata_wait_bsy();
     print_char('1', COLOR_RED); // Debug: reached write function
