@@ -23,11 +23,8 @@ typedef struct
 void fs_init(void)
 {
     fs_header_t header;
+    memset(&header, 0, sizeof(header));
     header.version = 1;
     //strcpy(header.magic, "#qorkcrastinatingFS");
-    for (int i = 19; i < 512; i++)
-    {
-        header.reserved[i - 19] = 0;
-    }
     ata_write_sector(0, &header, sizeof(header));
 }

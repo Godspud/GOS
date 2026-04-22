@@ -28,10 +28,10 @@ void init_all()
     print_string("Keyboard initialized\n", COLOR_LIGHT_GREEN);
     cmos_init();
     print_string("CMOS initialized\n", COLOR_LIGHT_GREEN);
-    fs_init();
-    print_string("Filesystem initialized\n", COLOR_LIGHT_GREEN);
     ata_init();
     print_string("ATA initialized\n", COLOR_LIGHT_GREEN);
+    fs_init();
+    print_string("Filesystem initialized\n", COLOR_LIGHT_GREEN);
     print_string("Initialization complete!\n", COLOR_LIGHT_GREEN);
     __asm__ volatile("sti"); // INTERUPTS
     print_string("Starting kernel...\n", COLOR_LIGHT_GREEN);
