@@ -20,6 +20,7 @@ void init_all()
     time_init();
     keyboard_init();
     cmos_init();
+    fs_init();
     ata_init();
     print_string("IRQ0 addr: ", COLOR_LIGHT_GREEN);
     print_string("Initialization complete!\n", COLOR_LIGHT_GREEN);
