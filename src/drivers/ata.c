@@ -13,6 +13,7 @@ static void ata_wait_drq(void)
 {
     while (!(inb(ATA_SEC_STATUS) & ATA_STATUS_DRQ))
         ; // Keep looping until DRQ bit is set
+    return;
 }
 
 // Initialize ATA driver
@@ -95,7 +96,7 @@ int ata_write_sector(unsigned int lba, unsigned char *buffer)
     print_char('5', COLOR_RED); // Debug: command sent
 
     // Wait for DRQ (data request)
-    // ata_wait_drq();
+    ata_wait_drq();
     print_char('6', COLOR_RED); // Debug: drive ready for data
 
     // Write 256 words (512 bytes)
