@@ -3,16 +3,21 @@
 
 #include "io.h"
 
-// === SECONDARY IDE CHANNEL (where disk.img is connected) ===
-#define ATA_SEC_DATA 0x170       // Read/write data
-#define ATA_SEC_ERROR 0x171      // Read error info
-#define ATA_SEC_SECTOR_CNT 0x172 // How many sectors to read/write
-#define ATA_SEC_LBA_LOW 0x173    // Low 8 bits of sector address
-#define ATA_SEC_LBA_MID 0x174    // Middle 8 bits
-#define ATA_SEC_LBA_HIGH 0x175   // High 8 bits
-#define ATA_SEC_DRIVE 0x176      // Drive select (master/slave)
-#define ATA_SEC_STATUS 0x177     // Read status / write command
-#define ATA_SEC_COMMAND 0x177    // Same port, write = command
+// === IDE CHANNEL / TARGET SELECTION ===
+// QEMU with -drive if=ide,index=1 maps to PRIMARY channel, SLAVE drive.
+#define ATA_IO_PRIMARY 0x1F0
+#define ATA_IO_SECONDARY 0x170
+#define ATA_IO_BASE ATA_IO_PRIMARY
+
+#define ATA_SEC_DATA (ATA_IO_BASE + 0)       // Read/write data
+#define ATA_SEC_ERROR (ATA_IO_BASE + 1)      // Read error info
+#define ATA_SEC_SECTOR_CNT (ATA_IO_BASE + 2) // How many sectors to read/write
+#define ATA_SEC_LBA_LOW (ATA_IO_BASE + 3)    // Low 8 bits of sector address
+#define ATA_SEC_LBA_MID (ATA_IO_BASE + 4)    // Middle 8 bits
+#define ATA_SEC_LBA_HIGH (ATA_IO_BASE + 5)   // High 8 bits
+#define ATA_SEC_DRIVE (ATA_IO_BASE + 6)      // Drive select (master/slave)
+#define ATA_SEC_STATUS (ATA_IO_BASE + 7)     // Read status / write command
+#define ATA_SEC_COMMAND (ATA_IO_BASE + 7)    // Same port, write = command
 
 // === ATA COMMANDS ===
 #define ATA_CMD_READ 0x20  // Read sectors
@@ -27,6 +32,8 @@
 // === DRIVE SELECT ===
 #define ATA_DRIVE_MASTER 0xA0 // Master drive
 #define ATA_DRIVE_SLAVE 0xB0  // Slave drive
+#define ATA_DRIVE_LBA 0x40    // Use LBA addressing (not CHS)
+#define ATA_TARGET_DRIVE ATA_DRIVE_SLAVE
 
 // === FUNCTION PROTOTYPES ===
 void ata_init(void);

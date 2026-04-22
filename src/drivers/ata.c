@@ -38,7 +38,7 @@ int ata_read_sector(unsigned int lba, unsigned char *buffer)
     outb(ATA_SEC_LBA_LOW, lba & 0xFF);                            // Bits 0-7
     outb(ATA_SEC_LBA_MID, (lba >> 8) & 0xFF);                     // Bits 8-15
     outb(ATA_SEC_LBA_HIGH, (lba >> 16) & 0xFF);                   // Bits 16-23
-    outb(ATA_SEC_DRIVE, ATA_DRIVE_MASTER | ((lba >> 24) & 0x0F)); // Bits 24-27 + drive select
+    outb(ATA_SEC_DRIVE, ATA_TARGET_DRIVE | ATA_DRIVE_LBA | ((lba >> 24) & 0x0F)); // Bits 24-27 + drive select
 
     // Step 3: Tell drive we want to read 1 sector
     outb(ATA_SEC_SECTOR_CNT, 1);
@@ -82,7 +82,7 @@ int ata_write_sector(unsigned int lba, unsigned char *buffer)
     print_char('2', COLOR_RED); // Debug: LBA set
 
     // Set drive/head register
-    outb(ATA_SEC_DRIVE, ATA_DRIVE_MASTER | ((lba >> 24) & 0x0F));
+    outb(ATA_SEC_DRIVE, ATA_TARGET_DRIVE | ATA_DRIVE_LBA | ((lba >> 24) & 0x0F));
     print_char('3', COLOR_RED); // Debug: drive selected
 
     // Small delay for drive select to take effect
