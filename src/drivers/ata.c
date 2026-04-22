@@ -94,7 +94,10 @@ int ata_write_sector(unsigned int lba, unsigned char *buffer)
         outw(ATA_SEC_DATA, buf_words[i]); // outw writes 2 bytes at once
     }
 
-    // Step 7: Wait for write to complete
+    // Step 7: Read status to acknowledge write completion
+    inb(ATA_SEC_STATUS);
+
+    // Step 8: Wait for write to complete
     ata_wait_bsy();
     if (inb(ATA_SEC_STATUS) & ATA_STATUS_ERR)
     {
