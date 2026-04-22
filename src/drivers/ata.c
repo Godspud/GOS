@@ -67,6 +67,7 @@ int ata_read_sector(unsigned int lba, unsigned char *buffer)
 // Write 512 bytes to sector at address 'lba'
 int ata_write_sector(unsigned int lba, unsigned char *buffer)
 {
+    print_char('0', COLOR_RED); // Debug: entered write function
     unsigned short *buf_words = (unsigned short *)buffer;
     int counter;
 
