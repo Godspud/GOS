@@ -7,6 +7,7 @@
 #include "include/drivers/cmos.h"
 #include "core/gdt.h"
 #include "vga.h"
+#include "include/drivers/ata.h"
 
 extern void irq0_handler(void);
 
@@ -19,6 +20,7 @@ void init_all()
     time_init();
     keyboard_init();
     cmos_init();
+    ata_init();
     print_string("IRQ0 addr: ", COLOR_LIGHT_GREEN);
     print_string("Initialization complete!\n", COLOR_LIGHT_GREEN);
     __asm__ volatile("sti"); // INTERUPTS
