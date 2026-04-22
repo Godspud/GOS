@@ -95,7 +95,7 @@ int ata_write_sector(unsigned int lba, unsigned char *buffer)
     print_char('5', COLOR_RED); // Debug: command sent
 
     // Wait for DRQ (data request)
-    ata_wait_drq();
+    // ata_wait_drq();
     print_char('6', COLOR_RED); // Debug: drive ready for data
 
     // Write 256 words (512 bytes)
