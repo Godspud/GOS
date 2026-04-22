@@ -6,6 +6,7 @@
 #include "include/drivers/time/timer.h"
 #include "include/drivers/cmos.h"
 #include "core/idt.h"
+#include "include/drivers/ata.h"
 
 extern volatile unsigned int ticks;
 
@@ -19,7 +20,7 @@ void kernel_main()
     int keyboard_response = 0b00;
     char ticks_str[20];
 
-    vga_clear(COLOR_BLACK);
+    // vga_clear(COLOR_BLACK);
     vga_enable_cursor();
     print_string("================================================\n", COLOR_LIGHT_CYAN);
     print_string("            Welcome to OS!\n", COLOR_WHITE);
