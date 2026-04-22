@@ -17,6 +17,7 @@ SRC_DIR = src
 # Output files
 KERNEL = $(BUILD_DIR)/kernel.bin
 ISO = $(BUILD_DIR)/os.iso
+DISK_IMG = $(BUILD_DIR)/disk.img
 LOG_FILE = build.log
 
 # Auto-detect all C files
@@ -63,11 +64,14 @@ $(ISO): $(KERNEL)
 	grub-mkrescue -o $@ $(ISO_DIR)
 
 # Run Bochs
-run: $(ISO)
-	qemu-system-i386 -cdrom build/os.iso -boot d -m 32 -vga std -serial stdio 
+run: $(ISO) $(DISK_IMG)
+	qemu-system-i386 -cdrom $(ISO) -boot d -m 32 -vga std -serial stdio -drive file=$(DISK_IMG),format=raw,if=ide,index=1,media=disk
 
-run_debug: $(ISO)
-	qemu-system-i386 -cdrom build/os.iso -boot d -m 32 -vga std -no-reboot -d int,cpu_reset 2>&1 | tee $(LOG_FILE)
+run_debug: $(ISO) $(DISK_IMG)
+	qemu-system-i386 -cdrom $(ISO) -boot d -m 32 -vga std -no-reboot -d int,cpu_reset -drive file=$(DISK_IMG),format=raw,if=ide,index=1,media=disk 2>&1 | tee $(LOG_FILE)
+
+$(DISK_IMG): | $(BUILD_DIR)
+	qemu-img create -f raw $@ 10M
 
 # -------------------------------
 # Git integration
@@ -85,3 +89,6 @@ git: all
 
 clean:
 	rm -rf $(BUILD_DIR) $(ISO_DIR)
+
+clean_disk:
+	rm -f $(DISK_IMG)
