@@ -42,9 +42,9 @@ int ata_read_sector(unsigned int lba, void *buffer, unsigned int buffer_size)
 
     // Step 2: Send sector address (LBA mode)
     // LBA is 28-bit: bits 0-7 go to LOW, 8-15 to MID, 16-23 to HIGH, 24-27 to DRIVE reg
-    outb(ATA_SEC_LBA_LOW, lba & 0xFF);                            // Bits 0-7
-    outb(ATA_SEC_LBA_MID, (lba >> 8) & 0xFF);                     // Bits 8-15
-    outb(ATA_SEC_LBA_HIGH, (lba >> 16) & 0xFF);                   // Bits 16-23
+    outb(ATA_SEC_LBA_LOW, lba & 0xFF);                                            // Bits 0-7
+    outb(ATA_SEC_LBA_MID, (lba >> 8) & 0xFF);                                     // Bits 8-15
+    outb(ATA_SEC_LBA_HIGH, (lba >> 16) & 0xFF);                                   // Bits 16-23
     outb(ATA_SEC_DRIVE, ATA_TARGET_DRIVE | ATA_DRIVE_LBA | ((lba >> 24) & 0x0F)); // Bits 24-27 + drive select
 
     // Step 3: Tell drive we want to read 1 sector
@@ -75,9 +75,10 @@ int ata_read_sector(unsigned int lba, void *buffer, unsigned int buffer_size)
 }
 
 // Write 512 bytes to sector at address 'lba'
-int ata_write_sector(unsigned int lba, const void *buffer, unsigned int buffer_size)
+int ata_write_sector(unsigned int lba, const void *buffer)
 {
     print_char('0', COLOR_RED); // Debug: entered write function
+    unsigned int buffer_size = 512 - sizeof(buffer);
     unsigned char sector[512];
     const unsigned char *src = (const unsigned char *)buffer;
     const unsigned short *buf_words = (const unsigned short *)sector;

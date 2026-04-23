@@ -38,6 +38,6 @@
 // === FUNCTION PROTOTYPES ===
 void ata_init(void);
 int ata_read_sector(unsigned int lba, void *buffer, unsigned int buffer_size);
-int ata_write_sector(unsigned int lba, const void *buffer, unsigned int buffer_size);
+int ata_write_sector(unsigned int lba, const void *buffer);
 
 #endif
