@@ -24,7 +24,10 @@ void fs_init(void)
 {
     fs_header_t header;
     memset(&header, 0, sizeof(header));
+    memcpy(header.magic, "#qorkcrastinatingFS", sizeof(header.magic));
     header.version = 1;
-    //strcpy(header.magic, "#qorkcrastinatingFS");
-    ata_write_sector(0, &header, sizeof(header));
+    if (ata_write_sector(0, &header, sizeof(header)) < 0)
+    {
+        return;
+    }
 }
