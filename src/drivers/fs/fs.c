@@ -37,8 +37,29 @@ int fs_create_file(const char *filename, const char *extension, const void *data
 {
     fs_entry_t entry;
     memset(&entry, 0, sizeof(entry));
-    strncpy(entry.filename, filename, sizeof(entry.filename) - 1);
-    strncpy(entry.extension, extension, sizeof(entry.extension) - 1);
+    unsigned int filename_len = strlen(filename);
+    for (int counter = 0; counter < (int)filename_len && counter < (int)(sizeof(entry.filename) - 1); counter++)
+    {
+        entry.filename[counter] = filename[counter];
+    }
+    for (int counter = 0; counter < (int)sizeof(entry.filename); counter++)
+    {
+        if (counter >= (int)filename_len)
+        {
+            entry.filename[counter] = '\0';
+        }
+    }
+    unsigned int extension_len = strlen(extension);
+    for (int counter = 0; counter < (int)extension_len && counter < (int)(sizeof(entry.extension) - 1); counter++)
+    {
+        entry.extension[counter] = extension[counter];
+    }
+    for (int counter = 0; counter < (int)sizeof(entry.extension); counter++)
+    {
+        if (counter >= (int)extension_len)        {
+            entry.extension[counter] = '\0';
+        }
+    }
     entry.size = size;
     entry.start_sector = 1;                            // For simplicity, we start at sector 1 (after header)
     entry.lenght = size;                               // In a real implementation, we would need to calculate this based on the data size and sector size
