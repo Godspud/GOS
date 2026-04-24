@@ -25,14 +25,14 @@ void ata_init(void)
 {
     // Just wait for drive to be ready
     ata_wait_bsy();
-    print_string("ATA initialized\n", COLOR_GREEN);
 }
 
 // Read 512 bytes from sector at address 'lba'
-int ata_read_sector(unsigned int lba, void *buffer, unsigned int buffer_size)
+int ata_read_sector(unsigned int lba, void *buffer)
 {
     unsigned short sector_words[256];
     unsigned int bytes_to_copy;
+    unsigned int buffer_size = 512 - sizeof(buffer);
     unsigned char *dst = (unsigned char *)buffer;
     unsigned char *src = (unsigned char *)sector_words;
     int i;

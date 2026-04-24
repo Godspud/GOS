@@ -7,6 +7,7 @@
 #include "include/drivers/cmos.h"
 #include "core/idt.h"
 #include "include/drivers/ata.h"
+#include "include/drivers/fs/fs.h"
 
 extern volatile unsigned int ticks;
 
@@ -21,8 +22,7 @@ void kernel_main()
     char ticks_str[20];
 
     // vga_clear(COLOR_BLACK);
-    static const char ata_test_msg[] = "Hello, ATA! This is a test sector. If you can read this, ATA works!\n";
-    ata_write_sector(1, ata_test_msg, sizeof(ata_test_msg));
+    fs_create_file("test", "txt", "Hello, World!", 13);
     vga_enable_cursor();
     print_string("================================================\n", COLOR_LIGHT_CYAN);
     print_string("            Welcome to OS!\n", COLOR_WHITE);

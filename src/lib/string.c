@@ -1,4 +1,3 @@
-#include "string.h"
 
 /*
 - strlen: Returns the length of a null-terminated string.
@@ -112,4 +111,25 @@ void strreplace(const char *src, char *dest, char old_char, char new_char)
         i++;
     }
     dest[i] = '\0';
+}
+
+char *strncpy(char *dest, const char *src, unsigned int n)
+{
+    char *ptr = dest;
+
+    // Copy characters from src to dest
+    while (n > 0 && *src != '\0')
+    {
+        *ptr++ = *src++;
+        n--;
+    }
+
+    // fill the rest with null characters
+    while (n > 0)
+    {
+        *ptr++ = '\0';
+        n--;
+    }
+
+    return dest;
 }

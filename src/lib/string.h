@@ -8,5 +8,6 @@ void memset(void *ptr, int value, int n);
 void memcpy(void *dest, const void *src, int n);
 void strsplit(const char *src, char *dest, char delimiter);
 void strreplace(const char *src, char *dest, char old_char, char new_char);
+char *strncpy(char *dest, const char *src, unsigned int n);
 
 #endif
