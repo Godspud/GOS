@@ -40,8 +40,10 @@ int fs_create_file(const char *filename, const char *extension, const void *data
     strncpy(entry.filename, filename, sizeof(entry.filename) - 1);
     strncpy(entry.extension, extension, sizeof(entry.extension) - 1);
     entry.size = size;
-    entry.start_sector = 1; // For simplicity, we start at sector 1 (after header)
-    entry.lenght = size;    // In a real implementation, we would need to calculate this based on the data size and sector size
+    entry.start_sector = 1;                            // For simplicity, we start at sector 1 (after header)
+    entry.lenght = size;                               // In a real implementation, we would need to calculate this based on the data size and sector size
+    entry.flags = 0;                                   // No special flags for now
+    memset(entry.reserved, 0, sizeof(entry.reserved)); // Reserved bytes set to 0
 
     // Write file data to disk starting at the specified sector
     unsigned int sectors_needed = (size + 511) / 512; // Calculate how many sectors are needed
