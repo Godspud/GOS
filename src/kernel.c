@@ -22,7 +22,8 @@ void kernel_main()
     char ticks_str[20];
 
     // vga_clear(COLOR_BLACK);
-    ata_write_sector(1, '0');
+    char buffer[512];
+    ata_write_sector(1, &buffer); // Clear sector 1 for testing
     fs_create_file("test", "txt", "Hello, World!", 13);
     vga_enable_cursor();
     print_string("================================================\n", COLOR_LIGHT_CYAN);
