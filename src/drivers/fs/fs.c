@@ -51,7 +51,7 @@ int fs_create_file(const char *filename, const char *extension, const void *data
     {
         unsigned int offset = i * 512;
         unsigned int bytes_to_write = (size - offset > 512) ? 512 : (size - offset);
-        if (ata_write_sector(entry.start_sector + i, (const char *)data + offset))
+        if (ata_write_sector(entry.start_sector, (const char *)data + offset))
         {
             return -1; // Error writing file data
         }
