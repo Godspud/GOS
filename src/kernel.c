@@ -23,6 +23,7 @@ void kernel_main()
 
     // vga_clear(COLOR_BLACK);
     char buffer[512];
+    memset(buffer, 0, sizeof(buffer));
     ata_write_sector(1, &buffer); // Clear sector 1 for testing
     fs_create_file("test", "txt", "Hello, World!", 13);
     vga_enable_cursor();
