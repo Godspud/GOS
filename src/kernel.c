@@ -8,6 +8,7 @@
 #include "core/idt.h"
 #include "include/drivers/ata.h"
 #include "include/drivers/fs/fs.h"
+#include <string.h>
 
 extern volatile unsigned int ticks;
 
