@@ -64,20 +64,20 @@ int fs_create_file(const char *filename, const char *extension, const void *data
     entry.start_sector = 1;                            // For simplicity, we start at sector 1 (after header)
     entry.lenght = size;                               // In a real implementation, we would need to calculate this based on the data size and sector size
     entry.flags = 0;                                   // No special flags for now
-    memset(entry.reserved, 0, sizeof(entry.reserved)); // Reserved bytes set to 0
-
-    // Write file data to disk starting at the specified sector
-    unsigned int sectors_needed = (size + 511) / 512; // Calculate how many sectors are needed
-    for (unsigned int i = 0; i < sectors_needed; i++)
-    {
-        unsigned int offset = i * 512;
-        unsigned int bytes_to_write = (size - offset > 512) ? 512 : (size - offset);
-        if (ata_write_sector(entry.start_sector, (const char *)data + offset))
-        {
-            return -1; // Error writing file data
-        }
-    }
-
-    // In a real implementation, we would also need to write the file entry to a directory structure on disk
-    return 0; // Success
+    //memset(entry.reserved, 0, sizeof(entry.reserved)); // Reserved bytes set to 0
+//
+    //// Write file data to disk starting at the specified sector
+    //unsigned int sectors_needed = (size + 511) / 512; // Calculate how many sectors are needed
+    //for (unsigned int i = 0; i < sectors_needed; i++)
+    //{
+    //    unsigned int offset = i * 512;
+    //    unsigned int bytes_to_write = (size - offset > 512) ? 512 : (size - offset);
+    //    if (ata_write_sector(entry.start_sector, (const char *)data + offset))
+    //    {
+    //        return -1; // Error writing file data
+    //    }
+    //}
+//
+    //// In a real implementation, we would also need to write the file entry to a directory structure on disk
+    //return 0; // Success
 }
