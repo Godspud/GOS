@@ -78,19 +78,14 @@ int ata_read_sector(unsigned int lba, void *buffer)
 int ata_write_sector(unsigned int lba, const void *buffer)
 {
     print_char('0', COLOR_RED); // Debug: entered write function
-    unsigned int buffer_size = 512 - sizeof(buffer);
     unsigned char sector[512];
     const unsigned char *src = (const unsigned char *)buffer;
     const unsigned short *buf_words = (const unsigned short *)sector;
-    unsigned int bytes_to_copy;
     int counter;
 
+    // Copy all 512 bytes from buffer to sector
     for (counter = 0; counter < 512; counter++)
-        sector[counter] = 0;
-    bytes_to_copy = min_u32(buffer_size, 512);
-    for (counter = 0; counter < (int)bytes_to_copy; counter++)
         sector[counter] = src[counter];
-
     ata_wait_bsy();
     print_char('1', COLOR_RED); // Debug: reached write function
 
