@@ -2,6 +2,7 @@
 #define FS_H
 
 void fs_init(void);
-int fs_create_file(const char *filename, const char *extension, const void *data, unsigned int size);
+int fs_create_file(const char *filename, const char *extension, const char *data, unsigned int size);
+char *fs_read_file(const char *filename, const char *extension);
 
 #endif
