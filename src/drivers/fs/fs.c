@@ -16,9 +16,9 @@ typedef struct
     char filename[255];      // filename can be up to 255char long(ASCII)
     char extension[15];      // file extension can be up to 15char long(ASCII)
     unsigned int flags;      // 4 bytes def later
-    uint64_t size;           // 64 bytes
-    uint64_t start_sector;   // 64 bytes start pos end pos from start_pos-size
-    uint64_t lenght;         // 64 bytes no need to recaclulate file size from start and end pos everytime
+    uint64_t size;           // 8 bytes (64-bit unsigned integer)
+    uint64_t start_sector;   // 8 bytes (64-bit sector number)
+    uint64_t lenght;         // 8 bytes (64-bit file length)
     unsigned char data[214]; // FILL UP REST so 512-bytes total
 } __attribute__((packed)) fs_entry_t;
 
