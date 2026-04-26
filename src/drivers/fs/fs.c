@@ -13,13 +13,13 @@ typedef struct
 
 typedef struct
 {
-    char filename[255];     // filename can be up to 255char long(ASCII)
-    char extension[15];     // file extension can be up to 15char long(ASCII)
-    unsigned int flags;     // 4 bytes def later
-    uint64_t size;          // 64 bytes
-    uint64_t start_sector;  // 64 bytes start pos end pos from start_pos-size
-    uint64_t lenght;        // 64 bytes no need to recaclulate file size from start and end pos everytime
-    unsigned char data[46]; // FILL UP REST so 512-bytes //maybe shd let u store 226 bytes of data here uk save space
+    char filename[255];      // filename can be up to 255char long(ASCII)
+    char extension[15];      // file extension can be up to 15char long(ASCII)
+    unsigned int flags;      // 4 bytes def later
+    uint64_t size;           // 64 bytes
+    uint64_t start_sector;   // 64 bytes start pos end pos from start_pos-size
+    uint64_t lenght;         // 64 bytes no need to recaclulate file size from start and end pos everytime
+    unsigned char data[214]; // FILL UP REST so 512-bytes total
 } __attribute__((packed)) fs_entry_t;
 
 typedef struct
@@ -73,6 +73,7 @@ int fs_create_file(const char *filename, const char *extension, const char *data
             entry.extension[counter] = '\0';
         }
     }
+    // TODO: SET FLAGS AND STUFFS
     unsigned int data_len = strlen(data);
     for (int counter = 0; counter < (int)data_len && counter < (int)(sizeof(entry.data) - 1); counter++)
     {
@@ -90,19 +91,10 @@ int fs_create_file(const char *filename, const char *extension, const char *data
     entry.lenght = size;    // In a real implementation, we would need to calculate this based on the data size and sector size
     entry.flags = 0;        // No special flags for now
 
-    // Write file data to disk starting at the specified sector
-    // unsigned int sectors_needed = (size + 511) / 512; // Calculate how many sectors are needed
-    // for (unsigned int i = 0; i < sectors_needed; i++)
-    //{
-    //    unsigned int offset = i * 512;
-    //    unsigned int bytes_to_write = (size - offset > 512) ? 512 : (size - offset);
-    //    if (ata_write_sector(entry.start_sector, (const char *)data + offset))
-    //    {
-    //        return -1; // Error writing file data
-    //    }
-    //}
-
-    ata_write_sector(1, &entry);
+    // Write file entry to disk - ensure entire sector is initialized
+    char sector_buffer[512] = {0};                // Zero entire sector
+    memcpy(sector_buffer, &entry, sizeof(entry)); // Copy structure
+    ata_write_sector(1, sector_buffer);           // Write clean sector
 
     // In a real implementation, we would also need to write the file entry to a directory structure on disk
     return 0; // Success
