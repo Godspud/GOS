@@ -4,9 +4,11 @@
 #include "vga.h"
 #include <stdint.h>
 
+// ADD PARTATION SIZE
 typedef struct
 {
-    char magic[8];               // "God_spud" // HI @PORK 1271013498406830126 on discord
+    char magic[8]; // "God_spud" // HI @PORK 1271013498406830126 on discord
+    // HI @AlexXela 1330929586824937682 on discord
     unsigned short version;      // 1 //2 BYTES
     unsigned char reserved[502]; // FILL UP REST so 512-majic-version(bytesizes)
 } __attribute__((packed)) fs_header_t;
