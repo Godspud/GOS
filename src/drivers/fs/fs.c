@@ -55,7 +55,8 @@ void fs_init(void)
         step = 1;
     }
     fs_super_block_t super_block;
-    memset(&super_block, 0, sizeof(super_block));
+    fs_set_sector_inuse(&super_block, 1, 1)
+        memset(&super_block, 0, sizeof(super_block));
     if (ata_write_sector(1, &super_block))
     {
         step = 2;
