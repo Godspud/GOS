@@ -7,11 +7,18 @@
 // ADD PARTATION SIZE
 typedef struct
 {
-    char magic[8]; // "God_spud" // HI @PORK 1271013498406830126 on discord
+    char magic[8]; // "GOSbyG_s" // HI @PORK 1271013498406830126 on discord
     // HI @AlexXela 1330929586824937682 on discord
-    unsigned short version;      // 1 //2 BYTES
-    unsigned char reserved[502]; // FILL UP REST so 512-majic-version(bytesizes)
-} __attribute__((packed)) fs_header_t;
+    unsigned short version;            // 1 //2 BYTES
+    unsigned short no_of_super_blocks; // 2 BYTES so max is abt 60k
+    // Number of super blocks each super block is 512 512 byte secotrs so 262144 bytes total
+    unsigned char reserved[500]; // FILL UP REST so 512-majic-version(bytesizes)
+} __attribute__((packed)) fs_super_super_block_t;
+
+typedef struct
+{
+    uint8_t bitmap[512]; // 512 bytes for bitmap (4096 bits, can track 512 sectors and 7 bits for metadata) - each bit represents a sector's usage
+} __attribute__((packed)) fs_super_block_t;
 
 typedef struct
 {
@@ -34,9 +41,10 @@ typedef struct
 
 void fs_init(void)
 {
-    fs_header_t header;
+    int step;
+    fs_super_super_block_t header;
     memset(&header, 0, sizeof(header));
-    memcpy(header.magic, "God_spud", sizeof(header.magic));
+    memcpy(header.magic, "GOSbyG_s", sizeof(header.magic));
     for (int counter = 0; counter < (int)sizeof(header.reserved); counter++)
     {
         header.reserved[counter] = '\0';
@@ -44,8 +52,37 @@ void fs_init(void)
     header.version = 1;
     if (ata_write_sector(0, &header))
     {
-        return;
+        step = 1;
     }
+    fs_super_block_t super_block;
+    memset(&super_block, 0, sizeof(super_block));
+    if (ata_write_sector(1, &super_block))
+    {
+        step = 2;
+    }
+}
+
+void fs_set_sector_inuse(fs_super_block_t *super_block, unsigned int sector_index, int in_use)
+{
+    unsigned int byte_index = sector_index / 8;
+    unsigned int bit_index = sector_index % 8;
+
+    if (in_use)
+    {
+        super_block->bitmap[byte_index] |= (1 << bit_index); // Set the bit to mark as in use
+    }
+    else
+    {
+        super_block->bitmap[byte_index] &= ~(1 << bit_index); // Clear the bit to mark as free
+    }
+}
+
+int fs_is_sector_free(fs_super_block_t *super_block, unsigned int sector_index)
+{
+    unsigned int byte_index = sector_index / 8;
+    unsigned int bit_index = sector_index % 8;
+
+    return (super_block->bitmap[byte_index] & (1 << bit_index)) == 0; // Check if the bit is clear (free)
 }
 
 int fs_create_file(const char *filename, const char *extension, const char *data, unsigned int size)
