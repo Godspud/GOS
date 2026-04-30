@@ -71,7 +71,7 @@ run_debug: $(ISO) $(DISK_IMG)
 	qemu-system-i386 -cdrom $(ISO) -boot d -m 32 -vga std -no-reboot -d int,cpu_reset -drive file=$(DISK_IMG),format=raw,if=ide,index=1,media=disk 2>&1 | tee $(LOG_FILE)
 
 $(DISK_IMG): | $(BUILD_DIR)
-	qemu-img create -f raw $@ 10M
+	qemu-img create -f raw $@ 100M
 
 # -------------------------------
 # Git integration
@@ -92,3 +92,7 @@ clean:
 
 clean_disk:
 	rm -f $(DISK_IMG)
+
+clean_all:
+	rm -rf $(BUILD_DIR) $(ISO_DIR)
+	rm -f(DISK_IMG)

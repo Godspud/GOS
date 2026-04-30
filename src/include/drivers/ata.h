@@ -39,5 +39,6 @@
 void ata_init(void);
 int ata_read_sector(unsigned int lba, void *buffer);
 int ata_write_sector(unsigned int lba, const void *buffer);
+unsigned int get_disk_size(void);
 
 #endif

@@ -1,5 +1,7 @@
 #include "include/drivers/ata.h"
 #include "vga.h"
+#include <stdint.h>
+
 static unsigned int min_u32(unsigned int a, unsigned int b)
 {
     return (a < b) ? a : b;
@@ -77,7 +79,6 @@ int ata_read_sector(unsigned int lba, void *buffer)
 // Write 512 bytes to sector at address 'lba'
 int ata_write_sector(unsigned int lba, const void *buffer)
 {
-    print_char('0', COLOR_RED); // Debug: entered write function
     unsigned char sector[512];
     const unsigned char *src = (const unsigned char *)buffer;
     const unsigned short *buf_words = (const unsigned short *)sector;
@@ -87,42 +88,34 @@ int ata_write_sector(unsigned int lba, const void *buffer)
     for (counter = 0; counter < 512; counter++)
         sector[counter] = src[counter];
     ata_wait_bsy();
-    print_char('1', COLOR_RED); // Debug: reached write function
 
     // Set up sector count and LBA first
     outb(ATA_SEC_SECTOR_CNT, 1);
     outb(ATA_SEC_LBA_LOW, lba & 0xFF);
     outb(ATA_SEC_LBA_MID, (lba >> 8) & 0xFF);
     outb(ATA_SEC_LBA_HIGH, (lba >> 16) & 0xFF);
-    print_char('2', COLOR_RED); // Debug: LBA set
 
     // Set drive/head register
     outb(ATA_SEC_DRIVE, ATA_TARGET_DRIVE | ATA_DRIVE_LBA | ((lba >> 24) & 0x0F));
-    print_char('3', COLOR_RED); // Debug: drive selected
 
     // Small delay for drive select to take effect
     inb(ATA_SEC_STATUS);
     inb(ATA_SEC_STATUS);
     inb(ATA_SEC_STATUS);
     inb(ATA_SEC_STATUS);
-    print_char('4', COLOR_RED); // Debug: delay done
 
     // Send WRITE command
     outb(ATA_SEC_COMMAND, ATA_CMD_WRITE);
-    print_char('5', COLOR_RED); // Debug: command sent
 
     // Wait for DRQ (data request)
     ata_wait_drq();
-    print_char('6', COLOR_RED); // Debug: drive ready for data
 
     // Write 256 words (512 bytes)
     for (counter = 0; counter < 256; counter++)
         outw(ATA_SEC_DATA, buf_words[counter]);
-    print_char('7', COLOR_RED); // Debug: data written
 
     // Status read to acknowledge
     inb(ATA_SEC_STATUS);
-    print_char('8', COLOR_RED); // Debug: status read
 
     // Wait for write to complete
     ata_wait_bsy();
@@ -131,7 +124,46 @@ int ata_write_sector(unsigned int lba, const void *buffer)
         print_string("ATA write error\n", COLOR_RED);
         return -1;
     }
-    print_char('9', COLOR_RED); // Debug: write complete
 
     return 0;
+}
+
+unsigned int get_disk_size()
+{
+    uint16_t buffer[256];
+    uint32_t total_sectors = 0;
+
+    outb(ATA_SEC_DRIVE, ATA_TARGET_DRIVE);
+
+    // Command 0xEC: IDENTIFY
+    outb(ATA_SEC_SECTOR_CNT, 0);
+    outb(ATA_SEC_LBA_LOW, 0);
+    outb(ATA_SEC_LBA_MID, 0);
+    outb(ATA_SEC_LBA_HIGH, 0);
+    outb(ATA_SEC_COMMAND, 0xEC);
+
+    // Wait for the drive to be ready
+    while (inb(ATA_SEC_STATUS) & ATA_STATUS_BSY)
+        ;
+    if (!(inb(ATA_SEC_STATUS) & ATA_STATUS_DRQ))
+        return 0; // Drive Error
+
+    // CRITICAL: You must actually read the data from the disk!
+    for (int i = 0; i < 256; i++)
+    {
+        buffer[i] = inw(ATA_SEC_DATA); // Use inw (input word)
+    }
+
+    // Now buffer contains data. Check for 48-bit LBA (Word 83, bit 10)
+    if (buffer[83] & (1 << 10))
+    {
+        // Use 32-bit sectors for now to avoid __udivdi3 unless you link libgcc
+        total_sectors = (uint32_t)buffer[100] | ((uint32_t)buffer[101] << 16);
+    }
+    else
+    {
+        total_sectors = (uint32_t)buffer[60] | ((uint32_t)buffer[61] << 16);
+    }
+
+    return total_sectors;
 }

@@ -112,7 +112,9 @@ void strreplace(const char *src, char *dest, char old_char, char new_char)
     }
     dest[i] = '\0';
 }
-
+/**
+ * strncpy: Copies a string from src to dest, ensuring that it does not exceed n characters and is null-terminated. If src is shorter than n, the remainder of dest will be filled with null characters.
+ */
 char *strncpy(char *dest, const char *src, unsigned int n)
 {
     char *ptr = dest;
@@ -132,4 +134,39 @@ char *strncpy(char *dest, const char *src, unsigned int n)
     }
 
     return dest;
+}
+
+/**
+ * int_to_str: Converts an integer to a string representation in a specified base (e.g., base 10 for decimal). The resulting string is null-terminated.
+ */
+void int_to_str(int num_to_convert, char *str)
+{
+    int counter = 0;
+
+    if (num_to_convert == 0)
+    {
+        str[counter++] = '0';
+        str[counter] = '\0';
+        return;
+    }
+
+    // Convert digits to characters (results in reverse order)
+    while (num_to_convert > 0)
+    {
+        str[counter++] = (num_to_convert % 10) + '0';
+        num_to_convert /= 10;
+    }
+    str[counter] = '\0';
+
+    // Reverse the string in-place
+    int start = 0;
+    int end = counter - 1;
+    while (start < end)
+    {
+        char temp = str[start];
+        str[start] = str[end];
+        str[end] = temp;
+        start++;
+        end--;
+    }
 }

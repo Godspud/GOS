@@ -22,12 +22,11 @@ void kernel_main()
     int keyboard_response = 0b00;
     char ticks_str[20];
 
-    vga_clear(COLOR_BLACK);
+    // vga_clear(COLOR_BLACK);
     char buffer[512];
     memset(buffer, '\0', sizeof(buffer));
     print_string(buffer, COLOR_RED); // Debug: buffer initialized
-    // ata_write_sector(1, &buffer);    // Clear sector 1 for testing
-    // fs_create_file("test", "txt", "Hello, World!", 13);
+    fs_create_file("test", "txt", "Hello, World!", 13);
     //  char *output = fs_read_file("test", "txt");
     //  print_string(output, COLOR_CYAN);
     //  print_string("\n", COLOR_CYAN);
