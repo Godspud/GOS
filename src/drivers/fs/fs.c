@@ -107,11 +107,11 @@ int fs_find_free_sector()
 
         ata_read_sector(counter, &header);
 
-        for (int i = 0; i < 512; i++)
+        for (int counter_1 = 0; counter_1 < 512; counter_1++)
         {
-            if (!(header.bitmap[i] & 0b10000000)) // free
+            if (!(header.bitmap[counter_1] & 0b10000000)) // free
             {
-                int sector_loc = 1 + (counter * 512) + i;
+                int sector_loc = 1 + (counter * 512) + counter_1;
                 return sector_loc;
             }
         }
