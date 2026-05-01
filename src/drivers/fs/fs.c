@@ -18,6 +18,12 @@ void fs_init(void)
     int step;
     fs_super_super_block_t header;
     unsigned int disk_size = get_disk_size();
+    unsigned int super_blocks = disk_size / 512;
+    print_string("No of super blocks: ", COLOR_LIGHT_CYAN);
+    char super_blocks_str[20];
+    int_to_str(super_blocks, super_blocks_str, 10);
+    print_string(super_blocks_str, COLOR_LIGHT_CYAN);
+    print_string("\n", COLOR_LIGHT_CYAN);
     print_string("Disk size: ", COLOR_LIGHT_CYAN);
     char size_str[20];
     int_to_str(disk_size, size_str, 10);
@@ -81,63 +87,91 @@ int fs_is_sector_free(fs_super_block_t *super_block, unsigned int sector_index)
     return (super_block->bitmap[sector_index] & (0b10000000)) != 1; // Check if the bit is clear (free)
 }
 
+int fs_superblock_to_sector(int block_no)
+{
+    return (block_no * 512 + 1);
+}
+
+int fs_sector_to_superblock(int sector_no)
+{
+    return (sector_no - 1) / 512;
+}
+
+int fs_find_free_sector()
+{
+    fs_super_block_t header;
+
+    for (int counter = 0; counter < fs_header->no_of_super_blocks; counter++)
+    {
+        int counter = 1 + (counter * 512);
+
+        ata_read_sector(counter, &header);
+
+        for (int i = 0; i < 512; i++)
+        {
+            if (!(header.bitmap[i] & 0b10000000)) // free
+            {
+                int sector_loc = 1 + (counter * 512) + i;
+                return sector_loc;
+            }
+        }
+    }
+
+    return -1; // disk full
+}
+
 int fs_create_file(const char *filename, const char *extension, const char *data, unsigned int size)
 {
     fs_entry_t entry;
     memset(&entry, 0, sizeof(entry));
-    unsigned int filename_len = strlen(filename);
-    for (int counter = 0; counter < (int)filename_len && counter < (int)(sizeof(entry.filename) - 1); counter++)
-    {
-        entry.filename[counter] = filename[counter];
-    }
-    for (int counter = 0; counter < (int)sizeof(entry.filename); counter++)
-    {
-        if (counter >= (int)filename_len)
-        {
-            entry.filename[counter] = '\0';
-        }
-    }
-    unsigned int extension_len = strlen(extension);
-    for (int counter = 0; counter < (int)extension_len && counter < (int)(sizeof(entry.extension) - 1); counter++)
-    {
-        entry.extension[counter] = extension[counter];
-    }
-    for (int counter = 0; counter < (int)sizeof(entry.extension); counter++)
-    {
-        if (counter >= (int)extension_len)
-        {
-            entry.extension[counter] = '\0';
-        }
-    }
-    // TODO: SET FLAGS AND STUFFS
-    unsigned int data_len = strlen(data);
-    for (int counter = 0; counter < (int)data_len && counter < (int)(sizeof(entry.data) - 1); counter++)
-    {
-        entry.data[counter] = data[counter];
-    }
-    for (int counter = 0; counter < (int)sizeof(entry.data); counter++)
-    {
-        if (counter >= (int)data_len)
-        {
-            entry.data[counter] = '\0';
-        }
-    }
+
+    // copy filename
+    strncpy(entry.filename, filename, sizeof(entry.filename) - 1);
+
+    // copy extension
+    strncpy(entry.extension, extension, sizeof(entry.extension) - 1);
+
+    // copy data
+    strncpy((char *)entry.data, data, sizeof(entry.data) - 1);
+
     entry.size = size;
-    entry.start_sector = 1; // For simplicity, we start at sector 1 (after header)
-    entry.lenght = size;    // In a real implementation, we would need to calculate this based on the data size and sector size
-    entry.flags = 0;        // No special flags for now
-                            //
-    // for (int counter = 0; counter++; counter < 512)
-    //{
-    //    fs_is_sector_free()
-    //}
+    entry.lenght = size;
+    entry.flags = 0;
 
-    // Write file entry to disk - ensure entire sector is initialized
-    char sector_buffer[512] = {0};                // Zero entire sector
-    memcpy(sector_buffer, &entry, sizeof(entry)); // Copy structure
-    ata_write_sector(2, sector_buffer);           // Write clean sector
+    fs_super_block_t header;
 
-    return 0; // Success
+    // loop all superblocks
+    for (int counter = 0; counter < fs_header->no_of_super_blocks; counter++)
+    {
+        int sb_sector = fs_superblock_to_sector(counter);
+
+        ata_read_sector(sb_sector, &header);
+
+        // skip 0 → avoids superblock itself
+        for (int counter_1 = 1; counter_1 < 512; counter_1++)
+        {
+            if (fs_is_sector_free(&header, counter_1))
+            {
+                // mark used
+                fs_set_sector_inuse(&header, counter_1, 1);
+                ata_write_sector(sb_sector, &header);
+
+                int global_sector = 1 + (counter * 512) + counter_1;
+
+                entry.start_sector = global_sector;
+
+                // write file
+                char buffer[512] = {0};
+                memcpy(buffer, &entry, sizeof(entry));
+
+                ata_write_sector(global_sector, buffer);
+
+                return 0;
+            }
+        }
+    }
+
+    return -1; // disk full
 }
 
 char *fs_read_file(const char *filename, const char *extension)

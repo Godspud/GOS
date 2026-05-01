@@ -122,8 +122,6 @@ Lower values = faster repeat. Higher values = slower repeat.
 
 # Priority 1
 
-Add error handling eg empty input\
-Add A real time clock based on https://osdev.wiki/wiki/CMOS#Getting_Current_Date_and_Time_from_RTC
 Add command history with up\down arrows\
 
 # Priority 2
@@ -135,15 +133,11 @@ Add memory info command\
 
 # Priority 3
 
-Add timer interrupts using PIT\
-Add proper GDT setup\
-Add IDT and interrupt handling\
 Add basic filesystem with RAM disk\
 Add custom shell prompt\
 Add command aliases\
 Add detailed help for each command\
 Add screen saver after idle period\
-Add simple games like Snake or Pong\
 Add PS\2 mouse support
 
 ## Development

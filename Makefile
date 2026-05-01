@@ -95,4 +95,4 @@ clean_disk:
 
 clean_all:
 	rm -rf $(BUILD_DIR) $(ISO_DIR)
-	rm -f(DISK_IMG)
+	rm -f $(DISK_IMG)

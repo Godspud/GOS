@@ -36,7 +36,6 @@ void kernel_main()
     print_string("================================================\n\n", COLOR_LIGHT_CYAN);
     print_string("Start typing below:\n\n", COLOR_LIGHT_GREY);
     print_string("> ", COLOR_LIGHT_GREEN);
-    idt_init();
 
     while (1)
     {
