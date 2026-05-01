@@ -26,7 +26,18 @@ void kernel_main()
     char buffer[512];
     memset(buffer, '\0', sizeof(buffer));
     print_string(buffer, COLOR_RED); // Debug: buffer initialized
-    fs_create_file("test", "txt", "Hello, World!", 13);
+    for (int counter = 0; counter < 512; counter++)
+    {
+        int output = fs_create_file("test", "txt", "buffer", 100);
+        if (output == 0)
+        {
+            print_string("File created successfully\n", COLOR_GREEN);
+        }
+        else
+        {
+            print_string("Failed to create file\n", COLOR_RED);
+        }
+    }
     //  char *output = fs_read_file("test", "txt");
     //  print_string(output, COLOR_CYAN);
     //  print_string("\n", COLOR_CYAN);

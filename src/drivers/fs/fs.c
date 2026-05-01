@@ -103,7 +103,7 @@ int fs_find_free_sector()
 
     for (int counter = 0; counter < fs_header->no_of_super_blocks; counter++)
     {
-        int counter = 1 + (counter * 512);
+        int counter = fs_superblock_to_sector(counter);
 
         ata_read_sector(counter, &header);
 
@@ -111,7 +111,7 @@ int fs_find_free_sector()
         {
             if (!(header.bitmap[counter_1] & 0b10000000)) // free
             {
-                int sector_loc = 1 + (counter * 512) + counter_1;
+                int sector_loc = fs_superblock_to_sector(counter) + counter_1;
                 return sector_loc;
             }
         }
