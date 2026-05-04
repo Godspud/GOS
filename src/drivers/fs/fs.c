@@ -35,7 +35,7 @@ void fs_init(void)
     print_string(size_str_bytes, COLOR_LIGHT_CYAN);
     print_string(" bytes\n", COLOR_LIGHT_CYAN);
     memset(&header, 0, sizeof(header));
-    memcpy(header.magic, "GOSbyG_s", sizeof(header.magic));
+    memcpy(header.magic, "GOSFSG_s", sizeof(header.magic));
     uint32_t blocks = disk_size / 262144;
     if (blocks == 0)
     {
@@ -60,7 +60,6 @@ void fs_init(void)
     {
         step = 2;
     }
-    get_disk_size();
 }
 
 void fs_set_super_sector_inuse(int used)
@@ -73,18 +72,18 @@ void fs_set_sector_inuse(fs_super_block_t *super_block, unsigned int sector_inde
 {
     if (in_use)
     {
-        super_block->bitmap[sector_index] |= 0b10000000; // Set the bit to mark as in use
+        super_block->used[sector_index] |= 0b10000000; // Set the bit to mark as in use
     }
     else
     {
-        super_block->bitmap[sector_index] &= ~0b10000000; // Clear the bit to mark as free
+        super_block->used[sector_index] &= ~0b10000000; // Clear the bit to mark as free
     }
 }
 
 int fs_is_sector_free(fs_super_block_t *super_block, unsigned int sector_index)
 {
 
-    return (super_block->bitmap[sector_index] & (0b10000000)) != 1; // Check if the bit is clear (free)
+    return (super_block->used[sector_index] & (0b10000000)) != 1; // Check if the bit is clear (free)
 }
 
 int fs_superblock_to_sector(int block_no)
@@ -109,7 +108,7 @@ int fs_find_free_sector()
 
         for (int counter_1 = 0; counter_1 < 512; counter_1++)
         {
-            if (!(header.bitmap[counter_1] & 0b10000000)) // free
+            if (!(header.used[counter_1] & 0b10000000)) // free
             {
                 int sector_loc = fs_superblock_to_sector(sector) + counter_1;
                 return sector_loc;

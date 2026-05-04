@@ -5,6 +5,8 @@
 #include "include/drivers/io.h"
 #include "include/drivers/cmos.h"
 #include "usr/snake.h"
+#include "include/drivers/fs/fs.h"
+#include "lib/string.h"
 
 /*
 - cmd_help: Displays a list of available commands and their descriptions.
@@ -26,6 +28,7 @@ static void cmd_rate(int argc, char **argv);
 static void cmd_time(int argc, char **argv);
 static void cmd_snake(int argc, char **argv);
 static void cmd_quit(int argc, char **argv);
+static void cmd_test(int argc, char **argv);
 
 // Command table mapping command strings to their handler functions
 // The last entry has an empty command string to indicate the end of the table
@@ -38,6 +41,7 @@ command_entry default_cmds[] = {
     {"time", cmd_time},
     {"snake", cmd_snake},
     {"quit", cmd_quit},
+    {"test", cmd_test},
     {"", 0}};
 
 static void cmd_help(int argc, char **argv)
@@ -145,4 +149,13 @@ static void cmd_quit(int argc, char **argv)
 static void cmd_snake(int argc, char **argv)
 {
     snake_main();
+}
+
+static void cmd_test(int argc, char **argv)
+{
+    char filename_ext[270] = 0;
+    char other_stuff = 0;
+    strsplit(argv, &filename_ext, &other_stuff, " ");
+    // TODO: aft i do fs docs
+    // fs_create_file();
 }

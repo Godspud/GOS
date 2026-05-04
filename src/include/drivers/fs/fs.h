@@ -4,7 +4,7 @@
 
 typedef struct
 {
-    char magic[8]; // "GOSbyG_s" // HI @PORK 1271013498406830126 on discord
+    char magic[8]; // "GOSFSG_s" // HI @PORK 1271013498406830126 on discord
     // HI @AlexXela 1330929586824937682 on discord
     unsigned short version;            // 1 //2 BYTES
     unsigned short no_of_super_blocks; // 2 BYTES so max is abt 60k
@@ -15,7 +15,7 @@ typedef struct
 
 typedef struct
 {
-    uint8_t bitmap[512]; // 512 bytes for bitmap (4096 bits, can track 512 sectors and 7 bits for metadata) - each bit represents a sector's usage
+    uint8_t used[512]; // 512 bytes for bitmap (4096 bits, can track 512 sectors and 7 bits for metadata) - each bit represents a sector's usage
 } __attribute__((packed)) fs_super_block_t;
 
 typedef struct
