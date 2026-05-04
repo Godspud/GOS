@@ -1,0 +1,3 @@
+[submodule "GOCS/GOSFS-docs"]
+	path = GOCS/GOSFS-docs
+	url = https://github.com/Godspud/GOSFS-docs/
