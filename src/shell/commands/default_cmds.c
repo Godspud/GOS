@@ -7,6 +7,7 @@
 #include "usr/snake.h"
 #include "include/drivers/fs/fs.h"
 #include "lib/string.h"
+#include "magics.h"
 
 /*
 - cmd_help: Displays a list of available commands and their descriptions.
@@ -153,9 +154,16 @@ static void cmd_snake(int argc, char **argv)
 
 static void cmd_test(int argc, char **argv)
 {
-    char filename_ext[270] = 0;
+    char filename_ext[270] = {0};
     char other_stuff = 0;
-    strsplit(argv, &filename_ext, &other_stuff, " ");
+    char filename[255] = {0};
+    char ext[15] = {0};
+    //  | HUH
+    // \/
+    strsplit(*argv, filename_ext, &other_stuff, ' ');
+    strsplit(filename_ext, filename, ext, '.');
+    print_string(ext, COLOR_RED);
     // TODO: aft i do fs docs
-    // fs_create_file();
+    fs_create_file(filename, "tes", "w", 512);
+    print_string("sucess", COLOR_LIGHT_GREEN);
 }

@@ -2,12 +2,13 @@
 #include "include/drivers/io.h"
 #include "vga.h"
 #include <stdint.h>
+#include "magics.h"
 
 #include <stdint.h>
 
 void keyboard_callback()
 {
-    uint8_t scancode = inb(0x60); // 🔥 THIS LINE IS REQUIRED
+    uint8_t scancode = inb(0x60); // THIS LINE IS REQUIRED
 
     // optional debug
     print_string("K", COLOR_LIGHT_RED);

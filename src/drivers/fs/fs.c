@@ -3,6 +3,7 @@
 #include "lib/string.h"
 #include "vga.h"
 #include <stdint.h>
+#include "magics.h"
 
 typedef struct
 {
@@ -21,17 +22,17 @@ void fs_init(void)
     unsigned int super_blocks = disk_size / 512;
     print_string("No of super blocks: ", COLOR_LIGHT_CYAN);
     char super_blocks_str[20];
-    int_to_str(super_blocks, super_blocks_str, 10);
+    int_to_str(super_blocks, super_blocks_str);
     print_string(super_blocks_str, COLOR_LIGHT_CYAN);
     print_string("\n", COLOR_LIGHT_CYAN);
     print_string("Disk size: ", COLOR_LIGHT_CYAN);
     char size_str[20];
-    int_to_str(disk_size, size_str, 10);
+    int_to_str(disk_size, size_str);
     print_string(size_str, COLOR_LIGHT_CYAN);
     print_string(" sectors(512 bytes)\n", COLOR_LIGHT_CYAN);
     print_string("Disk size: ", COLOR_LIGHT_CYAN);
     char size_str_bytes[20];
-    int_to_str(disk_size * 512, size_str_bytes, 10);
+    int_to_str(disk_size * 512, size_str_bytes);
     print_string(size_str_bytes, COLOR_LIGHT_CYAN);
     print_string(" bytes\n", COLOR_LIGHT_CYAN);
     memset(&header, 0, sizeof(header));
@@ -121,6 +122,15 @@ int fs_find_free_sector()
 
 int fs_create_file(const char *filename, const char *extension, const char *data, unsigned int size)
 {
+    if (sizeof(filename) > 255)
+    {
+        return -1; // filename too big
+    }
+    else if (sizeof(extension) > 15)
+    {
+        return -2; // fileext too big
+    }
+
     fs_entry_t entry;
     memset(&entry, 0, sizeof(entry));
 

@@ -9,6 +9,6 @@ void memcpy(void *dest, const void *src, int n);
 void strsplit(const char *src, char *before, char *after, char delimiter);
 void strreplace(const char *src, char *dest, char old_char, char new_char);
 char *strncpy(char *dest, const char *src, unsigned int n);
-void int_to_str(unsigned int value, char *str, int base);
+void int_to_str(int num_to_convert, char *str);
 
 #endif

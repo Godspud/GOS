@@ -77,11 +77,6 @@ void cmos_get_time(cmos_time *time)
         year += (CURRENT_YEAR / 100) * 100;
     if (year < CURRENT_YEAR)
         year += 100;
-
-    if (second == minute && minute == hour)
-    {
-        print_string("Warning: CMOS time may be inconsistent (seconds, minutes, and hours equvalent). Consider checking the CMOS battery.\n", COLOR_LIGHT_RED);
-    }
     // switch ti users time zone
     hour = hour + gmt_offset;
     if (hour >= 24)

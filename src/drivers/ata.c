@@ -1,6 +1,7 @@
 #include "include/drivers/ata.h"
 #include "vga.h"
 #include <stdint.h>
+#include "magics.h"
 
 static unsigned int min_u32(unsigned int a, unsigned int b)
 {

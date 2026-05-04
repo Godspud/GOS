@@ -1,6 +1,7 @@
 #include "vga.h"
 #include "commands/default_cmds.h"
 #include "lib/string.h"
+#include "magics.h"
 
 /**
  * parse_args: Parses a command line input into individual arguments, splitting on spaces and newlines, and stores them in the provided argv array. Returns the number of arguments parsed.

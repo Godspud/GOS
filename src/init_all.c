@@ -9,6 +9,7 @@
 #include "vga.h"
 #include "include/drivers/ata.h"
 #include "include/drivers/fs/fs.h"
+#include "magics.h"
 
 extern void irq0_handler(void);
 

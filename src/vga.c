@@ -1,6 +1,7 @@
 #include "vga.h"
 #include "include/drivers/io.h"
 #include "lib/string.h"
+#include "magics.h"
 
 /** Functions:
 - vga_write_char: Writes a single character at the specified (x, y) position with the given color.
@@ -146,10 +147,10 @@ void print_char(char c, int color)
         cursor_y++;
     }
 
-    if (cursor_y >= VGA_HEIGHT)
+    if (cursor_y >= terminal_height)
     {
         vga_scroll();
-        cursor_y = VGA_HEIGHT - 1;
+        cursor_y = terminal_height - 1;
     }
 
     vga_move_cursor();
@@ -160,7 +161,7 @@ void print_char(char c, int color)
 void vga_scroll()
 {
     unsigned short *vga = (unsigned short *)VGA_MEMORY;
-    for (int y = 0; y < VGA_HEIGHT - 1; y++)
+    for (int y = 0; y < terminal_height - 1; y++)
     {
         for (int x = 0; x < VGA_WIDTH; x++)
         {
@@ -169,7 +170,7 @@ void vga_scroll()
             vga[dst] = vga[src];
         }
     }
-    int last_line = (VGA_HEIGHT - 1) * VGA_WIDTH;
+    int last_line = (terminal_height - 1) * VGA_WIDTH;
     for (int x = 0; x < VGA_WIDTH; x++)
     {
         vga[last_line + x] = (COLOR_BLACK << 8) | ' ';
