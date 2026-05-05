@@ -17,7 +17,7 @@ SRC_DIR = src
 # Output files
 KERNEL = $(BUILD_DIR)/kernel.bin
 ISO = $(BUILD_DIR)/os.iso
-DISK_IMG = $(BUILD_DIR)/disk.img
+DISK_IMG = disk.img
 LOG_FILE = build.log
 
 # Auto-detect all C files

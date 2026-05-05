@@ -1,7 +1,5 @@
 #include "include/drivers/time/timer.h"
 #include "include/drivers/io.h"
-#include "stdint.h"
-#include "vga.h"
 #include "include/drivers/keyboard.h"
 
 void irq_handler(int irq)

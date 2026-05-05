@@ -1,6 +1,5 @@
 #include "core/idt.h"
 #include "include/drivers/irq.h"
-#include "vga.h"
 
 extern void irq0_handler(void); // in asm
 extern void irq_dummy(void);    // asm oso

@@ -1,5 +1,4 @@
 #include "include/drivers/ata.h"
-#include "vga.h"
 #include <stdint.h>
 #include "magics.h"
 
@@ -60,7 +59,6 @@ int ata_read_sector(unsigned int lba, void *buffer)
     ata_wait_bsy();
     if (inb(ATA_SEC_STATUS) & ATA_STATUS_ERR)
     {
-        print_string("ATA read error\n", COLOR_RED);
         return -1;
     }
     ata_wait_drq();
@@ -122,14 +120,13 @@ int ata_write_sector(unsigned int lba, const void *buffer)
     ata_wait_bsy();
     if (inb(ATA_SEC_STATUS) & ATA_STATUS_ERR)
     {
-        print_string("ATA write error\n", COLOR_RED);
         return -1;
     }
 
     return 0;
 }
 
-unsigned int get_disk_size()
+int get_disk_size()
 {
     uint16_t buffer[256];
     uint32_t total_sectors = 0;
@@ -147,7 +144,7 @@ unsigned int get_disk_size()
     while (inb(ATA_SEC_STATUS) & ATA_STATUS_BSY)
         ;
     if (!(inb(ATA_SEC_STATUS) & ATA_STATUS_DRQ))
-        return 0; // Drive Error
+        return -1; // Drive Error
 
     // CRITICAL: You must actually read the data from the disk!
     for (int i = 0; i < 256; i++)

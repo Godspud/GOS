@@ -1,6 +1,5 @@
 #include "include/drivers/cmos.h"
 #include "include/drivers/io.h"
-#include "vga.h"
 
 #define CURRENT_YEAR 2026
 

@@ -15,24 +15,25 @@ extern void irq0_handler(void);
 
 void init_all()
 {
+    vga_clear(COLOR_BLACK);
     gdt_init();
-    print_string("GDT initialized\n", COLOR_LIGHT_GREEN);
+    print_string("[OK] GDT\n", COLOR_LIGHT_GREEN);
     idt_init();
-    print_string("IDT initialized\n", COLOR_LIGHT_GREEN);
+    print_string("[OK] IDT\n", COLOR_LIGHT_GREEN);
     irq_remap();
-    print_string("PIC remapped\n", COLOR_LIGHT_GREEN);
+    print_string("[OK] PIC\n", COLOR_LIGHT_GREEN);
     pit_init();
-    print_string("PIT initialized\n", COLOR_LIGHT_GREEN);
+    print_string("[OK] PIT\n", COLOR_LIGHT_GREEN);
     time_init();
-    print_string("Timer initialized\n", COLOR_LIGHT_GREEN);
+    print_string("[OK] Timer\n", COLOR_LIGHT_GREEN);
     keyboard_init();
-    print_string("Keyboard initialized\n", COLOR_LIGHT_GREEN);
+    print_string("[OK] Keyboard\n", COLOR_LIGHT_GREEN);
     cmos_init();
-    print_string("CMOS initialized\n", COLOR_LIGHT_GREEN);
+    print_string("[OK] CMOS\n", COLOR_LIGHT_GREEN);
     ata_init();
-    print_string("ATA initialized\n", COLOR_LIGHT_GREEN);
+    print_string("[OK] ATA\n", COLOR_LIGHT_GREEN);
     fs_init();
-    print_string("Filesystem initialized\n", COLOR_LIGHT_GREEN);
+    print_string("[OK] GOSFS\n", COLOR_LIGHT_GREEN);
     print_string("Initialization complete!\n", COLOR_LIGHT_GREEN);
     __asm__ volatile("sti"); // INTERUPTS
     print_string("Starting kernel...\n", COLOR_LIGHT_GREEN);
