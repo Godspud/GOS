@@ -5,7 +5,7 @@ extern unsigned int keyboard_repeat_rate;
 
 void keyboard_set_repeat(int enabled);
 void keyboard_set_repeat_delay(unsigned int delay_ms);
-void keyboard_set_repeat_rate(unsigned int rate_ms);
+void keyboard_set_repeat_rate(float rate_ms);
 
 char keyboard_read(int *shift_pressed);
 

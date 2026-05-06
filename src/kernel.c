@@ -31,9 +31,9 @@ void kernel_main()
     //  print_string(output, COLOR_CYAN);
     //  print_string("\n", COLOR_CYAN);
     vga_enable_cursor();
-    print_string("================================================\n", COLOR_LIGHT_CYAN);
-    print_string("            Welcome to OS!\n", COLOR_WHITE);
-    print_string("================================================\n\n", COLOR_LIGHT_CYAN);
+    print_string("================================================================================", COLOR_LIGHT_CYAN);
+    print_string("                                 Welcome to GOS!\n", COLOR_WHITE);
+    print_string("================================================================================\n", COLOR_LIGHT_CYAN);
     print_string("Start typing below:\n\n", COLOR_LIGHT_GREY);
     print_string("> ", COLOR_LIGHT_GREEN);
 

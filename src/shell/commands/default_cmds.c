@@ -164,6 +164,6 @@ static void cmd_test(int argc, char **argv)
     strsplit(filename_ext, filename, ext, '.');
     print_string(ext, COLOR_RED);
     // TODO: aft i do fs docs
-    fs_create_file(filename, "test", "w", 512);
+    fs_create_file(filename, "text", "w", 512);
     print_string("sucess", COLOR_LIGHT_GREEN);
 }

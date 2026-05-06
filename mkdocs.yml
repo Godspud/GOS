@@ -1,1 +1,76 @@
-site_name: My Docs
+site_name: GOS Wiki
+theme:
+    name: material
+    palette:
+        - scheme: slate
+          primary: deep blue
+          accent: deep orange
+          toggle:
+              icon: material/brightness-4
+              name: Switch to light mode
+        - scheme: default
+          primary: deep blue
+          accent: deep orange
+          toggle:
+              icon: material/brightness-7
+              name: Switch to dark mode
+#nav:
+#- GOS:
+#  - Gos:
+#    - Makefile: GOS/Makefile.md
+#    - boot.asm: GOS/boot.asm.md
+#    - disk.img: GOS/disk.img.md
+#    - gdt.asm: GOS/gdt.asm.md
+#    - index: GOS/index.md
+#    - irq.asm: GOS/irq.asm.md
+#    - linker.ld: GOS/linker.ld.md
+#    - tree.txt: GOS/tree.txt.md
+#    - Src:
+#      - init_all.c: GOS/src/init_all.c.md
+#      - init_all.h: GOS/src/init_all.h.md
+#      - kernel.c: GOS/src/kernel.c.md
+#      - magics.h: GOS/src/magics.h.md
+#      - vga.c: GOS/src/vga.c.md
+#      - vga.h: GOS/src/vga.h.md
+#      - Core:
+#        - gdt.c: GOS/src/core/gdt.c.md
+#        - gdt.h: GOS/src/core/gdt.h.md
+#        - idt.c: GOS/src/core/idt.c.md
+#        - idt.h: GOS/src/core/idt.h.md
+#      - Drivers:
+#        - ata.c: GOS/src/drivers/ata.c.md
+#        - cmos.c: GOS/src/drivers/cmos.c.md
+#        - irq.c: GOS/src/drivers/irq.c.md
+#        - keyboard.c: GOS/src/drivers/keyboard.c.md
+#        - Fs:
+#          - fs.c: GOS/src/drivers/fs/fs.c.md
+#        - Time:
+#          - pit.c: GOS/src/drivers/time/pit.c.md
+#          - timer.c: GOS/src/drivers/time/timer.c.md
+#      - Include:
+#        - macros.h: GOS/src/include/macros.h.md
+#        - Drivers:
+#          - ata.h: GOS/src/include/drivers/ata.h.md
+#          - cmos.h: GOS/src/include/drivers/cmos.h.md
+#          - io.h: GOS/src/include/drivers/io.h.md
+#          - irq.h: GOS/src/include/drivers/irq.h.md
+#          - keyboard.h: GOS/src/include/drivers/keyboard.h.md
+#          - Fs:
+#            - fs.h: GOS/src/include/drivers/fs/fs.h.md
+#          - Time:
+#            - pit.h: GOS/src/include/drivers/time/pit.h.md
+#            - timer.h: GOS/src/include/drivers/time/timer.h.md
+#      - Lib:
+#        - random.c: GOS/src/lib/random.c.md
+#        - random.h: GOS/src/lib/random.h.md
+#        - string.c: GOS/src/lib/string.c.md
+#        - string.h: GOS/src/lib/string.h.md
+#      - Shell:
+#        - shell.c: GOS/src/shell/shell.c.md
+#        - shell.h: GOS/src/shell/shell.h.md
+#        - Commands:
+#          - default_cmds.c: GOS/src/shell/commands/default_cmds.c.md
+#          - default_cmds.h: GOS/src/shell/commands/default_cmds.h.md
+#      - Usr:
+#        - snake.c: GOS/src/usr/snake.c.md
+#        - snake.h: GOS/src/usr/snake.h.md

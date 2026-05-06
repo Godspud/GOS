@@ -8,25 +8,19 @@ global isr_dummy
 
 extern irq_handler   ; C function
 
-; =========================
 ; IRQ0 (PIT)
-; =========================
 irq0_handler:
     push 0
     push 32
     jmp irq_common
 
-; =========================
 ; IRQ1 (keyboard)
-; =========================
 irq1_handler:
     push 0
     push 33
     jmp irq_common
 
-; =========================
 ; GENERIC IRQ HANDLER
-; =========================
 irq_common:
     pusha                   ; pushes 8 regs = 32 bytes, irq# now at [esp+32]
 
@@ -48,9 +42,7 @@ irq_common:
     iret
 
 
-; =========================
 ; DUMMY IRQ HANDLER (for unused IRQs)
-; =========================
 irq_dummy:
     pusha
 
@@ -60,9 +52,7 @@ irq_dummy:
     popa
     iret
 
-; =========================
 ; DUMMY ISR (CPU exceptions)
-; =========================
 isr_dummy:
     cli
 .hang:

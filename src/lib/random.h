@@ -2,6 +2,6 @@
 #define RANDOM_H
 
 unsigned int rand(void);
-void srand(unsigned int seed);
+unsigned int srand(unsigned int seed);
 
 #endif

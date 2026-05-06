@@ -13,6 +13,8 @@ LDFLAGS = -m elf_i386
 BUILD_DIR = build
 ISO_DIR = iso
 SRC_DIR = src
+DOCS_DIR = docs/GOS
+DOC_BUILDER = $(shell pwd)/docs/doc_creator.py
 
 # Output files
 KERNEL = $(BUILD_DIR)/kernel.bin
@@ -96,3 +98,8 @@ clean_disk:
 clean_all:
 	rm -rf $(BUILD_DIR) $(ISO_DIR)
 	rm -f $(DISK_IMG)
+
+
+.PHONY: docs
+docs:
+	mkdocs serve -q

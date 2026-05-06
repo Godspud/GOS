@@ -6,7 +6,8 @@ unsigned int rand(void)
     return (unsigned int)(next / 65536) % 32768;
 }
 
-void srand(unsigned int seed)
+unsigned int srand(unsigned int seed)
 {
     next = seed;
+    return rand();
 }

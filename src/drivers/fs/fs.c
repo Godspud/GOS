@@ -61,6 +61,9 @@ void fs_init(void)
     {
         step = 2;
     }
+    char str[100] = {0};
+    (int_to_str(fs_find_free_sector(), &str));
+    print_string(str, COLOR_LIGHT_RED);
 }
 
 void fs_set_super_sector_inuse(int used)
@@ -124,11 +127,11 @@ int fs_create_file(const char *filename, const char *extension, const char *data
 {
     if (sizeof(filename) > 255)
     {
-        return -1; // filename too big
+        return -2; // filename too big
     }
     else if (sizeof(extension) > 15)
     {
-        return -2; // fileext too big
+        return -3; // fileext too big
     }
 
     fs_entry_t entry;
