@@ -3,4 +3,4 @@ iso/
 .vscode/
 build.log
 tree.txt
-disk.img
+# disk.img
