@@ -3,4 +3,6 @@ iso/
 .vscode/
 build.log
 tree.txt
-# disk.img
+disk.img
+docs/osdev_wiki
+docs/osdev_wiki.zip

@@ -67,4 +67,9 @@
 #define KEYBOARD_DATA_PORT 0x60
 #define KEYBOARD_STATUS_PORT 0x64
 
+/**
+ * fs magics
+ */
+#define FS_FILE_DATA_SIZE 206
+
 #endif

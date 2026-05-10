@@ -1,14 +1,13 @@
-# `src/drivers/time/pit.c`
+# `pit.c`
 
 ## Dependencies
 
-[include/drivers/io.h](../../../include/drivers/io.h\)
+[include/drivers/io.h](../../../include/drivers/io.h)
 
 ## Functions
 
-### `void pit_init()`
+### `PIT init(pit_init)`
 
-**Parameters:** none
-
-**Returns:** nothing / void
-
+Note: INIT func<br>
+Type: void<br>
+Inits the PIT for use

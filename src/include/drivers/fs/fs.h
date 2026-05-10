@@ -36,7 +36,8 @@ void fs_init(void);
 void fs_set_sector_inuse(fs_super_block_t *super_block, unsigned int sector_index, int in_use);
 int fs_is_sector_free(fs_super_block_t *super_block, unsigned int sector_index);
 void fs_set_super_sector_inuse(int used);
-int fs_create_file(const char *filename, const char *extension, const char *data, unsigned int size);
+int fs_find_free_sector();
+int fs_create_file(const char *filename, const char *extension, const char *data);
 char *fs_read_file(const char *filename, const char *extension);
 
 #endif

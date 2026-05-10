@@ -23,8 +23,6 @@ void keyboard_callback()
 - keyboard_set_repeat_rate: Sets the rate at which keys repeat when held down.
 - keyboard_read: Reads a key press from the keyboard, returning the corresponding ASCII character and updating the shift_pressed state.
 */
-unsigned int keyboard_repeat_rate = 1000000000;
-
 static int repeat_enabled = 1;
 static int last_scancode = 0;
 
@@ -112,14 +110,6 @@ void keyboard_init(void)
 
     last_scancode = 0;
     // return ((ack << 1) | pass);
-}
-/**
- * keyboard_set_repeat: Enables or disables key repeat functionality.
- */
-void keyboard_set_repeat(int enabled)
-{
-    // TODO: UPGRADE TO THE SAME SYSTEM AS keyboard_set_repeat_delay
-    repeat_enabled = enabled;
 }
 /**
  * keyboard_set_repeat_delay: Sets the delay before key repeat starts when a key is held down.

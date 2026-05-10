@@ -12,19 +12,22 @@
 ### `void vga_write_char(int x, int y, char c, int color)`
 
 **Parameters:**
+
 - `int x`
 - `int y`
 - `char c`
 - `int color`
 
 **Returns:**
-- `void` → void return
+
+- `void` -> void return
 
 ---
 
 ### `void vga_write_string(int x, int y, const char *str, int color)`
 
 **Parameters:**
+
 - `int x`
 - `int y`
 - `const char *str`
@@ -37,6 +40,7 @@
 ### `void vga_clear(int bgcolor)`
 
 **Parameters:**
+
 - `int bgcolor`
 
 **Returns:** nothing / void
@@ -48,7 +52,8 @@
 **Parameters:** none
 
 **Returns:**
-- `void` → void return
+
+- `void` ->> void return
 
 ---
 
@@ -71,11 +76,13 @@
 ### `void print_char(char c, int color)`
 
 **Parameters:**
+
 - `char c`
 - `int color`
 
 **Returns:**
-- `void` → void return
+
+- `void` -> void return
 
 ---
 
@@ -90,6 +97,7 @@
 ### `void print_string(const char *str, int color)`
 
 **Parameters:**
+
 - `const char *str`
 - `int color`
 
@@ -100,10 +108,11 @@
 ### `void write_bg_color(int x, int y, int color)`
 
 **Parameters:**
+
 - `int x`
 - `int y`
 - `int color`
 
 **Returns:**
-- `void` → void return
 
+- `void` -> void return

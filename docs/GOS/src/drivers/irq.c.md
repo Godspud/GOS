@@ -1,29 +1,28 @@
-# `src/drivers/irq.c`
+# `irq.c`
 
 ## Dependencies
 
-[include/drivers/time/timer.h](../../include/drivers/time/timer.h\)
-[include/drivers/io.h](../../include/drivers/io.h\)
-[include/drivers/keyboard.h](../../include/drivers/keyboard.h\)
+[include/drivers/time/timer.h](../../include/drivers/time/timer.h)<br>
+[include/drivers/io.h](../../include/drivers/io.h)<br>
+[include/drivers/keyboard.h](../../include/drivers/keyboard.h)<br>
 
 ## Functions
 
-### `void irq_handler(int irq)`
+### `IRQ handler(irq_handler)`
 
+Type: void<br>
+handles any and all irq(_only 32(pit) currently supported_)<br>
 **Parameters:**
 
-- `int irq`
+- `int irq`<br>
+  the irq no to be handelled
 
-**Returns:** nothing / void
+### `IO Wait(io_wait)`
 
-### `static inline void io_wait()`
+Type: void<br>
+TODO: this
 
-**Parameters:** none
+### `IRQ remap(irq_remap)`
 
-**Returns:** nothing / void
-
-### `void irq_remap()`
-
-**Parameters:** none
-
-**Returns:** nothing / void
+Type: void
+hindes and changes all IRQ's to a better spot then unhides the PIC IRQ

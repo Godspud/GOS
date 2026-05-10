@@ -12,7 +12,8 @@ typedef struct
 
 } file_t;
 
-fs_super_super_block_t *fs_header = 0;
+static fs_super_super_block_t fs_header_data;
+fs_super_super_block_t *fs_header = &fs_header_data;
 
 void fs_init(void)
 {
@@ -49,6 +50,7 @@ void fs_init(void)
         header.reserved[counter] = '\0';
     }
     header.version = 1;
+    memcpy(fs_header, &header, sizeof(header));
     if (!(ata_write_sector(0, &header)))
     {
         step = 1;
@@ -61,19 +63,20 @@ void fs_init(void)
     {
         step = 2;
     }
-    char str[100] = {0};
-    (int_to_str(fs_find_free_sector(), &str));
-    print_string(str, COLOR_LIGHT_RED);
 }
 
 void fs_set_super_sector_inuse(int used)
 {
     /*used is a no of used blocks eg 4 for 4 sectors in a super_block used*/
-    fs_header->super_blocks_used = used / fs_header->no_of_super_blocks;
+    fs_header->super_blocks_used = used;
 }
 
 void fs_set_sector_inuse(fs_super_block_t *super_block, unsigned int sector_index, int in_use)
 {
+    if (sector_index >= 512)
+    {
+        return;
+    }
     if (in_use)
     {
         super_block->used[sector_index] |= 0b10000000; // Set the bit to mark as in use
@@ -86,8 +89,7 @@ void fs_set_sector_inuse(fs_super_block_t *super_block, unsigned int sector_inde
 
 int fs_is_sector_free(fs_super_block_t *super_block, unsigned int sector_index)
 {
-
-    return (super_block->used[sector_index] & (0b10000000)) != 1; // Check if the bit is clear (free)
+    return (super_block->used[sector_index] & 0b10000000) == 0;
 }
 
 int fs_superblock_to_sector(int block_no)
@@ -114,7 +116,7 @@ int fs_find_free_sector()
         {
             if (!(header.used[counter_1] & 0b10000000)) // free
             {
-                int sector_loc = fs_superblock_to_sector(sector) + counter_1;
+                int sector_loc = sector + counter_1;
                 return sector_loc;
             }
         }
@@ -123,13 +125,14 @@ int fs_find_free_sector()
     return -1; // disk full
 }
 
-int fs_create_file(const char *filename, const char *extension, const char *data, unsigned int size)
+int fs_create_file(const char *filename, const char *extension, const char *data)
 {
-    if (sizeof(filename) > 255)
+    unsigned int size = (sizeof(data) - FS_FILE_DATA_SIZE) / 512;
+    if (strlen(filename) > 254)
     {
         return -2; // filename too big
     }
-    else if (sizeof(extension) > 15)
+    else if (strlen(extension) > 14)
     {
         return -3; // fileext too big
     }

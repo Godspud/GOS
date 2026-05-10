@@ -13,7 +13,6 @@ void time_init()
 {
     cmos_get_time(&time);
     years = time.year + time.century * 100;
-    // IMPLEMENT LEAP YEARS
     // TODO: IMPLENT LEAP YEARS
     days = time.day + years * 365;
     hours = time.hours + days * 24;

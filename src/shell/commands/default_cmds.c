@@ -158,12 +158,16 @@ static void cmd_test(int argc, char **argv)
     char other_stuff = 0;
     char filename[255] = {0};
     char ext[15] = {0};
+    char throw[5] = {0};
     //  | HUH
     // \/
-    strsplit(*argv, filename_ext, &other_stuff, ' ');
+    print_string(argv, COLOR_LIGHT_BLUE);
+    strsplit(*argv, throw, &other_stuff, ' ');
+    print_string(other_stuff, COLOR_LIGHT_RED);
+    strsplit(&other_stuff, filename_ext, &other_stuff, ' ');
     strsplit(filename_ext, filename, ext, '.');
     print_string(ext, COLOR_RED);
     // TODO: aft i do fs docs
-    fs_create_file(filename, "text", "w", 512);
+    fs_create_file(filename, ext, "w");
     print_string("sucess", COLOR_LIGHT_GREEN);
 }
