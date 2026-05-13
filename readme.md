@@ -133,7 +133,6 @@ Add memory info command\
 
 # Priority 3
 
-Add basic filesystem with RAM disk\
 Add custom shell prompt\
 Add command aliases\
 Add detailed help for each command\
@@ -143,10 +142,6 @@ Add PS\2 mouse support
 ## Development
 
 The testing branch is the active development branch. All changes are automatically pushed there when running make.
-
-## License
-
-This project is for educational purposes. Feel free to use, modify, and learn from the code.
 
 ## Acknowledgments
 

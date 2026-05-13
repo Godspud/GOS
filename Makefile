@@ -102,4 +102,8 @@ clean_all:
 
 .PHONY: docs
 docs:
-	mkdocs serve -q
+	cd $(DOCS_DIR) && npm start && cd ../../
+
+.PHONY: docs_clean
+docs_clean:
+	cd $(DOCS_DIR) && npm run clear && npm start && cd ../../

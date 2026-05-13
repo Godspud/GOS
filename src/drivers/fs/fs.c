@@ -124,69 +124,95 @@ int fs_find_free_sector()
 
     return -1; // disk full
 }
+int fs_split_file(const char *data)
+{
+    unsigned int data_len = (data != 0) ? (unsigned int)strlen(data) : 0;
+
+    // 1 sector for fs_entry_t (metadata + first 206 bytes)
+    if (data_len <= FS_FILE_DATA_SIZE)
+        return 1;
+
+    // extra bytes go into full 512-byte sectors
+    return 1 + (int)((data_len - FS_FILE_DATA_SIZE + 511) / 512);
+}
 
 int fs_create_file(const char *filename, const char *extension, const char *data)
 {
-    unsigned int size = (sizeof(data) - FS_FILE_DATA_SIZE) / 512;
+    if (!filename || !extension || !data)
+        return -4;
     if (strlen(filename) > 254)
-    {
-        return -2; // filename too big
-    }
-    else if (strlen(extension) > 14)
-    {
-        return -3; // fileext too big
-    }
+        return -2;
+    if (strlen(extension) > 14)
+        return -3;
+
+    unsigned int data_len = (unsigned int)strlen(data);
+    unsigned int sectors_needed = (unsigned int)fs_split_file(data);
 
     fs_entry_t entry;
     memset(&entry, 0, sizeof(entry));
-
-    // copy filename
     strncpy(entry.filename, filename, sizeof(entry.filename) - 1);
-
-    // copy extension
     strncpy(entry.extension, extension, sizeof(entry.extension) - 1);
-
-    // copy data
-    strncpy((char *)entry.data, data, sizeof(entry.data) - 1);
-
-    entry.size = size;
-    entry.lenght = size;
+    entry.size = data_len;         // bytes
+    entry.lenght = sectors_needed; // sectors used
     entry.flags = 0;
 
     fs_super_block_t header;
 
-    // loop all superblocks
-    for (int counter = 0; counter < fs_header->no_of_super_blocks; counter++)
+    for (int sb = 0; sb < fs_header->no_of_super_blocks; sb++)
     {
-        int sb_sector = fs_superblock_to_sector(counter);
-
+        int sb_sector = fs_superblock_to_sector(sb);
         ata_read_sector(sb_sector, &header);
 
-        // skip 0 → avoids superblock itself
-        for (int counter_1 = 1; counter_1 < 512; counter_1++)
+        for (int start = 1; start + (int)sectors_needed <= 512; start++)
         {
-            if (fs_is_sector_free(&header, counter_1))
+            int run_is_free = 1;
+            for (unsigned int i = 0; i < sectors_needed; i++)
             {
-                // mark used
-                fs_set_sector_inuse(&header, counter_1, 1);
-                ata_write_sector(sb_sector, &header);
-
-                int global_sector = 1 + (counter * 512) + counter_1;
-
-                entry.start_sector = global_sector;
-
-                // write file
-                char buffer[512] = {0};
-                memcpy(buffer, &entry, sizeof(entry));
-
-                ata_write_sector(global_sector, buffer);
-
-                return 0;
+                if (!fs_is_sector_free(&header, start + (int)i))
+                {
+                    run_is_free = 0;
+                    break;
+                }
             }
+            if (!run_is_free)
+                continue;
+
+            // reserve all sectors in this run
+            for (unsigned int i = 0; i < sectors_needed; i++)
+                fs_set_sector_inuse(&header, start + (int)i, 1);
+
+            ata_write_sector(sb_sector, &header);
+
+            int global_start = 1 + (sb * 512) + start;
+            entry.start_sector = (uint64_t)global_start;
+
+            // first sector: metadata + first chunk
+            {
+                unsigned int first_chunk = data_len;
+                if (first_chunk > FS_FILE_DATA_SIZE)
+                    first_chunk = FS_FILE_DATA_SIZE;
+                memcpy(entry.data, data, (int)first_chunk);
+                ata_write_sector(global_start, &entry);
+            }
+
+            // remaining sectors: raw continuation data
+            for (unsigned int i = 1; i < sectors_needed; i++)
+            {
+                char secbuf[512] = {0};
+                unsigned int src_off = FS_FILE_DATA_SIZE + (i - 1) * 512;
+                unsigned int chunk = data_len - src_off;
+                if (chunk > 512)
+                    chunk = 512;
+
+                memcpy(secbuf, data + src_off, (int)chunk);
+                ata_write_sector(global_start + (int)i, secbuf);
+            }
+
+            return 0;
         }
     }
 
-    return -1; // disk full
+    return -1; // disk full or no contiguous run
 }
 
 char *fs_read_file(const char *filename, const char *extension)
