@@ -6,3 +6,5 @@ tree.txt
 disk.img
 docs/osdev_wiki
 docs/osdev_wiki.zip
+.gitignore
+docs/programming lang.pdf

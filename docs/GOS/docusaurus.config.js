@@ -2,9 +2,41 @@
 // `@type` JSDoc annotations allow editor autocompletion and type checking
 // (when paired with `@ts-check`).
 // There are various equivalent ways to declare your Docusaurus config.
-// See: https://docusaurus.io/docs/api/docusaurus-config
+// See: docusaurus.io
 
 import { themes as prismThemes } from 'prism-react-renderer';
+
+/**
+ * Helper function to recursively sort sidebar items: alphabetical + folders on top
+ * @param {any[]} items
+ * @returns {any[]}
+ */
+function sortSidebarItems(items) {
+	// 1. Sort everything alphabetically by label first
+	items.sort((a, b) => {
+		const labelA = ('label' in a ? a.label : 'id' in a ? a.id : '') || '';
+		const labelB = ('label' in b ? b.label : 'id' in b ? b.id : '') || '';
+		return labelA.localeCompare(labelB);
+	});
+
+	// 2. Sort categories (folders) above docs (files)
+	items.sort((a, b) => {
+		const aIsCat = a.type === 'category';
+		const bIsCat = b.type === 'category';
+		if (aIsCat && !bIsCat) return -1;
+		if (!aIsCat && bIsCat) return 1;
+		return 0;
+	});
+
+	// 3. Process nested categories recursively
+	items.forEach((item) => {
+		if (item.type === 'category' && 'items' in item && item.items) {
+			sortSidebarItems(item.items);
+		}
+	});
+
+	return items;
+}
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
@@ -14,7 +46,7 @@ const config = {
 	tagline: 'GOS - wiki',
 	favicon: 'img/logo.ico',
 
-	// Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
+	// Future flags, see docusaurus.io
 	future: {
 		v4: true, // Improve compatibility with the upcoming Docusaurus v4
 	},
@@ -49,7 +81,16 @@ const config = {
 					sidebarPath: './sidebars.js',
 					// Please change this to your repo.
 					// Remove this to remove the "edit this page" links.
-					editUrl: 'https://github.com/godspud/GOS',
+					editUrl: 'github.com',
+					// Custom generator intercepts sidebar generation
+					sidebarItemsGenerator: async ({
+						defaultSidebarItemsGenerator,
+						...args
+					}) => {
+						const sidebarItems =
+							await defaultSidebarItemsGenerator(args);
+						return sortSidebarItems(sidebarItems);
+					},
 				},
 				theme: {
 					customCss: './src/css/custom.css',
@@ -81,7 +122,7 @@ const config = {
 					},
 					{ to: '/blog', label: 'Blog', position: 'left' },
 					{
-						href: 'https://github.com/godspud/GOS',
+						href: 'github.com',
 						label: 'GitHub',
 						position: 'right',
 					},
@@ -108,7 +149,7 @@ const config = {
 			// 				},
 			// 				{
 			// 					label: 'GitHub',
-			// 					href: 'https://github.com/godspud/GOS',
+			// 					href: 'github.com',
 			// 				},
 			// 			],
 			// 		},
