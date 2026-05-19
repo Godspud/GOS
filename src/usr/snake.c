@@ -87,7 +87,7 @@ void snake_main()
     int direction = 1; // 0: up, 1: down, 2: left, 3: right
     int snake_pos[2] = {0, 0};
     int tail_pos[100][2] = {0};
-    int tail_length = 0;
+    int tail_length = 1;
     unsigned int last_move_tick = 0;
     tail_pos[0][0] = snake_pos[0];
     vga_clear(COLOR_BLACK);

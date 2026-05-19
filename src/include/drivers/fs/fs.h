@@ -22,7 +22,7 @@ typedef struct
 {
     char filename[255];        // filename can be up to 255char long(ASCII)
     char extension[15];        // file extension can be up to 15char long(ASCII)
-    unsigned int flags;        // 4 bytes def later
+    uint8_t flags;             // 1 byte def later
     unsigned char encoding[8]; // 8 bytes for encoding type (e.g., UTF-8, ASCII) - for future use
     uint64_t size;             // 8 bytes (64-bit unsigned integer)
     uint64_t start_sector;     // 8 bytes (64-bit sector number)
