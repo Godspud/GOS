@@ -70,7 +70,7 @@
 /**
  * fs magics
  */
-#define FS_FILE_DATA_SIZE 206
+#define FS_FILE_DATA_SIZE 201
 #define FS_FILE_META 0b00000000
 #define FS_EXECUTABLE_FILE_META 0b00000010
 #define FS_DIR_META 0b00000001

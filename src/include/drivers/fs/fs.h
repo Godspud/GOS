@@ -1,5 +1,6 @@
 #ifndef FS_H
 #define FS_H
+#include "magics.h"
 #include <stdint.h>
 
 typedef struct
@@ -20,15 +21,22 @@ typedef struct
 
 typedef struct
 {
-    char filename[255];        // filename can be up to 255char long(ASCII)
-    char extension[15];        // file extension can be up to 15char long(ASCII)
-    uint8_t flags;             // 1 byte def later
-    unsigned char encoding[8]; // 8 bytes for encoding type (e.g., UTF-8, ASCII) - for future use
-    uint64_t size;             // 8 bytes (64-bit unsigned integer)
-    uint64_t start_sector;     // 8 bytes (64-bit sector number)
-    uint64_t lenght;           // 8 bytes (64-bit file length)
-    unsigned char data[206];   // FILL UP REST so 512-bytes total
+    char filename[255];                    // filename can be up to 255char long(ASCII)
+    char extension[15];                    // file extension can be up to 15char long(ASCII)
+    uint8_t flags;                         // 1 byte def later
+    unsigned char encoding[8];             // 8 bytes for encoding type (e.g., UTF-8, ASCII) - for future use
+    uint64_t size;                         // 8 bytes (64-bit unsigned integer)
+    uint64_t start_sector;                 // 8 bytes (64-bit sector number)
+    uint64_t lenght;                       // 8 bytes (64-bit file length)
+    uint64_t extent_sector;                // 0 = no extent table
+    unsigned char data[FS_FILE_DATA_SIZE]; // FILL UP REST so 512-bytes total
 } __attribute__((packed)) fs_entry_t;
+
+typedef struct
+{
+    uint64_t start;
+    uint64_t length;
+} fs_extent_t; // 16 bytes, 32 per sector
 
 extern fs_super_super_block_t *fs_header;
 

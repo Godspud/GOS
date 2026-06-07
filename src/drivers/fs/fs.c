@@ -10,6 +10,31 @@ fs_super_super_block_t *fs_header = &fs_header_data;
 
 void fs_init(void)
 {
+    if (sizeof(fs_super_super_block_t) > 512 || sizeof(fs_super_super_block_t) < 512)
+    {
+        print_string("FS SUPER SUPER BLOCK TOO BIG OR SMALL\n", COLOR_LIGHT_RED);
+        print_string("Size:\n", COLOR_LIGHT_RED);
+        char buffer[10] = {0};
+        int_to_str(sizeof(fs_super_super_block_t), buffer);
+        print_string(buffer, COLOR_LIGHT_RED);
+    }
+    if (sizeof(fs_super_block_t) > 512 || sizeof(fs_super_block_t) < 512)
+    {
+        print_string("FS SUPER BLOCK TOO BIG OR SMALL\n", COLOR_LIGHT_RED);
+        print_string("Size:\n", COLOR_LIGHT_RED);
+        char buffer[10] = {0};
+        int_to_str(sizeof(fs_super_super_block_t), buffer);
+        print_string(buffer, COLOR_LIGHT_RED);
+    }
+    if (sizeof(fs_entry_t) > 512 || sizeof(fs_entry_t) < 512)
+    {
+        print_string("FS ENTRY TOO BIG OR SMALL\n", COLOR_LIGHT_RED);
+        print_string("Size:\n", COLOR_LIGHT_RED);
+        char buffer[10] = {0};
+        int_to_str(sizeof(fs_super_super_block_t), buffer);
+        print_string(buffer, COLOR_LIGHT_RED);
+    }
+
     int step;
     unsigned int disk_size = get_disk_size();
     memset(fs_header, 0, sizeof(fs_super_super_block_t));
@@ -146,69 +171,149 @@ int fs_create_file(const char *filename, const char *extension, const char *data
         return -3;
 
     unsigned int data_len = (unsigned int)strlen(data);
-    unsigned int sectors_needed = (unsigned int)fs_split_file(data);
 
     fs_entry_t entry;
     memset(&entry, 0, sizeof(entry));
     strncpy(entry.filename, filename, sizeof(entry.filename) - 1);
     strncpy(entry.extension, extension, sizeof(entry.extension) - 1);
     entry.size = data_len;
-    entry.lenght = sectors_needed;
     entry.flags = 0;
+    entry.extent_sector = 0;
 
-    fs_super_block_t header;
+    fs_super_block_t sb;
+    int sb_sector = fs_superblock_to_sector(0);
+    ata_read_sector(sb_sector, &sb);
 
-    for (int sb = 0; sb < fs_header->no_of_super_blocks; sb++)
+    // find sector for the entry itself
+    int entry_sector = fs_find_free_sector();
+    if (entry_sector < 0)
+        return -1;
+    fs_set_sector_inuse(&sb, entry_sector - 1, 1);
+    entry.start_sector = entry_sector;
+
+    if (data_len <= FS_FILE_DATA_SIZE)
     {
-        int sb_sector = fs_superblock_to_sector(sb);
-        ata_read_sector(sb_sector, &header);
+        // fits entirely in entry
+        memcpy(entry.data, data, data_len);
+        entry.lenght = 1;
+        ata_write_sector(sb_sector, &sb);
+        ata_write_sector(entry_sector, &entry);
+        return 0;
+    }
 
-        for (int start = 1; start + (int)sectors_needed <= 4096; start++)
+    // copy first chunk into entry
+    memcpy(entry.data, data, FS_FILE_DATA_SIZE);
+
+    // build extent table for remaining data
+    unsigned int remaining = data_len - FS_FILE_DATA_SIZE;
+    unsigned int sectors_needed = (remaining + 511) / 512;
+    entry.lenght = 1 + sectors_needed;
+
+    // allocate extent table sectors as needed
+    fs_extent_t extents[32];
+    int extent_count = 0;
+    int current_extent_sector = -1;
+    int prev_extent_sector = -1;
+    int first_extent_sector = -1;
+
+    unsigned int written = FS_FILE_DATA_SIZE;
+
+    while (written < data_len)
+    {
+        // find a contiguous run
+        int run_start = -1;
+        int run_len = 0;
+
+        for (int i = 1; i < 4096 && run_len == 0; i++)
         {
-            int run_is_free = 1;
-            for (unsigned int i = 0; i < sectors_needed; i++)
+            if (fs_is_sector_free(&sb, i))
             {
-                if (!fs_is_sector_free(&header, start + (int)i))
+                run_start = i;
+                // count contiguous free sectors
+                while (run_start + run_len < 4096 && fs_is_sector_free(&sb, run_start + run_len) && (written + run_len * 512) < data_len + 512)
                 {
-                    run_is_free = 0;
-                    break;
+                    run_len++;
                 }
             }
-            if (!run_is_free)
-                continue;
+        }
 
-            for (unsigned int i = 0; i < sectors_needed; i++)
-                fs_set_sector_inuse(&header, start + (int)i, 1);
+        if (run_start < 0)
+            return -1; // disk full
 
-            ata_write_sector(sb_sector, &header);
+        // mark run as used
+        for (int i = 0; i < run_len; i++)
+            fs_set_sector_inuse(&sb, run_start + i, 1);
 
-            int global_start = 1 + (sb * 4096) + start;
-            entry.start_sector = (uint64_t)global_start;
+        // write data into run
+        for (int i = 0; i < run_len && written < data_len; i++)
+        {
+            char secbuf[512] = {0};
+            unsigned int chunk = data_len - written;
+            if (chunk > 512)
+                chunk = 512;
+            memcpy(secbuf, data + written, chunk);
+            ata_write_sector(run_start + i, secbuf);
+            written += chunk;
+        }
 
+        // add extent
+        extents[extent_count].start = run_start;
+        extents[extent_count].length = run_len;
+        extent_count++;
+
+        // if extent table sector is full, flush and chain
+        if (extent_count == 32 || written >= data_len)
+        {
+            // allocate an extent table sector
+            int ext_sec = fs_find_free_sector();
+            if (ext_sec < 0)
+                return -1;
+            fs_set_sector_inuse(&sb, ext_sec - 1, 1);
+
+            // if last extent, sentinel = 0,0
+            // if chaining, last entry = 0, next_ext_sec
+            char ext_buf[512] = {0};
+            fs_extent_t *tbl = (fs_extent_t *)ext_buf;
+
+            int entries_to_write = extent_count;
+            for (int i = 0; i < entries_to_write; i++)
             {
-                unsigned int first_chunk = data_len;
-                if (first_chunk > FS_FILE_DATA_SIZE)
-                    first_chunk = FS_FILE_DATA_SIZE;
-                memcpy(entry.data, data, (int)first_chunk);
-                ata_write_sector(global_start, &entry);
+                tbl[i].start = extents[i].start;
+                tbl[i].length = extents[i].length;
             }
 
-            for (unsigned int i = 1; i < sectors_needed; i++)
+            if (written < data_len)
             {
-                char secbuf[512] = {0};
-                unsigned int src_off = FS_FILE_DATA_SIZE + (i - 1) * 512;
-                unsigned int chunk = data_len - src_off;
-                if (chunk > 512)
-                    chunk = 512;
-                memcpy(secbuf, data + src_off, (int)chunk);
-                ata_write_sector(global_start + (int)i, secbuf);
+                // chain: sentinel points to next extent sector (filled later)
+                tbl[31].start = 0;
+                tbl[31].length = 0; // will be filled when we know next sector
             }
 
-            return 0;
+            ata_write_sector(ext_sec, ext_buf);
+
+            // link previous extent sector to this one
+            if (prev_extent_sector >= 0)
+            {
+                char prev_buf[512] = {0};
+                ata_read_sector(prev_extent_sector, prev_buf);
+                fs_extent_t *prev_tbl = (fs_extent_t *)prev_buf;
+                prev_tbl[31].start = 0;
+                prev_tbl[31].length = ext_sec;
+                ata_write_sector(prev_extent_sector, prev_buf);
+            }
+
+            if (first_extent_sector < 0)
+                first_extent_sector = ext_sec;
+
+            prev_extent_sector = ext_sec;
+            extent_count = 0;
         }
     }
 
-    return -1;
+    entry.extent_sector = (first_extent_sector >= 0) ? first_extent_sector : 0;
+    ata_write_sector(sb_sector, &sb);
+    ata_write_sector(entry_sector, &entry);
+    return 0;
 }
 
 // TODO: later
