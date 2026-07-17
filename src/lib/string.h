@@ -1,6 +1,7 @@
 #ifndef STRING_H
 #define STRING_H
 
+int memcmp(const void *ptr1, const void *ptr2, unsigned int num);
 int strlen(const char *str);
 int strcmp(const char *s1, const char *s2);
 int strncmp(const char *s1, const char *s2, int n);

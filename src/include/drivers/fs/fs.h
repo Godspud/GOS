@@ -1,7 +1,7 @@
 #ifndef FS_H
 #define FS_H
-#include "magics.h"
 #include <stdint.h>
+#include "magics.h"
 
 typedef struct
 {
@@ -16,7 +16,7 @@ typedef struct
 
 typedef struct
 {
-    uint8_t used[512]; // 512 bytes for bitmap (4096 bits, can track 512 sectors and 7 bits for metadata) - each bit represents a sector's usage
+    uint8_t type[512]; // one byte per sector, type[0] reserved for superblock itself
 } __attribute__((packed)) fs_super_block_t;
 
 typedef struct
@@ -36,16 +36,21 @@ typedef struct
 {
     uint64_t start;
     uint64_t length;
-} fs_extent_t; // 16 bytes, 32 per sector
+} fs_extent_t; // 16 bytes, 31 usable per sector + 1 sentinel
 
 extern fs_super_super_block_t *fs_header;
 
 void fs_init(void);
-void fs_set_sector_inuse(fs_super_block_t *super_block, unsigned int sector_index, int in_use);
+void fs_set_sector_type(fs_super_block_t *super_block, unsigned int sector_index, uint8_t type);
+uint8_t fs_get_sector_type(fs_super_block_t *super_block, unsigned int sector_index);
 int fs_is_sector_free(fs_super_block_t *super_block, unsigned int sector_index);
 void fs_set_super_sector_inuse(int used);
 int fs_find_free_sector();
-int fs_create_file(const char *filename, const char *extension, const char *data);
+int fs_create_file(const char *filename, const char *extension,const char *datatype, const char *data);
 char *fs_read_file(const char *filename, const char *extension);
+fs_entry_t fs_set_executable(fs_entry_t file, int executable);
+fs_entry_t fs_set_symlink(fs_entry_t file, int symlink);
+fs_entry_t fs_set_hidden(fs_entry_t file, int hidden);
+fs_entry_t fs_set_compressed(fs_entry_t file, int compressed);
 
 #endif

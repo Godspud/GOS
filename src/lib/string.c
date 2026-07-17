@@ -7,6 +7,26 @@
 - memcpy: Copies a block of memory from a source to a destination.
 - str_copy: Copies a string from src to dest, ensuring that it does not exceed max characters and is null-terminated.
 */
+
+int memcmp(const void *ptr1, const void *ptr2, unsigned int num)
+{
+    const unsigned char *s1 = (const unsigned char *)ptr1;
+    const unsigned char *s2 = (const unsigned char *)ptr2;
+
+    while (num > 0)
+    {
+        if (*s1 != *s2)
+        {
+            return (*s1 - *s2); // Returns positive or negative difference
+        }
+        s1++;
+        s2++;
+        num--;
+    }
+
+    return 0; // All bytes matched up to 'num'
+}
+
 /**
  * strlen: Returns the length of a null-terminated string.
  */

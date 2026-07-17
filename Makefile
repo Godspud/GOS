@@ -65,12 +65,31 @@ $(ISO): $(KERNEL)
 	cp grub.cfg $(ISO_DIR)/boot/grub/grub.cfg
 	grub-mkrescue -o $@ $(ISO_DIR)
 
-# Run Bochs
+# Run your custom OS mimicking modern Chromebook hardware
 run: $(ISO) $(DISK_IMG)
-	qemu-system-i386 -cdrom $(ISO) -boot d -m 32 -vga std -serial stdio -drive file=$(DISK_IMG),format=raw,if=ide,index=1,media=disk
+	qemu-system-x86_64 \
+		-cpu max \
+		-smp 2 \
+		-m 1024 \
+		-vga std \
+		-serial stdio \
+		-cdrom $(ISO) \
+		-boot d \
+		-drive file=$(DISK_IMG),format=raw,if=ide,index=1,media=disk
 
+# Debug target tracking interrupts, CPU resets, and outputting to log
 run_debug: $(ISO) $(DISK_IMG)
-	qemu-system-i386 -cdrom $(ISO) -boot d -m 32 -vga std -no-reboot -d int,cpu_reset -drive file=$(DISK_IMG),format=raw,if=ide,index=1,media=disk 2>&1 | tee $(LOG_FILE)
+	qemu-system-x86_64 \
+		-cpu max \
+		-smp 2 \
+		-m 1024 \
+		-vga std \
+		-no-reboot \
+		-d int,cpu_reset \
+		-cdrom $(ISO) \
+		-boot d \
+		-drive file=$(DISK_IMG),format=raw,if=ide,index=1,media=disk 2>&1 | tee $(LOG_FILE)
+
 
 $(DISK_IMG): | $(BUILD_DIR)
 	qemu-img create -f raw $@ 100M
